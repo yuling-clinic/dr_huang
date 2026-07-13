@@ -40,6 +40,7 @@
       <button class="filter-chip" data-cat="旅遊">旅遊</button>
       <button class="filter-chip" data-cat="生活">生活</button>
     </div>
+    <div class="subfilter-bar" id="subfilter-bar"></div>
     <div class="article-grid" id="article-grid"></div>
   </div>
 </section>
@@ -56,10 +57,25 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 const params = new URLSearchParams(location.search);
 let currentCat = params.get('cat') || 'all';
+let currentSeries = params.get('series') || 'all';
 let allArticles = [];
 
+function renderSubfilter(){
+  const bar = document.getElementById('subfilter-bar');
+  if(currentCat === 'all'){ bar.innerHTML=''; bar.style.display='none'; return; }
+  const inCat = allArticles.filter(a => a.category === currentCat);
+  const seriesNames = [...new Set(inCat.map(a => a.series).filter(Boolean))];
+  if(!seriesNames.length){ bar.innerHTML=''; bar.style.display='none'; return; }
+  bar.style.display='flex';
+  bar.innerHTML = ['<button class="subfilter-chip" data-series="all">全部主題</button>']
+    .concat(seriesNames.map(s => `<button class="subfilter-chip" data-series="${s}">🐻 ${s}</button>`))
+    .join('');
+  bar.querySelectorAll('.subfilter-chip').forEach(c => c.classList.toggle('active', c.dataset.series === currentSeries));
+}
+
 function renderGrid(){
-  const filtered = currentCat === 'all' ? allArticles : allArticles.filter(a => a.category === currentCat);
+  let filtered = currentCat === 'all' ? allArticles : allArticles.filter(a => a.category === currentCat);
+  if(currentCat !== 'all' && currentSeries !== 'all') filtered = filtered.filter(a => a.series === currentSeries);
   const sorted = sortByDateDesc(filtered);
   document.getElementById('article-grid').innerHTML = sorted.length
     ? sorted.map(articleCardHTML).join('')
@@ -67,12 +83,23 @@ function renderGrid(){
   document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
   const label = currentCat === 'all' ? '所有文章' : (currentCat === '衛教' ? '衛教文章' : currentCat);
   document.getElementById('page-title').innerHTML = '<span class="dot"></span>' + label;
+  renderSubfilter();
 }
 document.getElementById('filter-bar').addEventListener('click', (e) => {
   const chip = e.target.closest('.filter-chip'); if(!chip) return;
   currentCat = chip.dataset.cat;
+  currentSeries = 'all';
   const url = new URL(location.href);
   currentCat === 'all' ? url.searchParams.delete('cat') : url.searchParams.set('cat', currentCat);
+  url.searchParams.delete('series');
+  history.replaceState(null, '', url);
+  renderGrid();
+});
+document.getElementById('subfilter-bar').addEventListener('click', (e) => {
+  const chip = e.target.closest('.subfilter-chip'); if(!chip) return;
+  currentSeries = chip.dataset.series;
+  const url = new URL(location.href);
+  currentSeries === 'all' ? url.searchParams.delete('series') : url.searchParams.set('series', currentSeries);
   history.replaceState(null, '', url);
   renderGrid();
 });

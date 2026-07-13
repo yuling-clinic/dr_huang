@@ -91,14 +91,17 @@ p{margin:0 0 1em;}
 .clinic-table tr:last-child td{border-bottom:none;}
 .clinic-table tbody tr:hover{background:rgba(232,216,192,0.35);}
 .clinic-note{color:var(--ink-soft);font-size:.82rem;margin-top:14px;}
-.register-btn{
-  display:inline-flex;align-items:center;gap:6px;margin-top:16px;
-  background:var(--caramel);color:#fff;border-radius:999px;
-  padding:11px 24px;font-size:.92rem;font-family:var(--font-round);font-weight:600;
-  transition:background .2s;
+.register-list{margin-top:18px;display:flex;flex-direction:column;gap:8px;}
+.register-item{
+  display:flex;align-items:center;gap:10px;
+  background:var(--paper);border:1px solid var(--hairline);border-radius:12px;
+  padding:12px 16px;font-size:.92rem;color:var(--ink);
+  transition:border-color .2s,background .2s;
 }
-.register-btn:hover{background:var(--caramel-deep);color:#fff;}
-.register-btn::after{content:"→";}
+.register-item:hover{border-color:var(--caramel);background:var(--cocoa-soft);}
+.register-item .label{color:var(--ink-soft);font-family:var(--font-round);font-size:.85rem;}
+.register-item .arrow{color:var(--caramel);flex-shrink:0;}
+.register-item .target{font-weight:600;color:var(--caramel-deep);font-family:var(--font-round);}
 
 /* ── 文章卡片 ── */
 .article-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
@@ -124,6 +127,14 @@ p{margin:0 0 1em;}
 .filter-chip{padding:7px 17px;border-radius:999px;border:1px solid var(--hairline-strong);background:transparent;color:var(--ink-soft);font-size:.84rem;cursor:pointer;font-family:var(--font-round);transition:all .2s;}
 .filter-chip:hover{border-color:var(--latte);}
 .filter-chip.active{background:var(--caramel);color:#fff;border-color:var(--caramel);}
+.subfilter-bar{display:none;gap:6px;margin:-16px 0 28px;flex-wrap:wrap;}
+.subfilter-chip{
+  padding:5px 14px;border-radius:999px;border:1px dashed var(--hairline-strong);
+  background:transparent;color:var(--ink-faint);font-size:.78rem;cursor:pointer;
+  font-family:var(--font-round);transition:all .2s;
+}
+.subfilter-chip:hover{border-color:var(--caramel);color:var(--caramel-deep);}
+.subfilter-chip.active{background:var(--cocoa-soft);border-style:solid;border-color:var(--caramel);color:var(--caramel-deep);font-weight:600;}
 
 /* ── 單篇文章 ── */
 .article-header{padding:38px 0 14px;}
