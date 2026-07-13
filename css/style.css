@@ -64,7 +64,7 @@ p{margin:0 0 1em;}
 .hero-copy .eyebrow{display:inline-block;color:var(--caramel-deep);letter-spacing:.15em;font-size:.95rem;font-weight:600;font-family:var(--font-round);margin-bottom:14px;}
 .hero-copy .eyebrow::before,.hero-copy .eyebrow::after{content:"🐾";margin:0 8px;}
 .hero-copy h1{font-size:1.9rem;line-height:1.5;margin-bottom:.4em;}
-.hero-copy .role{color:var(--ink-soft);font-size:.95rem;margin-bottom:14px;font-family:var(--font-round);}
+.hero-copy .role{color:var(--ink-soft);font-size:1.1rem;margin-bottom:14px;font-family:var(--font-round);}
 .hero-copy .intro{color:var(--ink-soft);max-width:44ch;font-size:.95rem;}
 
 /* ── 虛線分隔 ── */
