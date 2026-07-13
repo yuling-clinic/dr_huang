@@ -42,6 +42,18 @@
       }
     ],
     "clinicNote": "門診時段如遇國定假日或學術活動，建議看診前至醫院掛號系統確認。",
+    "registerLinks": [
+      {
+        "label": "給健康的孩子，但是希望能更了解孩子的生長狀況",
+        "target": "蒼嵐健康美學診所",
+        "url": "https://azurebeauty56.com/child-adolescent-growth/"
+      },
+      {
+        "label": "給疑似有疾病的孩子，要尋求近一步的醫療協助",
+        "target": "亞東紀念醫院",
+        "url": "https://www.femh.org.tw/webregs/regsec1.aspx?id=0239&uid=F0928"
+      }
+    ],
     "registerUrl": "https://azurebeauty56.com/child-adolescent-growth/"
   },
   "articles": []
