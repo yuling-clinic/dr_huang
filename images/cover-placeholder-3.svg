@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+<rect width="800" height="600" fill="#E3D8C4"/>
+<rect x="40" y="40" width="720" height="520" fill="none" stroke="#C9B896" stroke-width="2"/>
+<text x="400" y="300" font-family="sans-serif" font-size="22" fill="#8B7E68" text-anchor="middle">封面圖片 3（請替換）</text>
+</svg>

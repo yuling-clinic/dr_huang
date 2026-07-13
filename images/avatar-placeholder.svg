@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+<rect width="400" height="400" fill="#E3D8C4"/>
+<circle cx="200" cy="160" r="70" fill="#C9B896"/>
+<path d="M80 380 C80 280 320 280 320 380 Z" fill="#C9B896"/>
+<text x="200" y="360" font-family="sans-serif" font-size="14" fill="#8B7E68" text-anchor="middle">請替換為個人照片</text>
+</svg>
