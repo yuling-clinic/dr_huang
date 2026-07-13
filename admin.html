@@ -153,10 +153,13 @@
   <!-- 門診 -->
   <div class="panel">
     <h2>門診時段</h2>
-    <label>線上掛號網址（填了會在門診時段下方顯示「線上掛號」按鈕）</label>
-    <input type="text" id="f-registerUrl" placeholder="https://your-hospital.example.com/register">
     <div id="clinic-rows"></div>
     <div class="btn-row"><button class="btn secondary" id="add-clinic-row">＋ 新增一列</button></div>
+
+    <hr style="border:none;border-top:1px dashed var(--hairline-strong); margin:20px 0;">
+    <label>線上掛號引導連結（可新增多筆，例如「身高資訊 → 蒼嵐美學診所」「疾病問題 → 亞東紀念醫院」）</label>
+    <div id="register-rows"></div>
+    <div class="btn-row"><button class="btn secondary" id="add-register-row">＋ 新增一筆掛號連結</button></div>
   </div>
 
   <!-- 文章 -->
@@ -313,7 +316,7 @@ const DEFAULT_STATE = {
     siteUrl:"", cfToken:"", gscVerify:"",
     name:"○○○ 醫師", role:"小兒內分泌暨遺傳科 主治醫師", hospital:"國立臺灣大學醫學院附設醫院",
     avatar:"images/avatar.jpg", introTitle:"在孩子成長的路上，多一雙留心的眼睛",
-    intro:"", aboutTitle:"關於我", aboutText:"", clinicHours:[], clinicNote:"", registerUrl:""
+    intro:"", aboutTitle:"關於我", aboutText:"", clinicHours:[], clinicNote:"", registerLinks:[]
   },
   articles: []
 };
@@ -341,17 +344,25 @@ function b64decode(b64){
   return new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)));
 }
 async function ghGetFile(path){
-  const res=await fetch(`${ghUrl(path)}?ref=${ghConfig().branch}`,{headers:ghHeaders()});
+  const bust = `&_=${Date.now()}`;
+  const res=await fetch(`${ghUrl(path)}?ref=${ghConfig().branch}${bust}`,{headers:ghHeaders(),cache:'no-store'});
   if(res.status===404) return null;
   if(!res.ok) throw new Error(`讀取 ${path} 失敗（${res.status}）`);
   return res.json();
 }
-async function ghPutFile(path,b64,msg){
+async function ghPutFile(path,b64,msg,_retried){
   const cur=await ghGetFile(path);
   const body={message:msg,content:b64,branch:ghConfig().branch};
   if(cur&&cur.sha) body.sha=cur.sha;
   const res=await fetch(ghUrl(path),{method:'PUT',headers:{...ghHeaders(),'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!res.ok){ const d=await res.json().catch(()=>({})); throw new Error(`寫入 ${path} 失敗（${res.status}）${d.message||''}`); }
+  if(!res.ok){
+    if(res.status===409 && !_retried){
+      // 版本衝突：重新抓最新版再寫一次，通常會自動解決
+      return ghPutFile(path,b64,msg,true);
+    }
+    const d=await res.json().catch(()=>({}));
+    throw new Error(`寫入 ${path} 失敗（${res.status}）${d.message||''}`);
+  }
   return res.json();
 }
 async function handleImageFile(file,statusId){
@@ -384,7 +395,7 @@ document.getElementById('gh-load').addEventListener('click',async()=>{
 });
 
 /* ─── 基本資訊 ─── */
-const SF=['siteUrl','cfToken','gscVerify','name','role','hospital','avatar','introTitle','intro','aboutTitle','aboutText','clinicNote','registerUrl'];
+const SF=['siteUrl','cfToken','gscVerify','name','role','hospital','avatar','introTitle','intro','aboutTitle','aboutText','clinicNote'];
 function fillSiteForm(){ SF.forEach(k=>document.getElementById('f-'+k).value=state.site[k]||''); document.getElementById('avatar-preview').src=state.site.avatar||''; }
 function readSiteForm(){ SF.forEach(k=>state.site[k]=document.getElementById('f-'+k).value); }
 SF.forEach(k=>document.getElementById('f-'+k).addEventListener('input',()=>{readSiteForm();saveDraft();}));
@@ -418,6 +429,29 @@ function renderClinicRows(){
 document.getElementById('add-clinic-row').addEventListener('click',()=>{
   state.site.clinicHours.push({day:'',time:'',clinic:'',location:''});
   renderClinicRows(); saveDraft();
+});
+
+/* ─── 掛號引導連結 ─── */
+function renderRegisterRows(){
+  const w=document.getElementById('register-rows');
+  w.innerHTML=(state.site.registerLinks||[]).map((r,i)=>`
+    <div class="clinic-row" data-i="${i}">
+      <input type="text" placeholder="引導文字，例如：身高資訊" value="${r.label||''}" data-field="label">
+      <input type="text" placeholder="目標名稱，例如：蒼嵐美學診所" value="${r.target||''}" data-field="target">
+      <input type="text" placeholder="掛號網址 https://..." value="${r.url||''}" data-field="url">
+      <button class="icon-btn" data-remove-reg="${i}">刪除</button>
+    </div>`).join('')||'<p class="hint">目前沒有掛號連結。</p>';
+  w.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',()=>{
+    state.site.registerLinks[inp.closest('.clinic-row').dataset.i][inp.dataset.field]=inp.value; saveDraft();
+  }));
+  w.querySelectorAll('[data-remove-reg]').forEach(b=>b.addEventListener('click',()=>{
+    state.site.registerLinks.splice(Number(b.dataset.removeReg),1); renderRegisterRows(); saveDraft();
+  }));
+}
+document.getElementById('add-register-row').addEventListener('click',()=>{
+  state.site.registerLinks=state.site.registerLinks||[];
+  state.site.registerLinks.push({label:'',target:'',url:''});
+  renderRegisterRows(); saveDraft();
 });
 
 /* ─── 編輯器 ─── */
@@ -698,7 +732,7 @@ function applyState(ns){
   state=JSON.parse(JSON.stringify(DEFAULT_STATE));
   state.site=Object.assign({},DEFAULT_STATE.site,(ns&&ns.site)||{});
   state.articles=((ns&&ns.articles)||[]).map(a=>({series:'',seriesOrder:0,...a}));
-  fillSiteForm(); renderClinicRows(); renderArticleList(); renderAnalyticsView(); saveDraft();
+  fillSiteForm(); renderClinicRows(); renderRegisterRows(); renderArticleList(); renderAnalyticsView(); saveDraft();
 }
 
 (function init(){
