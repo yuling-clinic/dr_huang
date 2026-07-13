@@ -46,7 +46,7 @@ p{margin:0 0 1em;}
 /* ── header ── */
 .site-header{position:sticky;top:0;z-index:40;background:rgba(243,234,218,0.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--hairline);}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-hand);font-size:1.35rem;font-weight:700;color:var(--coffee);}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-hand);font-size:1.35rem;font-weight:700;color:var(--coffee);letter-spacing:.08em;}
 .brand .seal{display:none;}
 .site-nav{display:flex;gap:2px;}
 .site-nav a{color:var(--ink-soft);font-size:.85rem;padding:6px 12px;border-radius:6px;font-family:var(--font-round);transition:color .2s;}
