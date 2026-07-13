@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>後台編輯</title>
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .admin-shell{ max-width: 880px; margin: 0 auto; padding: 36px 22px 100px; }
+  .admin-header p{ color: var(--ink-soft); font-size:.92rem; }
+  .panel{
+    background: var(--paper); border:1px solid var(--hairline); border-radius: 14px;
+    padding: 24px 26px; margin-bottom: 24px;
+    box-shadow: 0 2px 10px rgba(107,74,46,0.04);
+  }
+  .panel h2{ font-size: 1.1rem; margin-bottom: 6px; display:flex; align-items:center; gap:8px; }
+  .panel .hint{ color: var(--ink-faint); font-size:.83rem; margin-bottom: 16px; }
+  label{ display:block; font-size:.83rem; color: var(--ink-soft); margin: 14px 0 6px; font-family: var(--font-round); }
+  input[type=text], input[type=date], input[type=password], input[type=number], textarea, select{
+    width:100%; padding: 10px 13px; border:1px solid var(--hairline-strong); border-radius: 10px;
+    font-family: var(--font-body); font-size: .93rem; background:#fff; color: var(--ink);
+  }
+  textarea{ resize: vertical; }
+  .row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .row > div{ flex:1; min-width: 150px; }
+  .clinic-row, .article-row{
+    display:flex; gap:8px; align-items:center; padding: 10px 0; border-bottom:1px dashed var(--hairline);
+  }
+  .clinic-row:last-child, .article-row:last-child{ border-bottom:none; }
+  .clinic-row input{ flex:1; }
+  .article-row .info{ flex:1; }
+  .article-row .info strong{ display:block; font-size:.95rem; }
+  .article-row .info span{ color: var(--ink-faint); font-size:.8rem; font-family: var(--font-round); }
+  .icon-btn{
+    background:#fff; border:1px solid var(--hairline-strong); border-radius: 999px;
+    padding: 5px 13px; cursor:pointer; color: var(--ink-soft); font-size:.82rem;
+    font-family: var(--font-round);
+  }
+  .icon-btn:hover{ background: var(--cocoa-soft); color: var(--coffee); }
+  .btn-row{ display:flex; gap:9px; margin-top: 14px; flex-wrap:wrap; align-items:center; }
+  .cover-preview{ width:100%; max-width:200px; aspect-ratio:3/2; object-fit:cover; border-radius: 10px; border:1px solid var(--hairline); margin-top:8px; background:var(--cocoa-soft); }
+  .status-msg{ font-size:.83rem; color: var(--caramel-deep); min-height:1.2em; margin-top:10px; white-space: pre-line; }
+  .status-msg.err{ color:#B5543F; }
+  .toggle-editor{ display:none; }
+  .toggle-editor.open{ display:block; }
+  details.gh-setup summary{ cursor:pointer; color: var(--caramel-deep); font-size:.87rem; font-family:var(--font-round); }
+  details.gh-setup ol{ color: var(--ink-soft); font-size:.84rem; padding-left: 20px; }
+
+  /* 編輯器 */
+  .toolbar{
+    display:flex; gap:5px; flex-wrap:wrap; padding: 8px;
+    background: var(--cocoa-soft); border:1px solid var(--hairline-strong);
+    border-bottom:none; border-radius: 10px 10px 0 0;
+    position: sticky; top: 0; z-index: 5;
+  }
+  .toolbar button{
+    background:#fff; border:1px solid var(--hairline-strong); border-radius: 7px;
+    min-width: 34px; height: 32px; padding: 0 9px; cursor:pointer;
+    font-family: var(--font-round); font-size:.82rem; color: var(--ink);
+  }
+  .toolbar button:hover{ border-color: var(--caramel); color: var(--caramel-deep); }
+  .toolbar .sep{ width:1px; background: var(--hairline-strong); margin: 4px 2px; }
+  #editor{
+    min-height: 320px; padding: 18px 20px; background:#fff;
+    border:1px solid var(--hairline-strong); border-radius: 0 0 10px 10px;
+    font-size: 1rem; line-height: 1.9; color: var(--ink);
+    overflow-wrap: break-word;
+  }
+  #editor:focus{ outline:none; border-color: var(--caramel); }
+  #editor img{ max-width:100%; border-radius: 10px; }
+  #editor blockquote{ margin:14px 0; padding:10px 16px; background: var(--cocoa-soft); border-radius:10px; border-left:3px solid var(--caramel); color:#7a6047; }
+  #editor h2{ font-size:1.2rem; margin:1em 0 .4em; }
+  #editor h3{ font-size:1.05rem; margin:.9em 0 .35em; }
+  #editor a{ color: var(--caramel-deep); text-decoration: underline; }
+
+  /* 站內連結挑選視窗 */
+  .modal-bg{
+    display:none; position:fixed; inset:0; background:rgba(90,70,50,0.45);
+    z-index:100; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-bg.open{ display:flex; }
+  .modal{
+    background: var(--paper); border-radius:16px; padding:24px;
+    max-width:480px; width:100%; max-height:80vh; overflow:auto;
+  }
+  .modal h3{ font-size:1.05rem; margin-bottom:6px; }
+  .modal .hint{ color:var(--ink-faint); font-size:.83rem; margin-bottom:14px; }
+  .pick-item{
+    padding:11px 14px; border:1px solid var(--hairline); border-radius:10px;
+    margin-bottom:8px; cursor:pointer; background:#fff;
+  }
+  .pick-item:hover{ border-color: var(--caramel); background: var(--cocoa-soft); }
+  .pick-item strong{ display:block; font-size:.93rem; }
+  .pick-item span{ color:var(--ink-faint); font-size:.78rem; font-family:var(--font-round); }
+</style>
+</head>
+<body>
+<div class="admin-shell">
+  <div class="admin-header">
+    <h1>🐻 後台編輯</h1>
+    <p>在這裡編輯網站所有內容。設定好 GitHub 連線後，按「發布到網站」就會直接更新。編輯過程會自動暫存在這台裝置。</p>
+  </div>
+
+  <!-- GitHub -->
+  <div class="panel">
+    <h2>GitHub 連線（設定一次即可）</h2>
+    <div class="row">
+      <div><label>GitHub 帳號</label><input type="text" id="gh-owner" placeholder="yourname"></div>
+      <div><label>Repository 名稱</label><input type="text" id="gh-repo" placeholder="my-website"></div>
+      <div><label>分支</label><input type="text" id="gh-branch" value="main"></div>
+    </div>
+    <label>Personal Access Token（只存在這台裝置，請勿分享給他人）</label>
+    <input type="password" id="gh-token" placeholder="github_pat_...">
+    <details class="gh-setup">
+      <summary>如何取得 Token？</summary>
+      <ol>
+        <li>GitHub → 頭像 → Settings → 最下方 Developer settings</li>
+        <li>Personal access tokens → <strong>Fine-grained tokens</strong> → Generate new token</li>
+        <li>Repository access 選「Only select repositories」，勾選您網站的 repo</li>
+        <li>Permissions → Repository permissions → <strong>Contents</strong> 設為 <strong>Read and write</strong></li>
+      </ol>
+    </details>
+    <div class="btn-row">
+      <button class="btn secondary" id="gh-save">儲存連線設定</button>
+      <button class="btn" id="gh-load">從 GitHub 載入內容</button>
+    </div>
+    <div class="status-msg" id="gh-status"></div>
+  </div>
+
+  <!-- 基本資訊 -->
+  <div class="panel">
+    <h2>網站基本資訊</h2>
+    <label>網站網址（給 Google 用，例如 https://yourname.github.io/my-website）</label>
+    <input type="text" id="f-siteUrl" placeholder="https://yourname.github.io/my-website">
+    <label>姓名／稱謂</label><input type="text" id="f-name">
+    <label>職稱</label><input type="text" id="f-role">
+    <label>服務單位</label><input type="text" id="f-hospital">
+    <label>大頭照</label>
+    <div class="btn-row" style="margin-top:4px">
+      <input type="file" id="avatar-upload" accept="image/*" style="display:none">
+      <button class="btn secondary" onclick="document.getElementById('avatar-upload').click()">選擇照片上傳</button>
+      <img class="cover-preview" id="avatar-preview" src="" alt="" style="max-width:110px;aspect-ratio:1;border-radius:50%;">
+    </div>
+    <input type="text" id="f-avatar" placeholder="或填路徑，例如 images/avatar.jpg" style="margin-top:10px">
+    <label>首頁主標題</label><input type="text" id="f-introTitle">
+    <label>首頁簡介</label><textarea id="f-intro" rows="3"></textarea>
+    <label>「關於我」標題</label><input type="text" id="f-aboutTitle">
+    <label>「關於我」內文</label><textarea id="f-aboutText" rows="5"></textarea>
+    <label>門診時段備註</label><textarea id="f-clinicNote" rows="2"></textarea>
+  </div>
+
+  <!-- 門診 -->
+  <div class="panel">
+    <h2>門診時段</h2>
+    <div id="clinic-rows"></div>
+    <div class="btn-row"><button class="btn secondary" id="add-clinic-row">＋ 新增一列</button></div>
+  </div>
+
+  <!-- 文章 -->
+  <div class="panel">
+    <h2>文章管理</h2>
+    <p class="hint">編輯器像 Word 一樣操作。要連到自己的其他文章，按「📎 站內文章」直接挑選，不用管網址。</p>
+    <div id="article-list"></div>
+    <div class="btn-row"><button class="btn" id="new-article-btn">＋ 新增文章</button></div>
+
+    <div class="toggle-editor" id="article-editor">
+      <hr style="border:none;border-top:1px dashed var(--hairline-strong); margin:20px 0;">
+      <label>標題</label>
+      <input type="text" id="art-title">
+      <div class="row">
+        <div>
+          <label>分類</label>
+          <select id="art-category">
+            <option value="衛教">衛教文章</option>
+            <option value="旅遊">旅遊</option>
+            <option value="生活">生活</option>
+          </select>
+        </div>
+        <div><label>發布日期</label><input type="date" id="art-date"></div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>系列名稱（同一趟旅程填一樣的名字，就會自動互相串連；不是系列就留空）</label>
+          <input type="text" id="art-series" list="series-list" placeholder="例如：多洛米蒂健行">
+          <datalist id="series-list"></datalist>
+        </div>
+        <div style="max-width:120px">
+          <label>系列順序</label>
+          <input type="number" id="art-series-order" min="0" step="1" placeholder="1">
+        </div>
+      </div>
+
+      <label>標籤（逗號分隔）</label>
+      <input type="text" id="art-tags">
+
+      <label>封面圖片</label>
+      <div class="btn-row" style="margin-top:4px">
+        <input type="file" id="art-cover-upload" accept="image/*" style="display:none">
+        <button class="btn secondary" onclick="document.getElementById('art-cover-upload').click()">選擇封面上傳</button>
+        <img class="cover-preview" id="art-cover-preview" src="" alt="">
+      </div>
+      <input type="text" id="art-cover" placeholder="或填路徑" style="margin-top:10px">
+
+      <label>摘要（顯示在卡片上，約 40–60 字）</label>
+      <textarea id="art-excerpt" rows="2"></textarea>
+
+      <label>內文</label>
+      <div class="toolbar">
+        <button type="button" data-cmd="bold" title="粗體"><b>B</b></button>
+        <button type="button" data-cmd="italic" title="斜體"><i>I</i></button>
+        <span class="sep"></span>
+        <button type="button" data-block="h2">大標</button>
+        <button type="button" data-block="h3">小標</button>
+        <button type="button" data-block="p">段落</button>
+        <button type="button" data-block="blockquote">❝ 引言</button>
+        <span class="sep"></span>
+        <button type="button" data-cmd="insertUnorderedList">• 條列</button>
+        <button type="button" data-cmd="insertOrderedList">1. 編號</button>
+        <span class="sep"></span>
+        <button type="button" id="tb-inlink" title="連到自己的其他文章">📎 站內文章</button>
+        <button type="button" id="tb-link" title="連到外部網址">🔗 外部連結</button>
+        <button type="button" data-cmd="unlink">解除連結</button>
+        <button type="button" id="tb-img">🖼 插圖</button>
+        <span class="sep"></span>
+        <button type="button" data-cmd="removeFormat">清除格式</button>
+      </div>
+      <div id="editor" contenteditable="true"></div>
+      <input type="file" id="editor-img-upload" accept="image/*" style="display:none">
+
+      <div class="btn-row">
+        <button class="btn" id="save-article-btn">儲存這篇文章</button>
+        <button class="btn secondary" id="cancel-article-btn">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 網站數據 -->
+  <div class="panel">
+    <h2>📊 網站數據</h2>
+    <p class="hint">看有多少人瀏覽、哪幾篇最多人看。兩個都是免費的，且不使用 cookie、不追蹤個人身分。</p>
+
+    <div id="analytics-view"></div>
+
+    <details style="margin-top:14px">
+      <summary style="cursor:pointer;color:var(--caramel-deep);font-size:.87rem;font-family:var(--font-round)">設定（第一次使用請點開）</summary>
+
+      <label>Cloudflare Web Analytics Token（看瀏覽數、熱門文章）</label>
+      <input type="text" id="f-cfToken" placeholder="貼上 token">
+      <details class="gh-setup">
+        <summary>如何取得？</summary>
+        <ol>
+          <li>到 <strong>dash.cloudflare.com</strong> 註冊免費帳號（不用轉移網域）</li>
+          <li>左側選單 → Analytics &amp; Logs → <strong>Web Analytics</strong></li>
+          <li>點「Add a site」，輸入你的網站網址</li>
+          <li>它會給你一段程式碼，裡面有一串 <code>"token": "xxxxx"</code></li>
+          <li>把引號中間那串 xxxxx 複製貼到上面欄位，然後重新發布網站即可</li>
+        </ol>
+      </details>
+
+      <label>Google Search Console 驗證碼（看別人搜什麼關鍵字找到你）</label>
+      <input type="text" id="f-gscVerify" placeholder="google-site-verification 的 content 值">
+      <details class="gh-setup">
+        <summary>如何取得？</summary>
+        <ol>
+          <li>到 <strong>search.google.com/search-console</strong></li>
+          <li>新增資源 → 選「網址前置字元」→ 貼上你的網站網址</li>
+          <li>驗證方式選「<strong>HTML 標記</strong>」，它會給你一段 <code>&lt;meta name="google-site-verification" content="xxxxx"&gt;</code></li>
+          <li>把 content 裡面那串 xxxxx 貼到上面欄位 → 重新發布網站 → 回 Google 按「驗證」</li>
+          <li>驗證通過後，左側「Sitemap」提交 <code>sitemap.xml</code></li>
+        </ol>
+      </details>
+
+      <div class="btn-row">
+        <button class="btn secondary" id="analytics-save">儲存設定</button>
+      </div>
+      <div class="status-msg" id="analytics-status"></div>
+    </details>
+  </div>
+
+  <!-- 發布 -->
+  <div class="panel">
+    <h2>發布到網站</h2>
+    <p class="hint">會把所有內容寫回 GitHub，並為每篇文章產生獨立的網頁檔（讓 Google 搜尋得到），同時更新 sitemap。網站約 1–2 分鐘後更新。</p>
+    <div class="btn-row">
+      <button class="btn" id="publish-btn">🚀 發布到網站</button>
+      <button class="btn secondary" id="export-btn">改用下載檔案</button>
+      <input type="file" id="import-file" accept="application/json" style="display:none">
+      <button class="btn secondary" onclick="document.getElementById('import-file').click()">從檔案匯入</button>
+    </div>
+    <div class="status-msg" id="publish-status"></div>
+  </div>
+</div>
+
+<!-- 站內文章挑選視窗 -->
+<div class="modal-bg" id="pick-modal">
+  <div class="modal">
+    <h3>選擇要連到的文章</h3>
+    <p class="hint">請先在內文中選取要變成連結的文字，再點這裡挑選文章。</p>
+    <div id="pick-list"></div>
+    <div class="btn-row"><button class="btn secondary" id="pick-cancel">取消</button></div>
+  </div>
+</div>
+
+<script src="js/render.js"></script>
+<script src="js/generator.js"></script>
+<script>
+const DEFAULT_STATE = {
+  site: {
+    siteUrl:"", cfToken:"", gscVerify:"",
+    name:"○○○ 醫師", role:"小兒內分泌暨遺傳科 主治醫師", hospital:"國立臺灣大學醫學院附設醫院",
+    avatar:"images/avatar.jpg", introTitle:"在孩子成長的路上，多一雙留心的眼睛",
+    intro:"", aboutTitle:"關於我", aboutText:"", clinicHours:[], clinicNote:""
+  },
+  articles: []
+};
+let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+const LS_KEY='clinic-site-draft-v3', GH_KEY='clinic-site-github-v1';
+function saveDraft(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+function setStatus(id,msg,err){ const e=document.getElementById(id); e.textContent=msg; e.classList.toggle('err',!!err); }
+
+/* ─── GitHub API ─── */
+function ghConfig(){ return {
+  owner:document.getElementById('gh-owner').value.trim(),
+  repo:document.getElementById('gh-repo').value.trim(),
+  branch:document.getElementById('gh-branch').value.trim()||'main',
+  token:document.getElementById('gh-token').value.trim() }; }
+function ghReady(){ const c=ghConfig(); return c.owner&&c.repo&&c.token; }
+function ghHeaders(){ return {'Authorization':`Bearer ${ghConfig().token}`,'Accept':'application/vnd.github+json'}; }
+function ghUrl(p){ const c=ghConfig(); return `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${p}`; }
+function b64encode(str){
+  const bytes=new TextEncoder().encode(str); let bin='';
+  for(let i=0;i<bytes.length;i+=8192) bin+=String.fromCharCode(...bytes.subarray(i,i+8192));
+  return btoa(bin);
+}
+function b64decode(b64){
+  const bin=atob(b64.replace(/\n/g,''));
+  return new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)));
+}
+async function ghGetFile(path){
+  const res=await fetch(`${ghUrl(path)}?ref=${ghConfig().branch}`,{headers:ghHeaders()});
+  if(res.status===404) return null;
+  if(!res.ok) throw new Error(`讀取 ${path} 失敗（${res.status}）`);
+  return res.json();
+}
+async function ghPutFile(path,b64,msg){
+  const cur=await ghGetFile(path);
+  const body={message:msg,content:b64,branch:ghConfig().branch};
+  if(cur&&cur.sha) body.sha=cur.sha;
+  const res=await fetch(ghUrl(path),{method:'PUT',headers:{...ghHeaders(),'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!res.ok){ const d=await res.json().catch(()=>({})); throw new Error(`寫入 ${path} 失敗（${res.status}）${d.message||''}`); }
+  return res.json();
+}
+async function handleImageFile(file,statusId){
+  const dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(new Error('讀取圖片失敗')); r.readAsDataURL(file); });
+  if(!ghReady()){
+    if(statusId) setStatus(statusId,'（尚未設定 GitHub，圖片以內嵌方式儲存）');
+    return dataUrl;
+  }
+  const name=file.name.replace(/[^\w.\-]+/g,'-');
+  const path=`images/uploads/${Date.now().toString(36)}-${name}`;
+  if(statusId) setStatus(statusId,'圖片上傳中…');
+  await ghPutFile(path,dataUrl.split(',')[1],`上傳圖片 ${name}`);
+  if(statusId) setStatus(statusId,`圖片已上傳：${path}`);
+  return path;
+}
+
+document.getElementById('gh-save').addEventListener('click',()=>{
+  localStorage.setItem(GH_KEY,JSON.stringify(ghConfig()));
+  setStatus('gh-status','已儲存連線設定。');
+});
+document.getElementById('gh-load').addEventListener('click',async()=>{
+  if(!ghReady()){ setStatus('gh-status','請先填妥帳號、repo 與 token。',true); return; }
+  try{
+    setStatus('gh-status','載入中…');
+    const f=await ghGetFile('data/articles.json');
+    if(!f){ setStatus('gh-status','repo 裡找不到 data/articles.json。'); return; }
+    applyState(JSON.parse(b64decode(f.content)));
+    setStatus('gh-status',`已載入，共 ${state.articles.length} 篇文章。`);
+  }catch(e){ setStatus('gh-status',e.message,true); }
+});
+
+/* ─── 基本資訊 ─── */
+const SF=['siteUrl','cfToken','gscVerify','name','role','hospital','avatar','introTitle','intro','aboutTitle','aboutText','clinicNote'];
+function fillSiteForm(){ SF.forEach(k=>document.getElementById('f-'+k).value=state.site[k]||''); document.getElementById('avatar-preview').src=state.site.avatar||''; }
+function readSiteForm(){ SF.forEach(k=>state.site[k]=document.getElementById('f-'+k).value); }
+SF.forEach(k=>document.getElementById('f-'+k).addEventListener('input',()=>{readSiteForm();saveDraft();}));
+document.getElementById('avatar-upload').addEventListener('change',async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{ const src=await handleImageFile(f,'gh-status');
+    document.getElementById('f-avatar').value=src;
+    document.getElementById('avatar-preview').src=src;
+    state.site.avatar=src; saveDraft();
+  }catch(err){ setStatus('gh-status',err.message,true); }
+});
+
+/* ─── 門診 ─── */
+function renderClinicRows(){
+  const w=document.getElementById('clinic-rows');
+  w.innerHTML=state.site.clinicHours.map((r,i)=>`
+    <div class="clinic-row" data-i="${i}">
+      <input type="text" placeholder="星期" value="${r.day||''}" data-field="day">
+      <input type="text" placeholder="時間" value="${r.time||''}" data-field="time">
+      <input type="text" placeholder="診別" value="${r.clinic||''}" data-field="clinic">
+      <input type="text" placeholder="地點" value="${r.location||''}" data-field="location">
+      <input type="text" placeholder="備註" value="${r.note||''}" data-field="note">
+      <button class="icon-btn" data-remove="${i}">刪除</button>
+    </div>`).join('')||'<p class="hint">目前沒有門診時段。</p>';
+  w.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',()=>{
+    state.site.clinicHours[inp.closest('.clinic-row').dataset.i][inp.dataset.field]=inp.value; saveDraft();
+  }));
+  w.querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{
+    state.site.clinicHours.splice(Number(b.dataset.remove),1); renderClinicRows(); saveDraft();
+  }));
+}
+document.getElementById('add-clinic-row').addEventListener('click',()=>{
+  state.site.clinicHours.push({day:'',time:'',clinic:'',location:'',note:''});
+  renderClinicRows(); saveDraft();
+});
+
+/* ─── 編輯器 ─── */
+const editor=document.getElementById('editor');
+let savedRange=null;
+function rememberSelection(){
+  const sel=window.getSelection();
+  if(sel.rangeCount>0 && editor.contains(sel.anchorNode)) savedRange=sel.getRangeAt(0).cloneRange();
+}
+function restoreSelection(){
+  if(!savedRange) return;
+  const sel=window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange);
+}
+editor.addEventListener('keyup',rememberSelection);
+editor.addEventListener('mouseup',rememberSelection);
+
+document.querySelectorAll('.toolbar [data-cmd]').forEach(b=>b.addEventListener('click',()=>{
+  editor.focus(); restoreSelection(); document.execCommand(b.dataset.cmd,false,null);
+}));
+document.querySelectorAll('.toolbar [data-block]').forEach(b=>b.addEventListener('click',()=>{
+  editor.focus(); restoreSelection(); document.execCommand('formatBlock',false,b.dataset.block);
+}));
+document.getElementById('tb-link').addEventListener('click',()=>{
+  const url=prompt('請輸入外部網址（含 https://）：');
+  if(!url) return;
+  editor.focus(); restoreSelection();
+  document.execCommand('createLink',false,url);
+});
+document.getElementById('tb-img').addEventListener('click',()=>document.getElementById('editor-img-upload').click());
+document.getElementById('editor-img-upload').addEventListener('change',async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{ const src=await handleImageFile(f,'publish-status');
+    editor.focus(); restoreSelection();
+    document.execCommand('insertImage',false,src);
+  }catch(err){ setStatus('publish-status',err.message,true); }
+  e.target.value='';
+});
+editor.addEventListener('paste',async e=>{
+  const item=[...(e.clipboardData?.items||[])].find(i=>i.type.startsWith('image/'));
+  if(!item) return;
+  e.preventDefault();
+  try{ const src=await handleImageFile(item.getAsFile(),'publish-status');
+    document.execCommand('insertImage',false,src);
+  }catch(err){ setStatus('publish-status',err.message,true); }
+});
+
+/* ─── 站內文章連結 ─── */
+const pickModal=document.getElementById('pick-modal');
+document.getElementById('tb-inlink').addEventListener('click',()=>{
+  rememberSelection();
+  const others=state.articles.filter(a=>a.id!==editingId);
+  if(!others.length){ alert('目前還沒有其他文章可以連結，請先儲存至少一篇。'); return; }
+  document.getElementById('pick-list').innerHTML=others
+    .sort((a,b)=>new Date(b.date)-new Date(a.date))
+    .map(a=>`<div class="pick-item" data-pick="${a.id}">
+      <strong>${a.title}</strong><span>${a.category}${a.series?' · '+a.series+' 系列':''} · ${a.date}</span></div>`).join('');
+  pickModal.classList.add('open');
+});
+document.getElementById('pick-cancel').addEventListener('click',()=>pickModal.classList.remove('open'));
+pickModal.addEventListener('click',e=>{
+  if(e.target===pickModal){ pickModal.classList.remove('open'); return; }
+  const item=e.target.closest('[data-pick]'); if(!item) return;
+  const id=item.dataset.pick;
+  const target=state.articles.find(a=>a.id===id);
+  pickModal.classList.remove('open');
+  editor.focus(); restoreSelection();
+  const sel=window.getSelection();
+  const href=`article.html?id=${encodeURIComponent(id)}`;
+  if(sel.isCollapsed){
+    // 沒選取文字：直接插入一個以文章標題為文字的連結
+    document.execCommand('insertHTML',false,`<a href="${href}">${target.title}</a>`);
+  } else {
+    document.execCommand('createLink',false,href);
+  }
+});
+
+/* ─── 文章列表 ─── */
+function refreshSeriesList(){
+  const names=[...new Set(state.articles.map(a=>a.series).filter(Boolean))];
+  document.getElementById('series-list').innerHTML=names.map(n=>`<option value="${n}">`).join('');
+}
+function renderArticleList(){
+  const w=document.getElementById('article-list');
+  const sorted=[...state.articles].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  w.innerHTML=sorted.length?sorted.map(a=>`
+    <div class="article-row">
+      <div class="info"><strong>${a.title||'（未命名）'}</strong>
+        <span>${a.category}${a.series?` · 🐻 ${a.series} #${a.seriesOrder||'?'}`:''} · ${a.date||'未設定'}</span></div>
+      <button class="icon-btn" data-edit="${a.id}">編輯</button>
+      <button class="icon-btn" data-del="${a.id}">刪除</button>
+    </div>`).join(''):'<p class="hint">還沒有文章，點下方新增。</p>';
+  w.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(b.dataset.edit)));
+  w.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{
+    if(confirm('確定要刪除這篇文章嗎？')){
+      state.articles=state.articles.filter(a=>a.id!==b.dataset.del);
+      renderArticleList(); refreshSeriesList(); saveDraft();
+    }
+  }));
+  refreshSeriesList();
+}
+
+let editingId=null;
+function openEditor(id){
+  const box=document.getElementById('article-editor');
+  box.classList.add('open');
+  const a=id?state.articles.find(x=>x.id===id):null;
+  editingId=id||null;
+  document.getElementById('art-title').value=a?a.title:'';
+  document.getElementById('art-category').value=a?a.category:'衛教';
+  document.getElementById('art-date').value=a?a.date:new Date().toISOString().slice(0,10);
+  document.getElementById('art-series').value=a?(a.series||''):'';
+  document.getElementById('art-series-order').value=a?(a.seriesOrder||''):'';
+  document.getElementById('art-tags').value=a?(a.tags||[]).join(', '):'';
+  document.getElementById('art-cover').value=a?(a.cover||''):'';
+  document.getElementById('art-cover-preview').src=a?(a.cover||''):'';
+  document.getElementById('art-excerpt').value=a?(a.excerpt||''):'';
+  editor.innerHTML=a?articleHTML(a):'';
+  savedRange=null;
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.getElementById('new-article-btn').addEventListener('click',()=>openEditor(null));
+document.getElementById('cancel-article-btn').addEventListener('click',()=>{
+  document.getElementById('article-editor').classList.remove('open'); editingId=null;
+});
+document.getElementById('art-cover').addEventListener('input',e=>{
+  document.getElementById('art-cover-preview').src=e.target.value;
+});
+document.getElementById('art-cover-upload').addEventListener('change',async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{ const src=await handleImageFile(f,'publish-status');
+    document.getElementById('art-cover').value=src;
+    document.getElementById('art-cover-preview').src=src;
+  }catch(err){ setStatus('publish-status',err.message,true); }
+  e.target.value='';
+});
+function slugify(t){
+  const b=t.trim().toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g,'-').replace(/(^-|-$)/g,'');
+  return (b||'post')+'-'+Date.now().toString(36).slice(-4);
+}
+document.getElementById('save-article-btn').addEventListener('click',()=>{
+  const title=document.getElementById('art-title').value.trim();
+  if(!title){ alert('請先輸入標題'); return; }
+  const data={
+    id: editingId||slugify(title),
+    title,
+    category: document.getElementById('art-category').value,
+    date: document.getElementById('art-date').value||new Date().toISOString().slice(0,10),
+    series: document.getElementById('art-series').value.trim(),
+    seriesOrder: Number(document.getElementById('art-series-order').value)||0,
+    tags: document.getElementById('art-tags').value.split(',').map(s=>s.trim()).filter(Boolean),
+    cover: document.getElementById('art-cover').value||'images/cover-placeholder-1.svg',
+    excerpt: document.getElementById('art-excerpt').value,
+    contentHtml: editor.innerHTML
+  };
+  if(editingId){
+    state.articles[state.articles.findIndex(a=>a.id===editingId)]=data;
+  } else {
+    state.articles.push(data);
+  }
+  saveDraft(); renderArticleList();
+  document.getElementById('article-editor').classList.remove('open');
+  editingId=null;
+});
+
+/* ─── 發布 ─── */
+document.getElementById('publish-btn').addEventListener('click',async()=>{
+  readSiteForm();
+  if(!ghReady()){ setStatus('publish-status','請先設定 GitHub 連線，或改用下載檔案。',true); return; }
+
+  const baseUrl = (state.site.siteUrl||'').trim();
+  if(!baseUrl){
+    setStatus('publish-status','請先在「網站基本資訊」填寫網站網址，Google 才能正確收錄你的文章。',true);
+    return;
+  }
+
+  const stamp = new Date().toLocaleString('zh-TW');
+  const total = state.articles.length + 4;
+  let done = 0;
+  const step = (label) => { done++; setStatus('publish-status', `發布中… (${done}/${total}) ${label}`); };
+
+  try{
+    // 1. 資料檔
+    await ghPutFile('data/articles.json', b64encode(JSON.stringify(state,null,2)), `更新網站內容 ${stamp}`);
+    step('網站內容');
+
+    // 2. 每篇文章 → 產生真實的靜態 HTML（Google 直接讀得到，不需要跑 JS）
+    for(const a of state.articles){
+      const html = buildPostHTML(state.site, state.articles, a, baseUrl);
+      await ghPutFile(`posts/${a.id}.html`, b64encode(html), `更新文章：${a.title}`);
+      step(a.title);
+    }
+
+    // 3. sitemap（告訴 Google 有哪些頁面）
+    await ghPutFile('sitemap.xml', b64encode(buildSitemap(state.site, state.articles, baseUrl)), `更新 sitemap ${stamp}`);
+    step('sitemap.xml');
+
+    // 4. robots（允許搜尋引擎爬，但擋掉後台）
+    await ghPutFile('robots.txt', b64encode(buildRobots(baseUrl)), `更新 robots.txt`);
+    step('robots.txt');
+
+    // 5. 舊網址轉址頁
+    await ghPutFile('article.html', b64encode(buildRedirectPage()), `更新轉址頁`);
+    step('轉址頁');
+
+    setStatus('publish-status',
+      `✅ 已發布！共 ${state.articles.length} 篇文章。\n約 1–2 分鐘後生效。\n` +
+      `每篇文章都已產生獨立網頁，Google 可以直接讀取內容。`);
+  }catch(e){
+    setStatus('publish-status',`發布失敗：${e.message}\n請確認 token 權限包含 Contents 的 Read and write。`,true);
+  }
+});
+document.getElementById('export-btn').addEventListener('click',()=>{
+  readSiteForm();
+  const b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const u=URL.createObjectURL(b); const a=document.createElement('a');
+  a.href=u; a.download='articles.json'; a.click(); URL.revokeObjectURL(u);
+  setStatus('publish-status','已下載，請放進 data 資料夾後上傳到 GitHub。');
+});
+document.getElementById('import-file').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{ applyState(JSON.parse(r.result));
+      setStatus('publish-status',`已匯入，共 ${state.articles.length} 篇文章。`);
+    }catch(err){ setStatus('publish-status','匯入失敗，請確認為正確的 JSON。',true); } };
+  r.readAsText(f);
+});
+
+
+/* ─── 網站數據面板 ─── */
+function renderAnalyticsView(){
+  const v = document.getElementById('analytics-view');
+  const cf = (state.site.cfToken||'').trim();
+  const gsc = (state.site.gscVerify||'').trim();
+  const url = (state.site.siteUrl||'').trim();
+
+  if(!cf && !gsc){
+    v.innerHTML = `<div class="empty-state" style="padding:28px 20px">
+      還沒有設定數據工具。<br>點下方「設定」跟著步驟做，之後就能看到網站流量。
+    </div>`;
+    return;
+  }
+  const cards = [];
+  if(cf){
+    cards.push(`<div class="pick-item" style="cursor:default">
+      <strong>Cloudflare Web Analytics ✅ 已啟用</strong>
+      <span>瀏覽數、熱門文章、訪客來源</span>
+      <div class="btn-row" style="margin-top:8px">
+        <a class="btn secondary" href="https://dash.cloudflare.com/?to=/:account/web-analytics" target="_blank" rel="noopener">開啟數據儀表板 →</a>
+      </div>
+    </div>`);
+  } else {
+    cards.push(`<div class="pick-item" style="cursor:default;opacity:.65">
+      <strong>Cloudflare Web Analytics（未設定）</strong>
+      <span>設定後可看瀏覽數與熱門文章</span></div>`);
+  }
+  if(gsc){
+    const q = url ? `?resource_id=${encodeURIComponent(url)}` : '';
+    cards.push(`<div class="pick-item" style="cursor:default">
+      <strong>Google Search Console ✅ 已設定驗證碼</strong>
+      <span>搜尋關鍵字、排名、點擊次數</span>
+      <div class="btn-row" style="margin-top:8px">
+        <a class="btn secondary" href="https://search.google.com/search-console${q}" target="_blank" rel="noopener">開啟 Search Console →</a>
+      </div>
+    </div>`);
+  } else {
+    cards.push(`<div class="pick-item" style="cursor:default;opacity:.65">
+      <strong>Google Search Console（未設定）</strong>
+      <span>設定後可看別人搜什麼關鍵字找到你</span></div>`);
+  }
+  v.innerHTML = cards.join('');
+}
+document.getElementById('analytics-save').addEventListener('click',()=>{
+  readSiteForm(); saveDraft(); renderAnalyticsView();
+  setStatus('analytics-status','已儲存。記得按下方「發布到網站」，設定才會生效。');
+});
+
+function applyState(ns){
+  state=JSON.parse(JSON.stringify(DEFAULT_STATE));
+  state.site=Object.assign({},DEFAULT_STATE.site,(ns&&ns.site)||{});
+  state.articles=((ns&&ns.articles)||[]).map(a=>({series:'',seriesOrder:0,...a}));
+  fillSiteForm(); renderClinicRows(); renderArticleList(); renderAnalyticsView(); saveDraft();
+}
+
+(function init(){
+  const gh=localStorage.getItem(GH_KEY);
+  if(gh){ try{ const c=JSON.parse(gh);
+    document.getElementById('gh-owner').value=c.owner||'';
+    document.getElementById('gh-repo').value=c.repo||'';
+    document.getElementById('gh-branch').value=c.branch||'main';
+    document.getElementById('gh-token').value=c.token||'';
+  }catch(e){} }
+  const d=localStorage.getItem(LS_KEY);
+  if(d){ try{ applyState(JSON.parse(d)); return; }catch(e){} }
+  applyState(DEFAULT_STATE);
+})();
+</script>
+</body>
+</html>

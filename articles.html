@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文章列表</title>
+<meta name="description" content="衛教文章、生活與旅遊紀錄。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="seal">醫</span>
+      <span id="brand-name">黃醫師的小筆記</span>
+    </a>
+    <button class="nav-toggle" aria-label="開啟選單" aria-expanded="false">☰</button>
+    <nav class="site-nav">
+      <a href="index.html">首頁</a>
+      <a href="articles.html?cat=衛教">衛教</a>
+      <a href="articles.html?cat=旅遊">生活旅遊</a>
+      <a href="index.html#about">關於</a>
+    </nav>
+  </div>
+</header>
+
+<section class="section" style="padding-top:44px;">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow">ARTICLES</span>
+      <h2 id="page-title"><span class="dot"></span>所有文章</h2>
+    </div>
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-chip" data-cat="all">全部</button>
+      <button class="filter-chip" data-cat="衛教">衛教</button>
+      <button class="filter-chip" data-cat="旅遊">旅遊</button>
+      <button class="filter-chip" data-cat="生活">生活</button>
+    </div>
+    <div class="article-grid" id="article-grid"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> <span class="footer-name">黃醫師</span></span>
+    <span>內容僅供衛教參考，實際診療請以門診評估為準</span>
+  </div>
+</footer>
+
+<script src="js/render.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+const params = new URLSearchParams(location.search);
+let currentCat = params.get('cat') || 'all';
+let allArticles = [];
+
+function renderGrid(){
+  const filtered = currentCat === 'all' ? allArticles : allArticles.filter(a => a.category === currentCat);
+  const sorted = sortByDateDesc(filtered);
+  document.getElementById('article-grid').innerHTML = sorted.length
+    ? sorted.map(articleCardHTML).join('')
+    : '<div class="empty-state">這個分類目前還沒有文章</div>';
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
+  const label = currentCat === 'all' ? '所有文章' : (currentCat === '衛教' ? '衛教文章' : currentCat);
+  document.getElementById('page-title').innerHTML = '<span class="dot"></span>' + label;
+}
+document.getElementById('filter-bar').addEventListener('click', (e) => {
+  const chip = e.target.closest('.filter-chip'); if(!chip) return;
+  currentCat = chip.dataset.cat;
+  const url = new URL(location.href);
+  currentCat === 'all' ? url.searchParams.delete('cat') : url.searchParams.set('cat', currentCat);
+  history.replaceState(null, '', url);
+  renderGrid();
+});
+loadSiteData().then(data => {
+  allArticles = data.articles;
+  document.getElementById('brand-name').textContent = data.site.name;
+  document.querySelector('.footer-name').textContent = data.site.name;
+  renderGrid();
+}).catch(err => console.error(err));
+</script>
+<script>
+// 網站分析（僅在後台設定了 token 時才載入）
+(async () => {
+  try{
+    const d = await (await fetch('data/articles.json',{cache:'no-store'})).json();
+    const token = (d.site.cfToken||'').trim();
+    if(token){
+      const s = document.createElement('script');
+      s.defer = true;
+      s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      s.setAttribute('data-cf-beacon', JSON.stringify({token}));
+      document.body.appendChild(s);
+    }
+    const v = (d.site.gscVerify||'').trim();
+    if(v && !document.querySelector('meta[name="google-site-verification"]')){
+      const m = document.createElement('meta');
+      m.name='google-site-verification'; m.content=v;
+      document.head.appendChild(m);
+    }
+  }catch(e){}
+})();
+</script>
+</body>
+</html>

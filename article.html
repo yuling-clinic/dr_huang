@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>轉跳中…</title>
+<script>
+  const id = new URLSearchParams(location.search).get('id');
+  location.replace(id ? 'posts/' + id + '.html' : 'articles.html');
+</script>
+</head>
+<body><p>轉跳中… <a href="articles.html">若沒有自動跳轉請點這裡</a></p></body>
+</html>
