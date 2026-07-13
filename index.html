@@ -25,7 +25,7 @@
     <nav class="site-nav">
       <a href="index.html" class="active">首頁</a>
       <a href="articles.html?cat=衛教">衛教</a>
-      <a href="articles.html?cat=旅遊">診間之外</a>
+      <a href="articles.html?cat=life">診間之外</a>
       <a href="index.html#about">關於</a>
     </nav>
   </div>
@@ -61,7 +61,7 @@
       </table>
     </div>
     <p class="clinic-note" id="clinic-note"></p>
-    <a class="register-btn" id="register-link" href="#" target="_blank" rel="noopener" style="display:none">線上掛號</a>
+    <div class="register-list" id="register-list"></div>
   </div>
 </section>
 
@@ -136,8 +136,14 @@ loadSiteData().then(data => {
   document.getElementById('clinic-rows').innerHTML = site.clinicHours.map(r => `
     <tr><td><strong>${r.day}</strong> ${r.time}</td><td>${r.clinic}</td><td>${r.location}</td></tr>`).join('');
   document.getElementById('clinic-note').textContent = site.clinicNote || '';
-  const regLink = document.getElementById('register-link');
-  if(site.registerUrl){ regLink.href = site.registerUrl; regLink.style.display = 'inline-flex'; }
+  const regList = document.getElementById('register-list');
+  const links = site.registerLinks || [];
+  regList.innerHTML = links.map(r => `
+    <a class="register-item" href="${r.url}" target="_blank" rel="noopener">
+      <span class="label">${r.label}</span>
+      <span class="arrow">→</span>
+      <span class="target">${r.target}</span>
+    </a>`).join('');
 
   const latest = sortByDateDesc(articles).slice(0,3);
   document.getElementById('latest-grid').innerHTML = latest.length

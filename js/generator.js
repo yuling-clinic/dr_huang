@@ -137,7 +137,7 @@ ${JSON.stringify(jsonLd, null, 2)}
     <nav class="site-nav">
       <a href="../index.html">首頁</a>
       <a href="../articles.html?cat=衛教">衛教</a>
-      <a href="../articles.html?cat=旅遊">診間之外</a>
+      <a href="../articles.html?cat=life">診間之外</a>
       <a href="../index.html#about">關於</a>
     </nav>
   </div>

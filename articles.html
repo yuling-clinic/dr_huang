@@ -22,7 +22,7 @@
     <nav class="site-nav">
       <a href="index.html">首頁</a>
       <a href="articles.html?cat=衛教">衛教</a>
-      <a href="articles.html?cat=旅遊">診間之外</a>
+      <a href="articles.html?cat=life">診間之外</a>
       <a href="index.html#about">關於</a>
     </nav>
   </div>
@@ -37,8 +37,7 @@
     <div class="filter-bar" id="filter-bar">
       <button class="filter-chip" data-cat="all">全部</button>
       <button class="filter-chip" data-cat="衛教">衛教</button>
-      <button class="filter-chip" data-cat="旅遊">旅遊</button>
-      <button class="filter-chip" data-cat="生活">生活</button>
+      <button class="filter-chip" data-cat="life">診間之外</button>
     </div>
     <div class="subfilter-bar" id="subfilter-bar"></div>
     <div class="article-grid" id="article-grid"></div>
@@ -60,10 +59,17 @@ let currentCat = params.get('cat') || 'all';
 let currentSeries = params.get('series') || 'all';
 let allArticles = [];
 
+/* 'life'（診間之外）代表旅遊＋生活的合併分類 */
+function matchesCategory(article, cat){
+  if(cat === 'all') return true;
+  if(cat === 'life') return article.category === '旅遊' || article.category === '生活';
+  return article.category === cat;
+}
+
 function renderSubfilter(){
   const bar = document.getElementById('subfilter-bar');
   if(currentCat === 'all'){ bar.innerHTML=''; bar.style.display='none'; return; }
-  const inCat = allArticles.filter(a => a.category === currentCat);
+  const inCat = allArticles.filter(a => matchesCategory(a, currentCat));
   const seriesNames = [...new Set(inCat.map(a => a.series).filter(Boolean))];
   if(!seriesNames.length){ bar.innerHTML=''; bar.style.display='none'; return; }
   bar.style.display='flex';
@@ -74,14 +80,14 @@ function renderSubfilter(){
 }
 
 function renderGrid(){
-  let filtered = currentCat === 'all' ? allArticles : allArticles.filter(a => a.category === currentCat);
+  let filtered = allArticles.filter(a => matchesCategory(a, currentCat));
   if(currentCat !== 'all' && currentSeries !== 'all') filtered = filtered.filter(a => a.series === currentSeries);
   const sorted = sortByDateDesc(filtered);
   document.getElementById('article-grid').innerHTML = sorted.length
     ? sorted.map(articleCardHTML).join('')
     : '<div class="empty-state">這個分類目前還沒有文章</div>';
   document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
-  const label = currentCat === 'all' ? '所有文章' : (currentCat === '衛教' ? '衛教文章' : currentCat);
+  const label = currentCat === 'all' ? '所有文章' : (currentCat === '衛教' ? '衛教文章' : currentCat === 'life' ? '診間之外' : currentCat);
   document.getElementById('page-title').innerHTML = '<span class="dot"></span>' + label;
   renderSubfilter();
 }
