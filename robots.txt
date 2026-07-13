@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-Sitemap: https://example.github.io/site/sitemap.xml
+Sitemap: https://yuling-clinic.github.io/dr_huang/sitemap.xml
