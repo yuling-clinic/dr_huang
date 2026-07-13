@@ -22,8 +22,8 @@
   --hairline-strong: #D3BFA3;  /* 較明顯的線 */
 
   /* 字型 */
-  --font-hand:"Zen Maru Gothic","Noto Serif TC",serif;       /* 標題字型（穩定版，全字集支援較完整） */
-  --font-round:"Zen Maru Gothic","Noto Sans TC",sans-serif;  /* 圓黑體（小字） */
+  --font-hand:"Noto Serif TC",serif;         /* 標題字型（繁中字集完整，不會缺字跳字） */
+  --font-round:"Noto Sans TC",sans-serif;    /* 小字用字型 */
   --font-body:"Noto Sans TC",sans-serif;                     /* 內文 */
 
   --maxw:1040px;
