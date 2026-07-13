@@ -22,7 +22,7 @@
   --hairline-strong: #D3BFA3;  /* 較明顯的線 */
 
   /* 字型 */
-  --font-hand:"Noto Serif TC",serif;         /* 標題字型（繁中字集完整，不會缺字跳字） */
+  --font-hand:"LXGW WenKai TC",serif;        /* 標題字型：手寫感明體，繁中字集完整 */
   --font-round:"Noto Sans TC",sans-serif;    /* 小字用字型 */
   --font-body:"Noto Sans TC",sans-serif;                     /* 內文 */
 
@@ -40,13 +40,13 @@ a{color:var(--caramel-deep);text-decoration:none;}
 a:hover{color:var(--caramel);}
 :focus-visible{outline:2px solid var(--caramel);outline-offset:3px;border-radius:4px;}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;position:relative;z-index:1;}
-h1,h2,h3,h4{font-family:var(--font-hand);font-weight:600;margin:0 0 .5em;color:var(--coffee);letter-spacing:.02em;}
+h1,h2,h3,h4{font-family:var(--font-hand);font-weight:400;margin:0 0 .5em;color:var(--coffee);letter-spacing:.02em;}
 p{margin:0 0 1em;}
 
 /* ── header ── */
 .site-header{position:sticky;top:0;z-index:40;background:rgba(243,234,218,0.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--hairline);}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-hand);font-size:1.35rem;font-weight:700;color:var(--coffee);letter-spacing:.08em;}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-hand);font-size:1.35rem;font-weight:400;color:var(--coffee);letter-spacing:.08em;}
 .brand .seal{display:none;}
 .site-nav{display:flex;gap:2px;}
 .site-nav a{color:var(--ink-soft);font-size:.85rem;padding:6px 12px;border-radius:6px;font-family:var(--font-round);transition:color .2s;}

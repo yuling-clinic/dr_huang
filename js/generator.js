@@ -5,7 +5,7 @@
    同時產生 sitemap.xml 與 robots.txt。
    ============================================================ */
 
-const FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">';
+const FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">';
 
 function esc(s){
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -137,7 +137,7 @@ ${JSON.stringify(jsonLd, null, 2)}
     <nav class="site-nav">
       <a href="../index.html">首頁</a>
       <a href="../articles.html?cat=衛教">衛教</a>
-      <a href="../articles.html?cat=旅遊">生活旅遊</a>
+      <a href="../articles.html?cat=旅遊">診間之外</a>
       <a href="../index.html#about">關於</a>
     </nav>
   </div>
