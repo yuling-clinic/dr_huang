@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://yuling-clinic.github.io/dr_huang/</loc>
+    <loc>https://example.github.io/site/</loc>
     <lastmod>2026-07-13</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://yuling-clinic.github.io/dr_huang/articles.html</loc>
+    <loc>https://example.github.io/site/articles.html</loc>
     <lastmod>2026-07-13</lastmod>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/site/posts/growth-curve-basics.html</loc>
+    <lastmod>2026-06-20</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/site/posts/precocious-puberty-signs.html</loc>
+    <lastmod>2026-05-15</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/site/posts/dolomites-day3.html</loc>
+    <lastmod>2026-07-08</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/site/posts/dolomites-plan.html</loc>
+    <lastmod>2026-07-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://example.github.io/site/posts/dolomites-veg.html</loc>
+    <lastmod>2026-07-10</lastmod>
+    <priority>0.7</priority>
   </url>
 </urlset>
