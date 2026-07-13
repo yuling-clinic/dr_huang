@@ -56,11 +56,12 @@
     </div>
     <div class="clinic-table">
       <table>
-        <thead><tr><th>時間</th><th>診別</th><th>地點</th><th>備註</th></tr></thead>
+        <thead><tr><th>時間</th><th>診別</th><th>地點</th></tr></thead>
         <tbody id="clinic-rows"></tbody>
       </table>
     </div>
     <p class="clinic-note" id="clinic-note"></p>
+    <a class="register-btn" id="register-link" href="#" target="_blank" rel="noopener" style="display:none">線上掛號</a>
   </div>
 </section>
 
@@ -133,8 +134,10 @@ loadSiteData().then(data => {
   document.getElementById('about-text').textContent = site.aboutText;
 
   document.getElementById('clinic-rows').innerHTML = site.clinicHours.map(r => `
-    <tr><td><strong>${r.day}</strong> ${r.time}</td><td>${r.clinic}</td><td>${r.location}</td><td>${r.note||''}</td></tr>`).join('');
+    <tr><td><strong>${r.day}</strong> ${r.time}</td><td>${r.clinic}</td><td>${r.location}</td></tr>`).join('');
   document.getElementById('clinic-note').textContent = site.clinicNote || '';
+  const regLink = document.getElementById('register-link');
+  if(site.registerUrl){ regLink.href = site.registerUrl; regLink.style.display = 'inline-flex'; }
 
   const latest = sortByDateDesc(articles).slice(0,3);
   document.getElementById('latest-grid').innerHTML = latest.length

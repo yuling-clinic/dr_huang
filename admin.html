@@ -153,6 +153,8 @@
   <!-- 門診 -->
   <div class="panel">
     <h2>門診時段</h2>
+    <label>線上掛號網址（填了會在門診時段下方顯示「線上掛號」按鈕）</label>
+    <input type="text" id="f-registerUrl" placeholder="https://your-hospital.example.com/register">
     <div id="clinic-rows"></div>
     <div class="btn-row"><button class="btn secondary" id="add-clinic-row">＋ 新增一列</button></div>
   </div>
@@ -311,7 +313,7 @@ const DEFAULT_STATE = {
     siteUrl:"", cfToken:"", gscVerify:"",
     name:"○○○ 醫師", role:"小兒內分泌暨遺傳科 主治醫師", hospital:"國立臺灣大學醫學院附設醫院",
     avatar:"images/avatar.jpg", introTitle:"在孩子成長的路上，多一雙留心的眼睛",
-    intro:"", aboutTitle:"關於我", aboutText:"", clinicHours:[], clinicNote:""
+    intro:"", aboutTitle:"關於我", aboutText:"", clinicHours:[], clinicNote:"", registerUrl:""
   },
   articles: []
 };
@@ -382,7 +384,7 @@ document.getElementById('gh-load').addEventListener('click',async()=>{
 });
 
 /* ─── 基本資訊 ─── */
-const SF=['siteUrl','cfToken','gscVerify','name','role','hospital','avatar','introTitle','intro','aboutTitle','aboutText','clinicNote'];
+const SF=['siteUrl','cfToken','gscVerify','name','role','hospital','avatar','introTitle','intro','aboutTitle','aboutText','clinicNote','registerUrl'];
 function fillSiteForm(){ SF.forEach(k=>document.getElementById('f-'+k).value=state.site[k]||''); document.getElementById('avatar-preview').src=state.site.avatar||''; }
 function readSiteForm(){ SF.forEach(k=>state.site[k]=document.getElementById('f-'+k).value); }
 SF.forEach(k=>document.getElementById('f-'+k).addEventListener('input',()=>{readSiteForm();saveDraft();}));
@@ -404,7 +406,6 @@ function renderClinicRows(){
       <input type="text" placeholder="時間" value="${r.time||''}" data-field="time">
       <input type="text" placeholder="診別" value="${r.clinic||''}" data-field="clinic">
       <input type="text" placeholder="地點" value="${r.location||''}" data-field="location">
-      <input type="text" placeholder="備註" value="${r.note||''}" data-field="note">
       <button class="icon-btn" data-remove="${i}">刪除</button>
     </div>`).join('')||'<p class="hint">目前沒有門診時段。</p>';
   w.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',()=>{
@@ -415,7 +416,7 @@ function renderClinicRows(){
   }));
 }
 document.getElementById('add-clinic-row').addEventListener('click',()=>{
-  state.site.clinicHours.push({day:'',time:'',clinic:'',location:'',note:''});
+  state.site.clinicHours.push({day:'',time:'',clinic:'',location:''});
   renderClinicRows(); saveDraft();
 });
 
