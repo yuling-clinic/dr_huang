@@ -54,23 +54,32 @@ function verifySnippet(site){
   return `<meta name="google-site-verification" content="${esc(v)}">`;
 }
 
+/* 統一取得文章的系列陣列（相容舊資料的單一字串格式） */
+function getSeriesArrayGen(article){
+  if(Array.isArray(article.series)) return article.series.filter(Boolean);
+  if(typeof article.series === 'string' && article.series) return [article.series];
+  return [];
+}
+
 /* ── 單篇文章的靜態 HTML ── */
 function buildPostHTML(site, articles, a, baseUrl){
-  const siblings = articles
-    .filter(x => x.series && x.series === a.series)
-    .sort((x,y) => (x.seriesOrder||0) - (y.seriesOrder||0));
-
-  const seriesBox = (a.series && siblings.length >= 2) ? `
+  const seriesNames = getSeriesArrayGen(a);
+  const seriesBox = seriesNames.map(seriesName => {
+    const siblings = [...articles.filter(x => getSeriesArrayGen(x).includes(seriesName))]
+      .sort((x,y) => new Date(y.date) - new Date(x.date));
+    if(siblings.length < 2) return '';
+    return `
     <div class="series-box">
-      <div class="series-title">${esc(a.series)} — 系列文章</div>
+      <div class="series-title">${esc(seriesName)} — 系列文章</div>
       <ol>
         ${siblings.map(s => s.id === a.id
           ? `<li class="current"><span>${esc(s.title)}</span>（本篇）</li>`
           : `<li><a href="${esc(s.id)}.html">${esc(s.title)}</a></li>`).join('\n        ')}
       </ol>
-    </div>` : '';
+    </div>`;
+  }).join('');
 
-  const sorted = [...articles].sort((x,y) => new Date(y.date) - new Date(x.date));
+  const sorted = [...articles].filter(x => !x.externalUrl).sort((x,y) => new Date(y.date) - new Date(x.date));
   const idx = sorted.findIndex(x => x.id === a.id);
   const prev = sorted[idx+1], next = sorted[idx-1];
 
@@ -139,6 +148,7 @@ ${JSON.stringify(jsonLd, null, 2)}
       <a href="../index.html">首頁</a>
       <a href="../articles.html?cat=衛教">衛教</a>
       <a href="../articles.html?cat=life">診間之外</a>
+      <a href="../articles.html?cat=新聞稿">新聞稿</a>
       <a href="../index.html#about">關於</a>
       <a href="../index.html#clinic" class="nav-cta">線上掛號</a>
     </nav>
@@ -191,7 +201,7 @@ function buildSitemap(site, articles, baseUrl){
   const urls = [
     { loc: `${base}/`, lastmod: today, priority: '1.0' },
     { loc: `${base}/articles.html`, lastmod: today, priority: '0.8' },
-    ...articles.map(a => ({
+    ...articles.filter(a => !a.externalUrl).map(a => ({
       loc: `${base}/posts/${a.id}.html`,
       lastmod: a.date || today,
       priority: '0.7'

@@ -2,7 +2,7 @@
    共用資料載入
    ============================================================ */
 async function loadSiteData(){
-  const res = await fetch('data/articles.json', { cache: 'no-store' });
+  const res = await fetch(`data/articles.json?_=${Date.now()}`, { cache: 'no-store' });
   if(!res.ok) throw new Error('無法載入 data/articles.json');
   return res.json();
 }
@@ -21,15 +21,25 @@ function articleHTML(a){
   return a.contentHtml || parseMarkdown(a.content || '');
 }
 
+/* 統一取得文章的系列陣列（相容舊資料的單一字串格式） */
+function getSeriesArray(article){
+  if(Array.isArray(article.series)) return article.series.filter(Boolean);
+  if(typeof article.series === 'string' && article.series) return [article.series];
+  return [];
+}
+
 /* ============================================================
    卡片渲染
    ============================================================ */
 function articleCardHTML(article){
-  const series = article.series
-    ? `<span class="series-badge">🐻 ${article.series} 系列</span>` : '';
+  const seriesList = getSeriesArray(article);
+  const seriesBadges = seriesList.map(s => `<span class="series-badge">🐻 ${s}</span>`).join('');
+  const isExternal = !!article.externalUrl;
+  const href = isExternal ? article.externalUrl : `posts/${encodeURIComponent(article.id)}.html`;
+  const linkAttrs = isExternal ? ' target="_blank" rel="noopener"' : '';
   return `
   <article class="card">
-    <a class="card-link" href="posts/${encodeURIComponent(article.id)}.html">
+    <a class="card-link" href="${href}"${linkAttrs}>
       <div class="card-cover">
         <img src="${article.cover}" alt="${article.title}" loading="lazy"
              onerror="this.onerror=null;this.src='images/cover-placeholder-1.svg'">
@@ -37,35 +47,37 @@ function articleCardHTML(article){
       </div>
       <div class="card-body">
         <span class="tag" data-cat="${article.category}">${article.category}</span>
-        <h3>${article.title}</h3>
+        <h3>${article.title}${isExternal ? ' <span class="ext-icon">↗</span>' : ''}</h3>
         <p class="excerpt">${article.excerpt || ''}</p>
         <div class="meta">${formatDate(article.date)}</div>
-        ${series}
+        ${seriesBadges ? `<div class="series-badges">${seriesBadges}</div>` : ''}
       </div>
     </a>
   </article>`;
 }
 
 /* ============================================================
-   系列文章：找出同系列的所有文章，依 seriesOrder 排序
+   系列文章：一篇文章可能同時屬於多個系列，各自列出同系列文章
    ============================================================ */
 function seriesSiblings(articles, seriesName){
-  return articles
-    .filter(a => a.series && a.series === seriesName)
-    .sort((a,b) => (a.seriesOrder||0) - (b.seriesOrder||0));
+  return sortByDateDesc(articles.filter(a => getSeriesArray(a).includes(seriesName)));
 }
 function seriesBoxHTML(articles, current){
-  if(!current.series) return '';
-  const list = seriesSiblings(articles, current.series);
-  if(list.length < 2) return '';
-  const items = list.map(a => a.id === current.id
-    ? `<li class="current"><span>${a.title}</span>（本篇）</li>`
-    : `<li><a href="posts/${encodeURIComponent(a.id)}.html">${a.title}</a></li>`
-  ).join('');
-  return `<div class="series-box">
-    <div class="series-title">${current.series} — 系列文章</div>
-    <ol>${items}</ol>
-  </div>`;
+  const seriesList = getSeriesArray(current);
+  if(!seriesList.length) return '';
+  const boxes = seriesList.map(seriesName => {
+    const list = seriesSiblings(articles, seriesName);
+    if(list.length < 2) return '';
+    const items = list.map(a => a.id === current.id
+      ? `<li class="current"><span>${a.title}</span>（本篇）</li>`
+      : `<li><a href="posts/${encodeURIComponent(a.id)}.html">${a.title}</a></li>`
+    ).join('');
+    return `<div class="series-box">
+      <div class="series-title">${seriesName} — 系列文章</div>
+      <ol>${items}</ol>
+    </div>`;
+  }).filter(Boolean);
+  return boxes.join('');
 }
 
 /* ============================================================

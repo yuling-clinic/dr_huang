@@ -33,6 +33,7 @@
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font-body);line-height:1.95;-webkit-font-smoothing:antialiased;}
+#about,#clinic,#latest{scroll-margin-top:84px;}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");}
 img{max-width:100%;display:block;}
@@ -124,12 +125,15 @@ p{margin:0 0 1em;}
 .tag[data-cat="衛教"]{color:var(--caramel-deep);border-color:var(--caramel);}
 .tag[data-cat="旅遊"]{color:var(--coffee);border-color:var(--coffee);}
 .tag[data-cat="生活"]{color:var(--latte);border-color:var(--latte);}
+.tag[data-cat="新聞稿"]{color:var(--ink-soft);border-color:var(--ink-faint);}
+.ext-icon{color:var(--ink-faint);font-size:.85em;}
 .card h3{font-size:1.02rem;margin-bottom:7px;line-height:1.6;}
 .card .excerpt{color:var(--ink-soft);font-size:.88rem;flex:1;}
 .card .meta{color:var(--ink-faint);font-size:.78rem;margin-top:12px;font-family:var(--font-round);}
 .card a.card-link{color:inherit;display:block;}
 .card a.card-link:hover h3{color:var(--caramel-deep);}
-.card .series-badge{display:inline-block;font-size:.68rem;color:var(--ink-faint);font-family:var(--font-round);margin-top:6px;}
+.card .series-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.card .series-badge{display:inline-block;font-size:.68rem;color:var(--ink-faint);font-family:var(--font-round);}
 
 /* ── 篩選 ── */
 .filter-bar{display:flex;gap:7px;margin-bottom:28px;flex-wrap:wrap;}

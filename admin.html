@@ -186,22 +186,15 @@
             <option value="衛教">衛教文章</option>
             <option value="旅遊">旅遊</option>
             <option value="生活">生活</option>
+            <option value="新聞稿">新聞稿</option>
           </select>
         </div>
         <div><label>發布日期</label><input type="date" id="art-date"></div>
       </div>
 
-      <div class="row">
-        <div>
-          <label>系列名稱（同一趟旅程填一樣的名字，就會自動互相串連；不是系列就留空）</label>
-          <input type="text" id="art-series" list="series-list" placeholder="例如：多洛米蒂健行">
-          <datalist id="series-list"></datalist>
-        </div>
-        <div style="max-width:120px">
-          <label>系列順序</label>
-          <input type="number" id="art-series-order" min="0" step="1" placeholder="1">
-        </div>
-      </div>
+      <label>系列標籤（可填多個，逗號分隔，例如：多洛米蒂健行, 跑步日常。同系列文章會互相串連，排序依發布日期，不是系列就留空）</label>
+      <input type="text" id="art-series" list="series-list" placeholder="例如：多洛米蒂健行, 跑步日常">
+      <datalist id="series-list"></datalist>
 
       <label>標籤（逗號分隔）</label>
       <input type="text" id="art-tags">
@@ -216,6 +209,9 @@
 
       <label>摘要（顯示在卡片上，約 40–60 字）</label>
       <textarea id="art-excerpt" rows="2"></textarea>
+
+      <label>外部文章網址（例如新聞稿——填了以後，卡片會直接連到這個外部網址，下面的內文欄位可以留空）</label>
+      <input type="text" id="art-external-url" placeholder="https://example.com/news/...">
 
       <label>內文</label>
       <div class="toolbar">
@@ -317,6 +313,13 @@
 <script src="js/render.js"></script>
 <script src="js/generator.js"></script>
 <script>
+/* 統一取得文章的系列陣列（相容舊資料的單一字串格式） */
+function seriesArr(a){
+  if(Array.isArray(a.series)) return a.series.filter(Boolean);
+  if(typeof a.series === 'string' && a.series) return [a.series];
+  return [];
+}
+
 const DEFAULT_STATE = {
   site: {
     siteUrl:"", cfToken:"", gscVerify:"",
@@ -537,7 +540,7 @@ document.getElementById('tb-inlink').addEventListener('click',()=>{
   document.getElementById('pick-list').innerHTML=others
     .sort((a,b)=>new Date(b.date)-new Date(a.date))
     .map(a=>`<div class="pick-item" data-pick="${a.id}">
-      <strong>${a.title}</strong><span>${a.category}${a.series?' · '+a.series+' 系列':''} · ${a.date}</span></div>`).join('');
+      <strong>${a.title}</strong><span>${a.category}${seriesArr(a).length?' · '+seriesArr(a).join('、')+' 系列':''} · ${a.date}</span></div>`).join('');
   pickModal.classList.add('open');
 });
 document.getElementById('pick-cancel').addEventListener('click',()=>pickModal.classList.remove('open'));
@@ -560,19 +563,22 @@ pickModal.addEventListener('click',e=>{
 
 /* ─── 文章列表 ─── */
 function refreshSeriesList(){
-  const names=[...new Set(state.articles.map(a=>a.series).filter(Boolean))];
+  const names=[...new Set(state.articles.flatMap(a=>seriesArr(a)))];
   document.getElementById('series-list').innerHTML=names.map(n=>`<option value="${n}">`).join('');
 }
 function renderArticleList(){
   const w=document.getElementById('article-list');
   const sorted=[...state.articles].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  w.innerHTML=sorted.length?sorted.map(a=>`
+  w.innerHTML=sorted.length?sorted.map(a=>{
+    const sList=seriesArr(a);
+    return `
     <div class="article-row">
       <div class="info"><strong>${a.title||'（未命名）'}</strong>
-        <span>${a.category}${a.series?` · 🐻 ${a.series} #${a.seriesOrder||'?'}`:''} · ${a.date||'未設定'}</span></div>
+        <span>${a.category}${sList.length?' · 🐻 '+sList.join('、'):''} · ${a.date||'未設定'}</span></div>
       <button class="icon-btn" data-edit="${a.id}">編輯</button>
       <button class="icon-btn" data-del="${a.id}">刪除</button>
-    </div>`).join(''):'<p class="hint">還沒有文章，點下方新增。</p>';
+    </div>`;
+  }).join(''):'<p class="hint">還沒有文章，點下方新增。</p>';
   w.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(b.dataset.edit)));
   w.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{
     if(confirm('確定要刪除這篇文章嗎？')){
@@ -592,12 +598,12 @@ function openEditor(id){
   document.getElementById('art-title').value=a?a.title:'';
   document.getElementById('art-category').value=a?a.category:'衛教';
   document.getElementById('art-date').value=a?a.date:new Date().toISOString().slice(0,10);
-  document.getElementById('art-series').value=a?(a.series||''):'';
-  document.getElementById('art-series-order').value=a?(a.seriesOrder||''):'';
+  document.getElementById('art-series').value=a?seriesArr(a).join(', '):'';
   document.getElementById('art-tags').value=a?(a.tags||[]).join(', '):'';
   document.getElementById('art-cover').value=a?(a.cover||''):'';
   document.getElementById('art-cover-preview').src=a?(a.cover||''):'';
   document.getElementById('art-excerpt').value=a?(a.excerpt||''):'';
+  document.getElementById('art-external-url').value=a?(a.externalUrl||''):'';
   editor.innerHTML=a?articleHTML(a):'';
   savedRange=null;
   box.scrollIntoView({behavior:'smooth',block:'start'});
@@ -629,11 +635,11 @@ document.getElementById('save-article-btn').addEventListener('click',()=>{
     title,
     category: document.getElementById('art-category').value,
     date: document.getElementById('art-date').value||new Date().toISOString().slice(0,10),
-    series: document.getElementById('art-series').value.trim(),
-    seriesOrder: Number(document.getElementById('art-series-order').value)||0,
+    series: document.getElementById('art-series').value.split(',').map(s=>s.trim()).filter(Boolean),
     tags: document.getElementById('art-tags').value.split(',').map(s=>s.trim()).filter(Boolean),
     cover: document.getElementById('art-cover').value||'images/cover-placeholder-1.svg',
     excerpt: document.getElementById('art-excerpt').value,
+    externalUrl: document.getElementById('art-external-url').value.trim(),
     contentHtml: editor.innerHTML
   };
   if(editingId){
@@ -668,7 +674,9 @@ document.getElementById('publish-btn').addEventListener('click',async()=>{
     step('網站內容');
 
     // 2. 每篇文章 → 產生真實的靜態 HTML（Google 直接讀得到，不需要跑 JS）
+    //    外部連結文章（如新聞稿）不需要內部頁面，直接跳過
     for(const a of state.articles){
+      if(a.externalUrl){ continue; }
       const html = buildPostHTML(state.site, state.articles, a, baseUrl);
       await ghPutFile(`posts/${a.id}.html`, b64encode(html), `更新文章：${a.title}`);
       step(a.title);
@@ -761,7 +769,7 @@ document.getElementById('analytics-save').addEventListener('click',()=>{
 function applyState(ns){
   state=JSON.parse(JSON.stringify(DEFAULT_STATE));
   state.site=Object.assign({},DEFAULT_STATE.site,(ns&&ns.site)||{});
-  state.articles=((ns&&ns.articles)||[]).map(a=>({series:'',seriesOrder:0,...a}));
+  state.articles=((ns&&ns.articles)||[]).map(a=>({series:[],...a}));
   fillSiteForm(); renderInstitutionGroups(); renderArticleList(); renderAnalyticsView(); saveDraft();
 }
 
