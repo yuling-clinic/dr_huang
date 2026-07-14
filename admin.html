@@ -213,8 +213,14 @@
       <label>外部文章網址（例如新聞稿——填了以後，卡片會直接連到這個外部網址，下面的內文欄位可以留空）</label>
       <input type="text" id="art-external-url" placeholder="https://example.com/news/...">
 
-      <label>內文</label>
-      <div class="toolbar">
+      <label style="display:flex;align-items:center;justify-content:space-between;">
+        <span>內文</span>
+        <button type="button" id="toggle-raw-html" class="icon-btn" style="font-weight:600;">🔀 切換原始 HTML 模式</button>
+      </label>
+      <p class="hint" id="raw-html-hint" style="display:none;">
+        貼上完整 HTML（可以包含 &lt;style&gt; 樣式、&lt;details&gt; 展開卡片等），會原封不動存起來，不會被編輯器過濾掉。適合從別的網站搬移內容。切回一般模式再重新編輯，複雜結構可能會被簡化，請斟酌使用。
+      </p>
+      <div class="toolbar" id="wysiwyg-toolbar">
         <button type="button" data-cmd="bold" title="粗體"><b>B</b></button>
         <button type="button" data-cmd="italic" title="斜體"><i>I</i></button>
         <span class="sep"></span>
@@ -234,6 +240,7 @@
         <button type="button" data-cmd="removeFormat">清除格式</button>
       </div>
       <div id="editor" contenteditable="true"></div>
+      <textarea id="art-raw-html" rows="16" style="display:none;font-family:monospace;font-size:.85rem;" placeholder="貼上完整 HTML..."></textarea>
       <input type="file" id="editor-img-upload" accept="image/*" style="display:none">
 
       <div class="btn-row">
@@ -489,6 +496,18 @@ document.getElementById('add-institution').addEventListener('click',()=>{
 
 /* ─── 編輯器 ─── */
 const editor=document.getElementById('editor');
+const rawHtmlBox=document.getElementById('art-raw-html');
+let rawHtmlMode=false;
+function setRawHtmlMode(on){
+  rawHtmlMode=on;
+  document.getElementById('wysiwyg-toolbar').style.display=on?'none':'flex';
+  editor.style.display=on?'none':'block';
+  rawHtmlBox.style.display=on?'block':'none';
+  document.getElementById('raw-html-hint').style.display=on?'block':'none';
+  if(on){ rawHtmlBox.value=editor.innerHTML; }
+  else{ editor.innerHTML=rawHtmlBox.value; }
+}
+document.getElementById('toggle-raw-html').addEventListener('click',()=>setRawHtmlMode(!rawHtmlMode));
 let savedRange=null;
 function rememberSelection(){
   const sel=window.getSelection();
@@ -605,6 +624,7 @@ function openEditor(id){
   document.getElementById('art-excerpt').value=a?(a.excerpt||''):'';
   document.getElementById('art-external-url').value=a?(a.externalUrl||''):'';
   editor.innerHTML=a?articleHTML(a):'';
+  setRawHtmlMode(false);
   savedRange=null;
   box.scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -640,7 +660,7 @@ document.getElementById('save-article-btn').addEventListener('click',()=>{
     cover: document.getElementById('art-cover').value||'images/cover-placeholder-1.svg',
     excerpt: document.getElementById('art-excerpt').value,
     externalUrl: document.getElementById('art-external-url').value.trim(),
-    contentHtml: editor.innerHTML
+    contentHtml: rawHtmlMode ? rawHtmlBox.value : editor.innerHTML
   };
   if(editingId){
     state.articles[state.articles.findIndex(a=>a.id===editingId)]=data;
