@@ -5,7 +5,7 @@
    同時產生 sitemap.xml 與 robots.txt。
    ============================================================ */
 
-const FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">';
+const FONT_LINK = '<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">';
 
 function esc(s){
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -106,6 +106,7 @@ function buildPostHTML(site, articles, a, baseUrl){
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
 <title>${esc(a.title)}｜${esc(site.name)}</title>
 <meta name="description" content="${esc(desc)}">
 ${verifySnippet(site)}

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 <title>個人網站</title>
 <meta name="description" id="meta-desc" content="小兒內分泌暨遺傳科醫師的門診資訊、衛教文章與生活紀錄。">
 <meta property="og:type" content="website">
@@ -10,7 +11,7 @@
 <meta property="og:description" content="" id="og-desc">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -52,16 +53,10 @@
   <div class="wrap">
     <div class="section-head">
       <span class="section-eyebrow">CLINIC HOURS</span>
-      <h2><span class="dot"></span>門診時段</h2>
+      <h2><span class="dot"></span>看診資訊</h2>
     </div>
-    <div class="clinic-table">
-      <table>
-        <thead><tr><th>時間</th><th>診別</th><th>地點</th></tr></thead>
-        <tbody id="clinic-rows"></tbody>
-      </table>
-    </div>
+    <div class="institution-list" id="institution-list"></div>
     <p class="clinic-note" id="clinic-note"></p>
-    <div class="register-list" id="register-list"></div>
   </div>
 </section>
 
@@ -133,17 +128,22 @@ loadSiteData().then(data => {
   document.getElementById('about-title').innerHTML = '<span class="dot"></span>' + site.aboutTitle;
   document.getElementById('about-text').textContent = site.aboutText;
 
-  document.getElementById('clinic-rows').innerHTML = site.clinicHours.map(r => `
-    <tr><td><strong>${r.day}</strong> ${r.time}</td><td>${r.clinic}</td><td>${r.location}</td></tr>`).join('');
+  const groups = site.registerGroups || [];
+  document.getElementById('institution-list').innerHTML = groups.map(g => `
+    <div class="institution-card">
+      ${g.label ? `<p class="institution-desc">${g.label}</p>` : ''}
+      <a class="institution-btn" href="${g.url}" target="_blank" rel="noopener">${g.target}</a>
+      ${(g.hours && g.hours.length) ? `
+      <div class="institution-hours">
+        <table>
+          <thead><tr><th>時間</th><th>診別</th><th>地點</th></tr></thead>
+          <tbody>
+            ${g.hours.map(r => `<tr><td><strong>${r.day}</strong> ${r.time}</td><td>${r.clinic}</td><td>${r.location}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>` : ''}
+    </div>`).join('');
   document.getElementById('clinic-note').textContent = site.clinicNote || '';
-  const regList = document.getElementById('register-list');
-  const links = site.registerLinks || [];
-  regList.innerHTML = links.map(r => `
-    <a class="register-item" href="${r.url}" target="_blank" rel="noopener">
-      <span class="label">${r.label}</span>
-      <span class="arrow">→</span>
-      <span class="target">${r.target}</span>
-    </a>`).join('');
 
   const latest = sortByDateDesc(articles).slice(0,3);
   document.getElementById('latest-grid').innerHTML = latest.length

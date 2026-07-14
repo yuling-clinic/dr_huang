@@ -64,7 +64,7 @@ p{margin:0 0 1em;}
 .hero-copy .eyebrow{display:inline-block;color:var(--caramel-deep);letter-spacing:.15em;font-size:.95rem;font-weight:600;font-family:var(--font-round);margin-bottom:14px;}
 .hero-copy .eyebrow::before,.hero-copy .eyebrow::after{content:"🐾";margin:0 8px;}
 .hero-copy h1{font-size:1.9rem;line-height:1.5;margin-bottom:.4em;}
-.hero-copy .role{color:var(--ink-soft);font-size:1.1rem;margin-bottom:14px;font-family:var(--font-round);}
+.hero-copy .role{color:var(--ink-soft);font-size:1.1rem;margin-bottom:14px;font-family:var(--font-hand);font-weight:300;}
 .hero-copy .intro{color:var(--ink-soft);max-width:44ch;font-size:.95rem;}
 
 /* ── 虛線分隔 ── */
@@ -83,25 +83,29 @@ p{margin:0 0 1em;}
 .section-head .see-all::after{content:" ›";}
 
 /* ── 門診時段 ── */
-.clinic-table{background:var(--paper);border:1px solid var(--hairline);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(107,74,46,0.05);}
-.clinic-table table{width:100%;border-collapse:collapse;}
-.clinic-table th,.clinic-table td{padding:14px 16px;text-align:left;font-size:.88rem;border-bottom:1px solid var(--hairline);}
-.clinic-table th{color:var(--ink-faint);font-weight:600;font-size:.88rem;letter-spacing:.04em;font-family:var(--font-round);background:var(--cocoa-soft);}
-.clinic-table td strong{font-family:var(--font-hand);color:var(--caramel-deep);}
-.clinic-table tr:last-child td{border-bottom:none;}
-.clinic-table tbody tr:hover{background:rgba(232,216,192,0.35);}
-.clinic-note{color:var(--ink-soft);font-size:.82rem;margin-top:14px;}
-.register-list{margin-top:18px;display:flex;flex-direction:column;gap:8px;}
-.register-item{
-  display:flex;align-items:center;gap:10px;
-  background:var(--paper);border:1px solid var(--hairline);border-radius:12px;
-  padding:12px 16px;font-size:.92rem;color:var(--ink);
-  transition:border-color .2s,background .2s;
+.institution-list{display:flex;flex-direction:column;gap:22px;}
+.institution-card{
+  background:var(--paper);border:1px solid var(--hairline);border-radius:16px;
+  padding:22px 24px;box-shadow:0 2px 12px rgba(107,74,46,0.05);
 }
-.register-item:hover{border-color:var(--caramel);background:var(--cocoa-soft);}
-.register-item .label{color:var(--ink-soft);font-family:var(--font-round);font-size:.85rem;}
-.register-item .arrow{color:var(--caramel);flex-shrink:0;}
-.register-item .target{font-weight:600;color:var(--caramel-deep);font-family:var(--font-round);}
+.institution-desc{color:var(--ink);font-size:1rem;line-height:1.8;margin-bottom:14px;}
+.institution-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--caramel);color:#fff;border-radius:999px;
+  padding:13px 28px;font-size:1.02rem;font-family:var(--font-round);font-weight:700;
+  box-shadow:0 3px 0 rgba(142,101,57,0.35);
+  transition:background .2s,transform .12s,box-shadow .12s;
+}
+.institution-btn:hover{background:var(--caramel-deep);color:#fff;}
+.institution-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(142,101,57,0.35);}
+.institution-btn::after{content:"→";}
+.institution-hours{margin-top:16px;}
+.institution-hours table{width:100%;border-collapse:collapse;}
+.institution-hours th,.institution-hours td{padding:9px 4px;text-align:left;font-size:.85rem;border-bottom:1px dashed var(--hairline);}
+.institution-hours th{color:var(--ink-faint);font-weight:600;font-size:.72rem;letter-spacing:.06em;font-family:var(--font-round);}
+.institution-hours td strong{font-family:var(--font-hand);color:var(--caramel-deep);}
+.institution-hours tr:last-child td{border-bottom:none;}
+.clinic-note{color:var(--ink-soft);font-size:.82rem;margin-top:14px;}
 
 /* ── 文章卡片 ── */
 .article-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
