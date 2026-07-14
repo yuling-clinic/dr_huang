@@ -93,6 +93,15 @@
   .pick-item:hover{ border-color: var(--caramel); background: var(--cocoa-soft); }
   .pick-item strong{ display:block; font-size:.93rem; }
   .pick-item span{ color:var(--ink-faint); font-size:.78rem; font-family:var(--font-round); }
+  .institution-group{
+    border:1px solid var(--hairline-strong); border-radius:12px; padding:16px 18px; margin-bottom:14px;
+    background:#fff;
+  }
+  .institution-group .group-remove{ float:right; }
+  .institution-group label{ margin-top:10px; }
+  .institution-group label:first-of-type{ margin-top:0; }
+  .hours-subrow{ display:flex; gap:6px; align-items:center; padding:6px 0; }
+  .hours-subrow input{ flex:1; font-size:.88rem; padding:7px 10px; }
 </style>
 </head>
 <body>
@@ -150,16 +159,12 @@
     <label>門診時段備註</label><textarea id="f-clinicNote" rows="2"></textarea>
   </div>
 
-  <!-- 門診 -->
+  <!-- 看診資訊 -->
   <div class="panel">
-    <h2>門診時段</h2>
-    <div id="clinic-rows"></div>
-    <div class="btn-row"><button class="btn secondary" id="add-clinic-row">＋ 新增一列</button></div>
-
-    <hr style="border:none;border-top:1px dashed var(--hairline-strong); margin:20px 0;">
-    <label>線上掛號引導連結（可新增多筆，例如「身高資訊 → 蒼嵐美學診所」「疾病問題 → 亞東紀念醫院」）</label>
-    <div id="register-rows"></div>
-    <div class="btn-row"><button class="btn secondary" id="add-register-row">＋ 新增一筆掛號連結</button></div>
+    <h2>看診資訊</h2>
+    <p class="hint">每個看診地點（醫院／診所）建一筆，填敘述文字＋掛號連結，下面可以再加這個地點專屬的門診時段。</p>
+    <div id="institution-groups"></div>
+    <div class="btn-row"><button class="btn secondary" id="add-institution">＋ 新增一個看診地點</button></div>
   </div>
 
   <!-- 文章 -->
@@ -316,7 +321,7 @@ const DEFAULT_STATE = {
     siteUrl:"", cfToken:"", gscVerify:"",
     name:"○○○ 醫師", role:"小兒內分泌暨遺傳科 主治醫師", hospital:"國立臺灣大學醫學院附設醫院",
     avatar:"images/avatar.jpg", introTitle:"在孩子成長的路上，多一雙留心的眼睛",
-    intro:"", aboutTitle:"關於我", aboutText:"", clinicHours:[], clinicNote:"", registerLinks:[]
+    intro:"", aboutTitle:"關於我", aboutText:"", clinicNote:"", registerGroups:[]
   },
   articles: []
 };
@@ -408,50 +413,74 @@ document.getElementById('avatar-upload').addEventListener('change',async e=>{
   }catch(err){ setStatus('gh-status',err.message,true); }
 });
 
-/* ─── 門診 ─── */
-function renderClinicRows(){
-  const w=document.getElementById('clinic-rows');
-  w.innerHTML=state.site.clinicHours.map((r,i)=>`
-    <div class="clinic-row" data-i="${i}">
-      <input type="text" placeholder="星期" value="${r.day||''}" data-field="day">
-      <input type="text" placeholder="時間" value="${r.time||''}" data-field="time">
-      <input type="text" placeholder="診別" value="${r.clinic||''}" data-field="clinic">
-      <input type="text" placeholder="地點" value="${r.location||''}" data-field="location">
-      <button class="icon-btn" data-remove="${i}">刪除</button>
-    </div>`).join('')||'<p class="hint">目前沒有門診時段。</p>';
-  w.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',()=>{
-    state.site.clinicHours[inp.closest('.clinic-row').dataset.i][inp.dataset.field]=inp.value; saveDraft();
-  }));
-  w.querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{
-    state.site.clinicHours.splice(Number(b.dataset.remove),1); renderClinicRows(); saveDraft();
-  }));
-}
-document.getElementById('add-clinic-row').addEventListener('click',()=>{
-  state.site.clinicHours.push({day:'',time:'',clinic:'',location:''});
-  renderClinicRows(); saveDraft();
-});
+/* ─── 看診資訊（機構＋掛號連結＋專屬門診時段） ─── */
+function renderInstitutionGroups(){
+  const w=document.getElementById('institution-groups');
+  const groups=state.site.registerGroups||[];
+  w.innerHTML=groups.length ? groups.map((g,gi)=>`
+    <div class="institution-group" data-gi="${gi}">
+      <button class="icon-btn group-remove" data-remove-group="${gi}">刪除此地點</button>
+      <label>敘述文字（一般文字，不會做成連結，例如：給健康的孩子，但想更了解生長狀況）</label>
+      <textarea rows="2" data-field="label">${g.label||''}</textarea>
+      <label>機構名稱（會做成大按鈕，例如：蒼嵐健康美學診所）</label>
+      <input type="text" data-field="target" value="${g.target||''}">
+      <label>掛號網址</label>
+      <input type="text" data-field="url" value="${g.url||''}">
+      <label>這個地點的門診時段</label>
+      <div class="hours-list" data-hours-for="${gi}">
+        ${(g.hours||[]).map((r,hi)=>`
+          <div class="hours-subrow" data-hi="${hi}">
+            <input type="text" placeholder="星期" value="${r.day||''}" data-hfield="day">
+            <input type="text" placeholder="時間" value="${r.time||''}" data-hfield="time">
+            <input type="text" placeholder="診別" value="${r.clinic||''}" data-hfield="clinic">
+            <input type="text" placeholder="地點" value="${r.location||''}" data-hfield="location">
+            <button class="icon-btn" data-remove-hour="${hi}">刪除</button>
+          </div>`).join('') || '<p class="hint">尚未新增時段。</p>'}
+      </div>
+      <div class="btn-row"><button class="btn secondary" data-add-hour="${gi}">＋ 新增一列時段</button></div>
+    </div>`).join('') : '<p class="hint">還沒有看診地點，點下方新增。</p>';
 
-/* ─── 掛號引導連結 ─── */
-function renderRegisterRows(){
-  const w=document.getElementById('register-rows');
-  w.innerHTML=(state.site.registerLinks||[]).map((r,i)=>`
-    <div class="clinic-row" data-i="${i}">
-      <input type="text" placeholder="引導文字，例如：身高資訊" value="${r.label||''}" data-field="label">
-      <input type="text" placeholder="目標名稱，例如：蒼嵐美學診所" value="${r.target||''}" data-field="target">
-      <input type="text" placeholder="掛號網址 https://..." value="${r.url||''}" data-field="url">
-      <button class="icon-btn" data-remove-reg="${i}">刪除</button>
-    </div>`).join('')||'<p class="hint">目前沒有掛號連結。</p>';
-  w.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',()=>{
-    state.site.registerLinks[inp.closest('.clinic-row').dataset.i][inp.dataset.field]=inp.value; saveDraft();
-  }));
-  w.querySelectorAll('[data-remove-reg]').forEach(b=>b.addEventListener('click',()=>{
-    state.site.registerLinks.splice(Number(b.dataset.removeReg),1); renderRegisterRows(); saveDraft();
-  }));
+  w.querySelectorAll('.institution-group').forEach(box=>{
+    const gi=Number(box.dataset.gi);
+    box.querySelectorAll(':scope > textarea, :scope > input').forEach(inp=>{
+      inp.addEventListener('input',()=>{
+        state.site.registerGroups[gi][inp.dataset.field]=inp.value; saveDraft();
+      });
+    });
+    box.querySelectorAll('.hours-subrow input').forEach(inp=>{
+      inp.addEventListener('input',()=>{
+        const hi=Number(inp.closest('.hours-subrow').dataset.hi);
+        state.site.registerGroups[gi].hours[hi][inp.dataset.hfield]=inp.value; saveDraft();
+      });
+    });
+    box.querySelectorAll('[data-remove-hour]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        state.site.registerGroups[gi].hours.splice(Number(b.dataset.removeHour),1);
+        renderInstitutionGroups(); saveDraft();
+      });
+    });
+  });
+  w.querySelectorAll('[data-add-hour]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const gi=Number(b.dataset.addHour);
+      state.site.registerGroups[gi].hours=state.site.registerGroups[gi].hours||[];
+      state.site.registerGroups[gi].hours.push({day:'',time:'',clinic:'',location:''});
+      renderInstitutionGroups(); saveDraft();
+    });
+  });
+  w.querySelectorAll('[data-remove-group]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      if(confirm('確定要刪除這個看診地點嗎？')){
+        state.site.registerGroups.splice(Number(b.dataset.removeGroup),1);
+        renderInstitutionGroups(); saveDraft();
+      }
+    });
+  });
 }
-document.getElementById('add-register-row').addEventListener('click',()=>{
-  state.site.registerLinks=state.site.registerLinks||[];
-  state.site.registerLinks.push({label:'',target:'',url:''});
-  renderRegisterRows(); saveDraft();
+document.getElementById('add-institution').addEventListener('click',()=>{
+  state.site.registerGroups=state.site.registerGroups||[];
+  state.site.registerGroups.push({label:'',target:'',url:'',hours:[]});
+  renderInstitutionGroups(); saveDraft();
 });
 
 /* ─── 編輯器 ─── */
@@ -732,7 +761,7 @@ function applyState(ns){
   state=JSON.parse(JSON.stringify(DEFAULT_STATE));
   state.site=Object.assign({},DEFAULT_STATE.site,(ns&&ns.site)||{});
   state.articles=((ns&&ns.articles)||[]).map(a=>({series:'',seriesOrder:0,...a}));
-  fillSiteForm(); renderClinicRows(); renderRegisterRows(); renderArticleList(); renderAnalyticsView(); saveDraft();
+  fillSiteForm(); renderInstitutionGroups(); renderArticleList(); renderAnalyticsView(); saveDraft();
 }
 
 (function init(){
