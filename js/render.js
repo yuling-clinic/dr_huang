@@ -132,3 +132,36 @@ function initNavToggle(){
   });
 }
 document.addEventListener('DOMContentLoaded', initNavToggle);
+
+/* ============================================================
+   錨點跳轉補償：手機瀏覽器對「跨頁+錨點」常常抓不準固定導覽列的高度，
+   改用 JS 主動計算捲動位置，不依賴瀏覽器原生行為
+   ============================================================ */
+function scrollToHashWithOffset(hash){
+  const el = document.querySelector(hash);
+  if(!el) return;
+  const headerH = document.querySelector('.site-header')?.offsetHeight || 64;
+  const y = el.getBoundingClientRect().top + window.pageYOffset - headerH - 16;
+  window.scrollTo({ top: Math.max(y, 0), behavior: 'smooth' });
+}
+function initAnchorOffsetScroll(){
+  document.querySelectorAll('a[href*="#"]').forEach(a => {
+    let url;
+    try{ url = new URL(a.getAttribute('href'), location.href); }catch(e){ return; }
+    if(url.pathname === location.pathname && url.hash){
+      a.addEventListener('click', e => {
+        const el = document.querySelector(url.hash);
+        if(el){
+          e.preventDefault();
+          scrollToHashWithOffset(url.hash);
+          history.pushState(null, '', url.hash);
+        }
+      });
+    }
+  });
+  // 從別頁直接帶錨點進來的情況（例如從文章頁點「關於」跳回首頁）
+  if(location.hash){
+    setTimeout(() => scrollToHashWithOffset(location.hash), 80);
+  }
+}
+document.addEventListener('DOMContentLoaded', initAnchorOffsetScroll);

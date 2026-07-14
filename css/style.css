@@ -200,6 +200,7 @@ p{margin:0 0 1em;}
 
 /* ── 關於 ── */
 .about-grid{display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:start;}
+#about-text{text-wrap:pretty;}
 .about-photo{width:210px;height:210px;border-radius:50%;overflow:hidden;background:var(--cocoa-soft);position:relative;justify-self:center;}
 .about-photo::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 7px var(--paper);border:1px solid var(--hairline-strong);}
 .about-photo img{width:100%;height:100%;object-fit:cover;}
