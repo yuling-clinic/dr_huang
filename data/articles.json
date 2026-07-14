@@ -1,148 +1,209 @@
 {
   "site": {
-    "siteUrl": "",
+    "siteUrl": "https://yuling-clinic.github.io/dr_huang",
     "cfToken": "",
     "gscVerify": "",
-    "name": "○○○ 醫師",
-    "role": "小兒內分泌暨遺傳科 主治醫師",
-    "hospital": "國立臺灣大學醫學院附設醫院",
-    "avatar": "images/avatar.jpg",
-    "introTitle": "在孩子成長的路上，多一雙留心的眼睛",
-    "intro": "專長為兒童生長發育、青春期評估與內分泌疾病的診斷與治療。這裡除了門診資訊，也收藏一些衛教筆記，以及診間之外，關於旅行與日常的點點滴滴。",
+    "name": "黃玉齡醫師",
+    "role": "小兒內分泌科 主治醫師",
+    "hospital": "亞東紀念醫院、蒼嵐健康美學診所",
+    "avatar": "images/uploads/mrjsuznd--2026-07-14-12.33.46.png",
+    "introTitle": "孩子每一公分的成長都值得用心守護",
+    "intro": "",
     "aboutTitle": "關於我",
-    "aboutText": "畢業於＿＿＿醫學系，目前於臺大醫院兒科部擔任主治醫師，主要診治兒童生長發育、性早熟、甲狀腺疾病與各類遺傳性內分泌疾病。相信好的醫療，是把複雜的知識，說成家長聽得懂、記得住的話。診間之外，喜歡爬山與旅行，也還在學習如何把日子過得慢一點。",
-    "clinicNote": "門診時段如遇國定假日或學術活動，將於臺大醫院官網公告異動，建議看診前至醫院掛號系統確認。",
-    "registerLinks": [
-      {
-        "label": "身高資訊",
-        "target": "蒼嵐美學診所",
-        "url": ""
-      },
-      {
-        "label": "疾病問題",
-        "target": "亞東紀念醫院",
-        "url": ""
-      }
-    ],
+    "aboutText": "畢業於慈濟大學醫學系，臺大兒童醫院受訓兒童內分泌專科後，至亞東紀念醫院與蒼嵐健康美學診所擔任主治醫師，主要診治兒童生長發育、性早熟、甲狀腺疾病、兒童肥胖與糖尿病。相信好的醫療，是把複雜的知識，說成家長聽得懂、容易執行的話。\n診間之外，喜歡爬山親近大自然，和孩子們一起健康生活。",
+    "clinicNote": "門診時段如遇國定假日或學術活動，建議看診前至醫院掛號系統確認。",
     "registerGroups": [
       {
-        "label": "給健康的孩子，但是希望能更了解孩子的生長狀況",
+        "label": "給健康的孩子，但想更了解生長狀況",
         "target": "蒼嵐健康美學診所",
         "url": "https://azurebeauty56.com/child-adolescent-growth/",
         "hours": [
           {
-            "day": "週五",
-            "time": "08:30–12:00",
-            "clinic": "生長曲線特別門診",
-            "location": "蒼嵐健康美學診所"
+            "day": "星期一夜診",
+            "time": "17:00-20:00",
+            "clinic": "",
+            "location": ""
           }
         ]
       },
       {
-        "label": "給疑似有疾病的孩子，要尋求進一步的醫療協助",
-        "target": "亞東紀念醫院",
+        "label": "給疑似有疾病問題的孩子，需要在大醫院安排檢查與治療",
+        "target": "亞東紀念醫院兒童內分泌科",
         "url": "https://www.femh.org.tw/webregs/regsec1.aspx?id=0239&uid=F0928",
         "hours": [
           {
-            "day": "週一",
-            "time": "08:30–12:00",
-            "clinic": "兒童內分泌科 一般門診",
-            "location": "兒醫大樓 3 樓"
+            "day": "星期二下午診",
+            "time": "14:00-17:00",
+            "clinic": "F410",
+            "location": "亞東醫院四樓門診"
           },
           {
-            "day": "週三",
-            "time": "14:00–17:00",
-            "clinic": "兒童內分泌科 一般門診",
-            "location": "兒醫大樓 3 樓"
+            "day": "星期三下午診",
+            "time": "14:00-17:00",
+            "clinic": "F410",
+            "location": "亞東醫院四樓門診"
+          },
+          {
+            "day": "星期四夜診",
+            "time": "17:30-20:30",
+            "clinic": "F219",
+            "location": "亞東醫院二樓門診"
           }
         ]
       }
-    ]
+    ],
+    "clinicHours": [
+      {
+        "day": "週一",
+        "time": "17:00-20:00",
+        "clinic": "一診",
+        "location": "蒼嵐健康美學診所",
+        "note": ""
+      },
+      {
+        "day": "週二",
+        "time": "14:00–17:00",
+        "clinic": "F410",
+        "location": "亞東紀念醫院四樓門診",
+        "note": ""
+      },
+      {
+        "day": "週三",
+        "time": "14:00–17:00",
+        "clinic": "F410",
+        "location": "亞東紀念醫院四樓門診",
+        "note": ""
+      },
+      {
+        "day": "週四",
+        "time": "17:30-20:30",
+        "clinic": "F219",
+        "location": "亞東紀念醫院二樓門診",
+        "note": ""
+      }
+    ],
+    "registerLinks": [
+      {
+        "label": "給健康的孩子，但是希望能更了解孩子的生長狀況",
+        "target": "蒼嵐健康美學診所",
+        "url": "https://azurebeauty56.com/child-adolescent-growth/"
+      },
+      {
+        "label": "給疑似有疾病的孩子，要尋求近一步的醫療協助",
+        "target": "亞東紀念醫院",
+        "url": "https://www.femh.org.tw/webregs/regsec1.aspx?id=0239&uid=F0928"
+      }
+    ],
+    "registerUrl": "https://azurebeauty56.com/child-adolescent-growth/"
   },
   "articles": [
     {
-      "id": "growth-curve-basics",
+      "id": "看懂孩子的生長曲線-百分位不是成績單-qyqq",
       "title": "看懂孩子的生長曲線：百分位不是成績單",
       "category": "衛教",
+      "date": "2026-07-04",
+      "series": "兒童生長發育",
+      "seriesOrder": 0,
+      "tags": [],
       "cover": "images/cover-placeholder-1.svg",
-      "date": "2026-06-20",
-      "excerpt": "生長曲線上的百分位數，反映的是趨勢而不是排名。這篇文章帶你看懂曲線圖上真正該留意的訊號。",
-      "tags": [
-        "生長發育",
-        "生長曲線"
-      ],
-      "content": "生長曲線圖上的百分位，常讓家長誤以為是一種「名次」。其實它比較像是一張長期的地圖：真正重要的，是孩子沿著自己曲線走的軌跡，而不是某一次測量落在第幾百分位。\n\n## 什麼時候該留意\n\n- 身高或體重百分位在短時間內出現明顯落差（例如跨越兩個主要曲線）\n- 生長速度明顯低於同年齡孩子的平均值\n- 體重增加速度與身高不成比例\n\n## 家長可以怎麼做\n\n定期測量、記錄，並在回診時把數字帶來，比單次的數字更有意義。如果對曲線的走勢有疑慮，建議提早跟醫師討論，而不是等到數值「看起來很低」才就醫。\n\n> 生長是一條線，不是一個點。",
-      "series": [],
-      "externalUrl": ""
+      "excerpt": "",
+      "contentHtml": "<p data-path-to-node=\"9\"><b data-path-to-node=\"9\" data-index-in-node=\"0\">「醫生，我們家妹妹的生長曲線只有 15%，是不是我餵得不夠好？隔壁小明都 90% 耶……」</b></p><p data-path-to-node=\"10\">在兒科門診，生長曲線圖就像是家長們的「發育成績單」，常常牽動著爸爸媽媽的焦慮神經。只要看到百分位數字偏低，家長就會充滿挫折感。</p><p data-path-to-node=\"11\">但其實，<b data-path-to-node=\"11\" data-index-in-node=\"4\">生長曲線的百分位，真的不是成績單！</b></p><h2><b>什麼是百分位？</b></h2><p data-path-to-node=\"13\">生長曲線圖上的「百分位（Percentile）」，代表的是「<b>排隊的順序</b>」。\n如果我們隨機找 100 個同年齡、同性別的孩子，從矮到高排成一列：</p><ul data-path-to-node=\"14\"><li><p data-path-to-node=\"14,0,0\">排在最前面的（最矮）是第 <b data-path-to-node=\"14,0,0\" data-index-in-node=\"13\">3 百分位</b>。</p></li><li><p data-path-to-node=\"14,1,0\">排在最中間的是第 <b data-path-to-node=\"14,1,0\" data-index-in-node=\"9\">50 百分位</b>。</p></li><li><p data-path-to-node=\"14,2,0\">排在最後面的（最高）是第 <b data-path-to-node=\"14,2,0\" data-index-in-node=\"13\">97 百分位</b>。</p></li></ul><p data-path-to-node=\"15\">只要孩子的身高、體重落在 <b data-path-to-node=\"15\" data-index-in-node=\"13\">3% 到 97%</b> 之間，在醫學上都屬於<b data-path-to-node=\"15\" data-index-in-node=\"32\">完全正常</b>的範疇。落在 3% 的孩子不代表他「不及格」，落在 97% 的孩子也不代表他「比較優秀」，這純粹是個體基因與體質的差異。</p><h2><b>真正重要的關鍵：沿著自己的曲線長</b></h2><p data-path-to-node=\"17\">比起「現在是幾 %」，兒科醫師更看重的是「長期的趨勢」。</p><ul data-path-to-node=\"18\"><li><p data-path-to-node=\"18,0,0\"><b data-path-to-node=\"18,0,0\" data-index-in-node=\"0\">健康的成長：</b> 如果孩子從小到大都穩定維持在 15%，雖然看起來偏瘦小，但只要他<b data-path-to-node=\"18,0,0\" data-index-in-node=\"39\">沿著自己的曲線穩定爬升</b>，精神好、活力佳，這就是最健康的成長狀態。</p></li><li><p data-path-to-node=\"18,1,0\"><b data-path-to-node=\"18,1,0\" data-index-in-node=\"0\">需要警惕的訊號：</b> 相反地，如果一個孩子原本落在 85%，卻在短短半年或一年內，突然下滑到 15%，甚至跌破 3%。即使他目前的數值看起來還在「正常範圍」內，但這種<b data-path-to-node=\"18,1,0\" data-index-in-node=\"81\">跨越兩個區間的大幅下滑</b>，就是身體在發出警訊，需要盡快就醫評估。</p></li></ul><blockquote data-path-to-node=\"19\"><p data-path-to-node=\"19,0\"><b data-path-to-node=\"19,0\" data-index-in-node=\"0\">玉齡醫師真心話&nbsp;</b>每個孩子都有自己獨特的生長時鐘。我們不需要把孩子塞進「97%」的模具裡，只要他們規律地沿著自己的軌道前進，就是最棒、最健康的成長！</p></blockquote>"
     },
     {
-      "id": "precocious-puberty-signs",
-      "title": "性早熟的觀察重點：家長可以先做什麼",
+      "id": "身高矮小-一定要打生長激素嗎-常見迷思一次釐清-t9sy",
+      "title": "身高矮小，一定要打生長激素嗎？常見迷思一次釐清",
       "category": "衛教",
-      "cover": "images/cover-placeholder-2.svg",
-      "date": "2026-05-15",
-      "excerpt": "女孩 8 歲前、男孩 9 歲前出現第二性徵，可能是性早熟的訊號。這篇整理家長可以先自行觀察的重點。",
-      "tags": [
-        "性早熟",
-        "青春期"
-      ],
-      "content": "性早熟指的是第二性徵出現的時間，明顯早於一般孩子。女孩通常以乳房發育為指標，男孩則以睪丸體積增加為指標。\n\n## 觀察重點\n\n- 出現第二性徵的年齡\n- 身高成長速度是否突然加快\n- 是否有情緒或行為上的變化\n\n## 需要進一步評估的情況\n\n若懷疑性早熟，醫師通常會安排骨齡評估與荷爾蒙檢查，以判斷是中樞性或周邊性早熟，並討論是否需要治療介入。及早評估的好處，是能替孩子保留更多成年身高的空間。",
-      "series": [],
-      "externalUrl": ""
-    },
-    {
-      "id": "dolomites-day3",
-      "title": "多洛米蒂健行：Rifugio Salei 到 Passo Sella 的一段路",
-      "category": "旅遊",
-      "cover": "images/cover-placeholder-3.svg",
-      "date": "2026-07-08",
-      "excerpt": "離開了 Dobbiaco，這一段路走進了多洛米蒂最有名氣的山群之間，也走進了完全依賴大眾運輸的旅行節奏。",
-      "tags": [
-        "多洛米蒂",
-        "健行",
-        "義大利"
-      ],
-      "series": [
-        "多洛米蒂健行"
-      ],
-      "contentHtml": "<p>這是一趟完全不租車、只靠公車與纜車串起來的健行旅程。行前的規劃與交通整理，我寫在 <a href=\"article.html?id=dolomites-plan\">行前準備與交通</a> 那篇。</p><h2>這一段路線</h2><p>從山屋出發，沿稜線緩緩爬升，兩側是典型的多洛米蒂灰白色岩壁。素食的午餐選擇不多，但一份簡單的起司燉飯配上山上的空氣，已經很足夠。</p><blockquote>等車的時間，其實是整趟旅行裡最放鬆的片刻之一。</blockquote><p>沿途的路線與班次可以參考 <a href=\"https://www.dolomiti.org\" target=\"_blank\" rel=\"noopener\">多洛米蒂官方網站</a>。</p>",
-      "externalUrl": ""
-    },
-    {
-      "id": "dolomites-plan",
-      "title": "多洛米蒂行前準備：不租車也能走的交通整理",
-      "category": "旅遊",
-      "series": [
-        "多洛米蒂健行"
-      ],
-      "cover": "images/cover-placeholder-3.svg",
       "date": "2026-07-02",
-      "excerpt": "十五天、不租車、兩個人。把公車與纜車的班次、票券與住宿節點整理成一份可以照著走的行程骨架。",
-      "tags": [
-        "多洛米蒂",
-        "交通",
-        "行前準備"
-      ],
-      "contentHtml": "<p>決定不租車之後，整趟行程的骨架就變成「以纜車與公車站為節點」來安排。</p><h2>票券與班次</h2><ul><li>區域交通卡可涵蓋大部分公車路線</li><li>纜車多為獨立售票，建議事先確認營運日期</li><li>山區班次密度低，錯過一班可能要等一小時以上</li></ul><p>實際走起來的樣子，記錄在 <a href=\"article.html?id=dolomites-day3\">Rifugio Salei 到 Passo Sella 的一段路</a>。</p>",
-      "externalUrl": ""
+      "series": "兒童生長發育",
+      "seriesOrder": 0,
+      "tags": [],
+      "cover": "images/cover-placeholder-1.svg",
+      "excerpt": "",
+      "contentHtml": "<p data-path-to-node=\"22\"><b data-path-to-node=\"22\" data-index-in-node=\"0\">「醫生，我們家孩子在班上都坐第一排，是不是要趕快來打生長激素？」</b></p><p data-path-to-node=\"23\">在門診，這幾乎是家長最常問的問題之一。許多人把生長激素當成「長高神藥」，以為只要不夠高，打下去就對了。其實，這是一個很大的誤區！</p><blockquote>迷思一：身高矮，就一定要打生長激素？</blockquote><p data-path-to-node=\"25\"><b data-path-to-node=\"25\" data-index-in-node=\"0\">答案是：不一定，而且大部分其實不需要。</b>\n生長激素是一種荷爾蒙治療，醫學上有非常嚴格的適應症。只有當孩子體內<b data-path-to-node=\"25\" data-index-in-node=\"53\">真的缺乏生長激素</b>、或是患有特定基因疾病（如透納氏症、小胖威利症）、或是属于足月產但出生體重不足（SGA）且後續追趕生長不良的孩子，使用生長激素才會有顯著且安全的療效。</p><p data-path-to-node=\"26\">如果孩子只是偏食、睡眠不足、或是純粹遺傳體質偏矮（但生長速度正常），打生長激素不僅效果有限，還必須承受不必要的針劑負擔。</p><blockquote>迷思二：只要骨齡還沒閉合，打了就一定有效？</blockquote><p data-path-to-node=\"28\">骨齡沒閉合確實是治療的前提，但並不代表「只要打了就會像大樹一樣高」。影響身高的因素非常多，如果基本的飲食、睡眠和運動沒有調整好，單靠外來荷爾蒙，效果往往會大打折扣。</p><blockquote data-path-to-node=\"29\"><p data-path-to-node=\"29,0\"><b data-path-to-node=\"29,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n身高矮小的第一步，絕對不是「考慮打針」，而是<b data-path-to-node=\"29,0\" data-index-in-node=\"32\">釐清原因</b>。我們會透過詳細的病史詢問、生長曲線評估，必要時進行抽血或 X 光檢查（骨齡），甚至近一步安排進階檢查（例如基因、核磁共振），找出孩子長不高的根本原因，對症下藥才是最安全、也最省錢的做法。</p></blockquote>"
     },
     {
-      "id": "dolomites-veg",
-      "title": "多洛米蒂素食紀錄：山屋與小鎮的吃飯問題",
-      "category": "旅遊",
-      "series": [
-        "多洛米蒂健行"
-      ],
-      "cover": "images/cover-placeholder-2.svg",
-      "date": "2026-07-10",
-      "excerpt": "在以肉食為主的山區，蛋奶素該怎麼吃？記錄十五天下來實際可行的點餐方式與補給策略。",
-      "tags": [
-        "多洛米蒂",
-        "素食",
-        "旅行飲食"
-      ],
-      "contentHtml": "<p>山屋的菜單通常不長，素食選項更少，但幾乎都會有起司燉飯、湯品與麵包。</p><h2>實際可行的做法</h2><ul><li>提前用簡單的義大利文說明蛋奶素的範圍</li><li>在小鎮的超市補給乾糧，山上採買不易</li><li>起司類料理是最穩定的選擇</li></ul>",
-      "externalUrl": ""
+      "id": "性早熟的觀察重點-家長可以先做什麼-xn9c",
+      "title": "性早熟的觀察重點：家長可以先做什麼？",
+      "category": "衛教",
+      "date": "2026-07-03",
+      "series": "兒童生長發育",
+      "seriesOrder": 0,
+      "tags": [],
+      "cover": "images/cover-placeholder-1.svg",
+      "excerpt": "",
+      "contentHtml": "<p data-path-to-node=\"32\">隨著飲食習慣改變與環境荷爾蒙的影響，「性早熟」成了許多現代家長的心頭大患。到底幾歲發育算太早？在日常生活中，家長又該如何幫孩子把關？</p><h2><b>幾歲算性早熟？關鍵的「年齡分水嶺」</b></h2><p data-path-to-node=\"34\">醫學上對於性早熟的定義，是指孩子過早出現第二性徵：</p><ul data-path-to-node=\"35\"><li><p data-path-to-node=\"35,0,0\"><b data-path-to-node=\"35,0,0\" data-index-in-node=\"0\">女生： 8 歲以前</b> 出現乳房發育（摸到硬塊、觸痛）、長陰毛或腋毛，甚至初經來潮。</p></li><li><p data-path-to-node=\"35,1,0\"><b data-path-to-node=\"35,1,0\" data-index-in-node=\"0\">男生： 9 歲以前</b> 出現睪丸變大（大於 4 毫升）、陰莖變長、長大、長出陰毛或變聲。</p></li></ul><h2><b>家長在家的三大觀察重點</b></h2><p data-path-to-node=\"37\">由於男生的發育特徵（睪丸變大）非常隱蔽，女生有時因為體型豐滿容易將脂肪誤認為乳腺發育，家長可以用以下方式觀察：</p><ol start=\"1\" data-path-to-node=\"38\"><li><p data-path-to-node=\"38,0,0\"><b data-path-to-node=\"38,0,0\" data-index-in-node=\"0\">洗澡或擦乳液時的觸覺：</b> 幫年幼的女兒洗澡或擦乳液時，可以輕輕按壓乳暈下方，看是否有<b data-path-to-node=\"38,0,0\" data-index-in-node=\"41\">像小扁豆或硬幣般的硬塊</b>。如果孩子抱怨碰觸到胸部會痛，就要特別注意。</p></li><li><p data-path-to-node=\"38,1,0\"><b data-path-to-node=\"38,1,0\" data-index-in-node=\"0\">觀察男生的睪丸（常被忽略）：</b> 爸爸可以利用幫兒子洗澡時，留意睪丸的大小。如果看起來已經不再是幼兒時期的大小，而是明顯變大，甚至顏色變深，就需要提高警覺。</p></li><li><p data-path-to-node=\"38,2,0\"><b data-path-to-node=\"38,2,0\" data-index-in-node=\"0\">生長速度突然暴增：</b> 如果孩子在國小一、二年級，突然在一年內抽高 8 到 10 公分，這不一定是「長得好」，反而可能是性荷爾蒙刺激生長板的短暫現象。</p></li></ol><h2><b>在去診所前，家長可以先做這三件事</b></h2><p data-path-to-node=\"40\">如果你懷疑孩子有提早發育的跡象，在預約骨齡與內分泌檢查的這段期間，可以先從日常生活進行調整：</p><ul data-path-to-node=\"41\"><li><p data-path-to-node=\"41,0,0\"><b data-path-to-node=\"41,0,0\" data-index-in-node=\"0\">避開環境荷爾蒙（塑化劑）：</b>盡量減少使用塑膠袋、塑膠容器盛裝熱食。</p><ul data-path-to-node=\"41,0,1\"><li><p data-path-to-node=\"41,0,1,0,0\">少讓孩子接觸香精過重的沐浴乳、乳液。</p></li><li><p data-path-to-node=\"41,0,1,1,0\">勤洗手，減少吃進手上殘留的防腐劑與塑化劑。</p></li></ul></li><li><p data-path-to-node=\"41,1,0\"><b data-path-to-node=\"41,1,0\" data-index-in-node=\"0\">調整飲食習慣：</b>避免讓孩子吃過多雞皮、肥肉等容易囤積荷爾蒙的脂肪部位。</p><ul data-path-to-node=\"41,1,1\"><li><p data-path-to-node=\"41,1,1,0,0\">少吃油炸物與高糖甜點。<b data-path-to-node=\"41,1,1,0,0\" data-index-in-node=\"11\">肥胖是誘發性早熟的強力催化劑</b>，控制體重是預防性早熟最有效的方法之一。</p></li></ul></li><li><p data-path-to-node=\"41,2,0\"><b data-path-to-node=\"41,2,0\" data-index-in-node=\"0\">規律運動與早睡：</b> 每天進行 30 分鐘以上的縱向運動（如跳繩、打球），並在晚上 10 點前上床睡覺，這能幫助調節體內的內分泌平衡。</p></li></ul><blockquote data-path-to-node=\"42\"><p data-path-to-node=\"42,0\"><b data-path-to-node=\"42,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n發現孩子提早發育先別慌張，這不代表一定需要打針治療。及早尋求專業兒童內分泌科醫師評估，透過骨齡檢查與追蹤，跟醫師一起找出最適合孩子的溫和應對方式！</p></blockquote>"
+    },
+    {
+      "id": "骨齡是什麼-為什麼醫師要看孩子的骨齡-z06h",
+      "title": "骨齡是什麼？為什麼醫師要看孩子的骨齡？",
+      "category": "衛教",
+      "date": "2026-07-13",
+      "series": "兒童生長發育",
+      "seriesOrder": 0,
+      "tags": [],
+      "cover": "images/cover-placeholder-1.svg",
+      "excerpt": "",
+      "contentHtml": "<p data-path-to-node=\"45\">去兒童內分泌科看診時，醫師常會說：「我們先去照張手部的 X 光看骨齡喔！」許多家長心裡會犯嘀咕：明明是看身高，為什麼要照手？難道腳的骨頭不會長嗎？</p><h2><b>什麼是「骨齡」？</b></h2><p data-path-to-node=\"47\">簡單來說，<b data-path-to-node=\"47\" data-index-in-node=\"5\">骨齡（Bone Age）就是骨頭的生理年齡</b>。\n我們身分證上的年齡代表我們活了多久；而骨齡則代表<b data-path-to-node=\"47\" data-index-in-node=\"52\">骨骼成熟的進度</b>。</p><p data-path-to-node=\"48\">醫師通常會幫孩子拍攝<b data-path-to-node=\"48\" data-index-in-node=\"10\">非慣用手（通常是左手）的 X 光片</b>。左手掌與手腕處有許多小骨頭（生長板與腕骨），它們會隨著年紀增長，依據固定的順序與形狀慢慢成形、鈣化並融合。藉由觀察這些骨頭的發育狀況，我們就能推估出孩子目前的骨骼進度。</p><h2><b>為什麼醫師一定要看骨齡？</b></h2><p data-path-to-node=\"50\">照骨齡主要有以下三個關鍵原因：</p><ul data-path-to-node=\"51\"><li><p data-path-to-node=\"51,0,0\"><b data-path-to-node=\"51,0,0\" data-index-in-node=\"0\">評估「長高空間」：</b> 決定一個人能不能繼續長高的關鍵是「生長板」是否閉合，而不是看實際年齡。骨齡能告訴我們，孩子離生長板閉合還有多少時間。</p></li><li><p data-path-to-node=\"51,1,0\"><b data-path-to-node=\"51,1,0\" data-index-in-node=\"0\">診斷發育異常：</b> * 如果骨齡<b data-path-to-node=\"51,1,0\" data-index-in-node=\"14\">明顯超越</b>實際年齡（例如 8 歲的孩子骨齡已經 11 歲），要高度懷疑是否有性早熟。</p><ul data-path-to-node=\"51,1,1\"><li><p data-path-to-node=\"51,1,1,0,0\">如果骨齡<b data-path-to-node=\"51,1,1,0,0\" data-index-in-node=\"4\">明顯落後</b>（例如 10 歲的孩子骨齡只有 7 歲），則可能與甲狀腺低下、生長激素缺乏或慢性疾病有關。</p></li></ul></li><li><p data-path-to-node=\"51,2,0\"><b data-path-to-node=\"51,2,0\" data-index-in-node=\"0\">預測成人身高：</b> 結合目前的實際身高與骨骼成熟度，醫師可以更準確地推估孩子未來的成人身高。</p></li></ul><blockquote data-path-to-node=\"52\"><p data-path-to-node=\"52,0\"><b data-path-to-node=\"52,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n手部 X 光的輻射劑量非常非常低（微乎其微，大約相當於坐一次短途飛機所接受的宇宙輻射），家長們不需要擔心輻射對孩子的身體造成傷害喔！</p></blockquote>"
+    },
+    {
+      "id": "孩子突然抽高又突然停滯-正常嗎-談生長速度的意義-0z53",
+      "title": "孩子突然抽高又突然停滯，正常嗎？——談生長速度的意義",
+      "category": "衛教",
+      "date": "2026-07-05",
+      "series": "兒童生長發育",
+      "seriesOrder": 0,
+      "tags": [],
+      "cover": "images/cover-placeholder-1.svg",
+      "excerpt": "",
+      "contentHtml": "<p data-path-to-node=\"55\">在評估孩子成長時，很多家長會陷入「單點焦慮」——這個月沒長高就緊張，或是跟同齡孩子比身高。但其實，對兒科醫師來說，比「絕對高度」更重要的指標，是<b data-path-to-node=\"55\" data-index-in-node=\"72\">生長速度（Growth Velocity）</b>。</p><h2><b>什麼是正常的生長速度？</b></h2><p data-path-to-node=\"57\">人在一生中有兩個「快速抽高」的黃金期：</p><ol start=\"1\" data-path-to-node=\"58\"><li><p data-path-to-node=\"58,0,0\"><b data-path-to-node=\"58,0,0\" data-index-in-node=\"0\">嬰幼兒期（0-3歲）：</b> 一生中長最快的時候，第一年就可以長 25 公分！</p></li><li><p data-path-to-node=\"58,1,0\"><b data-path-to-node=\"58,1,0\" data-index-in-node=\"0\">青春期：</b> 女生平均每年長 6-10 公分，男生平均每年長 8-12 公分。</p></li></ol><p data-path-to-node=\"59\">而在這兩個黃金期之間的<b data-path-to-node=\"59\" data-index-in-node=\"11\">兒童期（約 4 歲到青春期前）</b>，孩子的生長應該是穩定且持續的，<b data-path-to-node=\"59\" data-index-in-node=\"42\">平均每年要長高 4 到 6 公分</b>。</p><h2><b>突然抽高又突然停滯，為什麼要小心？</b></h2><p data-path-to-node=\"61\">如果孩子在國小中低年級，突然在一年內「暴風式抽高」長了 8-10 公分，先別急著高興！這可能是發育提早（性早熟）的警訊。</p><ul data-path-to-node=\"62\"><li><p data-path-to-node=\"62,0,0\"><b data-path-to-node=\"62,0,0\" data-index-in-node=\"0\">提早抽高的代價：</b> 性荷爾蒙會刺激骨骼快速生長，但也同時會加速生長板閉合。這就像短跑選手把力氣在前半段用光了，雖然暫時領先，但很快就會面臨生長板提早關閉、身高提早停滯的窘境，導致最終成人身高反而不如預期。</p></li><li><p data-path-to-node=\"62,1,0\"><b data-path-to-node=\"62,1,0\" data-index-in-node=\"0\">生長停滯的警訊：</b> 如果孩子在青春期前，<b data-path-to-node=\"62,1,0\" data-index-in-node=\"19\">一年長不到 4 公分</b>，或者在生長曲線上連續下滑（例如從 50% 掉到 15%），這通常代表身體在發出求救訊號，可能是營養、睡眠、荷爾蒙、甚至是心理壓力出了狀況。</p></li></ul><blockquote data-path-to-node=\"63\"><p data-path-to-node=\"63,0\"><b data-path-to-node=\"63,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n建議家長<b data-path-to-node=\"63,0\" data-index-in-node=\"9\">每 3-6 個月</b>在家幫孩子量一次身高並記錄下來。我們不怕孩子慢慢長，最怕的是生長曲線像坐雲霄飛車一樣劇烈起伏。只要發現年長高度小於 4 公分，或突然莫名抽高，都建議帶給專業醫師評估。</p></blockquote>"
+    },
+    {
+      "id": "甲狀腺功能異常對孩子生長的影響-容易被忽略的線索-33h8",
+      "title": "甲狀腺功能異常對孩子生長的影響：容易被忽略的線索",
+      "category": "衛教",
+      "date": "2026-07-06",
+      "series": "兒童生長發育",
+      "seriesOrder": 0,
+      "tags": [],
+      "cover": "images/cover-placeholder-1.svg",
+      "excerpt": "",
+      "contentHtml": "<p data-path-to-node=\"66\">講到長不高，大家第一直覺都是想到生長激素。但你知道嗎？人體內還有另一個默默支配全身代謝與生長的關鍵齒輪——<b data-path-to-node=\"66\" data-index-in-node=\"53\">甲狀腺素</b>。</p><p data-path-to-node=\"67\">甲狀腺素就像是身體的「發動機控制器」，當它分泌異常時，孩子的生長與日常表現都會受到直接打擊，而且症狀常常容易被誤認為「只是功課退步」或「小孩子比較文靜」。</p><h2><b>容易被忽略的「甲狀腺功能低下」</b></h2><p data-path-to-node=\"69\">當甲狀腺素分泌不足時，身體運作會慢半拍。常見的症狀包括：</p><ul data-path-to-node=\"70\"><li><p data-path-to-node=\"70,0,0\"><b data-path-to-node=\"70,0,0\" data-index-in-node=\"0\">生長遲緩：</b> 這是最典型的表現。孩子可能好幾年身高幾乎沒有變動。</p></li><li><p data-path-to-node=\"70,1,0\"><b data-path-to-node=\"70,1,0\" data-index-in-node=\"0\">活力不足：</b> 變得容易疲倦、整天昏昏欲睡、體力變差。</p></li><li><p data-path-to-node=\"70,2,0\"><b data-path-to-node=\"70,2,0\" data-index-in-node=\"0\">體重莫名增加：</b> 明明吃得不多，甚至胃口變差，體重卻一直往上升。</p></li><li><p data-path-to-node=\"70,3,0\"><b data-path-to-node=\"70,3,0\" data-index-in-node=\"0\">注意力不集中：</b> 學習效率變差，常被老師或家長誤以為是變懶惰。</p></li><li><p data-path-to-node=\"70,4,0\"><b data-path-to-node=\"70,4,0\" data-index-in-node=\"0\">其他生理表現：</b> 容易怕冷、便秘、皮膚乾燥、聲音沙啞。</p></li></ul><h2><b>剛好相反的「甲狀腺功能亢進」</b></h2><p data-path-to-node=\"72\">相反地，如果甲狀腺素分泌過多，身體就像開了超載的引擎。孩子可能會：</p><ul data-path-to-node=\"73\"><li><p data-path-to-node=\"73,0,0\">雖然吃很多卻一直變瘦、心跳加快、手抖、脾氣變得焦躁易怒。</p></li><li><p data-path-to-node=\"73,1,0\">雖然這時骨齡可能會短暫加速成熟，但若不治療，長期下來同樣會損害最終的生長潛力。</p></li></ul><blockquote data-path-to-node=\"74\"><p data-path-to-node=\"74,0\"><b data-path-to-node=\"74,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n只要透過簡單的<b>病史詢問</b>、<b>醫師觸診</b>與<b data-path-to-node=\"74,0\" data-index-in-node=\"12\">抽血檢查</b><span data-path-to-node=\"74,0\" data-index-in-node=\"12\">，甚至是進一步的</span><b data-path-to-node=\"74,0\" data-index-in-node=\"12\">甲狀腺超音波檢查</b>，就能快速釐清甲狀腺功能。如果確診是甲狀腺功能低下，在醫師指導下規律補充甲狀腺素，孩子的生長速度通常能迎頭趕上，迅速找回原有的活力！</p></blockquote>"
+    },
+    {
+      "id": "父母都不高-孩子還有機會長高嗎-談遺傳身高與可調整因素-8k4x",
+      "title": "父母都不高，孩子還有機會長高嗎？——談遺傳身高與可調整因素",
+      "category": "衛教",
+      "date": "2026-07-07",
+      "series": "兒童生長發育",
+      "seriesOrder": 0,
+      "tags": [],
+      "cover": "images/cover-placeholder-1.svg",
+      "excerpt": "",
+      "contentHtml": "<p data-path-to-node=\"77\" style=\"font-family: &quot;Google Sans Text&quot;, sans-serif !important; line-height: 1.15 !important;\"><b data-path-to-node=\"77\" data-index-in-node=\"0\" style=\"line-height: 1.15 !important; margin-top: 0px !important;\">「醫生，我和我先生都不高，我們的小孩是不是注定矮人一截了？」</b></p><p data-path-to-node=\"78\" style=\"font-family: &quot;Google Sans Text&quot;, sans-serif !important; line-height: 1.15 !important;\">這也是門診中常聽到的焦慮。遺傳確實決定了孩子大約 60% 至 70% 的身高潛力，但絕對不是 100% 的宿命！剩下的 30% 到 40% 後天因素，就是我們可以努力爭取的空間。</p><h2 style=\"font-family: &quot;Google Sans&quot;, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;\"></h2><h2><b>如何計算孩子的「遺傳身高目標」？</b></h2><p data-path-to-node=\"80\" style=\"font-family: &quot;Google Sans Text&quot;, sans-serif !important; line-height: 1.15 !important;\">在醫學上，我們有一個簡單的公式來推估孩子的<b data-path-to-node=\"80\" data-index-in-node=\"21\" style=\"line-height: 1.15 !important; margin-top: 0px !important;\">標的身高（Target Height）</b>：</p><p data-path-to-node=\"80\" style=\"line-height: 1.15 !important;\"><font face=\"Google Sans Text, sans-serif\">公式一（男孩子）： (父親身高 + 母親身高 + 13) ÷ 2&nbsp; ± 8.5 公分</font></p><p data-path-to-node=\"80\" style=\"line-height: 1.15 !important;\"><font face=\"Google Sans Text, sans-serif\">公式二（女孩子）： (父親身高 + 母親身高 - 13) ÷ 2&nbsp; ± 8.5 公分</font></p><div data-path-to-node=\"82\" style=\"font-family: &quot;Google Sans Text&quot;, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;\"><div class=\"math-block\" data-math=\"公式二（女孩子）：\\frac{父親身高 + 母親身高 - 13}{2} \\pm 6 \\text{ 公分}\" style=\"line-height: 1.15 !important; margin-top: 0px !important;\"><span style=\"font-size: 1rem;\"><br></span></div></div><p data-path-to-node=\"83\" style=\"font-family: &quot;Google Sans Text&quot;, sans-serif !important; line-height: 1.15 !important;\">請注意公式後面的 <b data-path-to-node=\"83\" data-index-in-node=\"9\" style=\"line-height: 1.15 !important; margin-top: 0px !important;\">範圍</b>（正負 8.5 公分）。這代表即使是同一個父母生下來的孩子，因為後天調控的不同，最終身高可能會有高達 12 到 15 公分的差距！這就是後天努力的價值所在。</p><h2 style=\"font-family: &quot;Google Sans&quot;, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;\"></h2><h2><b>如何幫孩子爭取後天的「最大值」？</b></h2><p data-path-to-node=\"85\" style=\"font-family: &quot;Google Sans Text&quot;, sans-serif !important; line-height: 1.15 !important;\">要讓孩子的身高落在遺傳公式的「上限」甚至突破遺傳，關鍵在於維持良好的內分泌環境，不讓外在因素打折：</p><ol start=\"1\" data-path-to-node=\"86\" style=\"padding-inline-start: 32px; font-family: &quot;Google Sans Text&quot;, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;\"><li style=\"line-height: 1.15 !important; margin-top: 0px !important;\"><p data-path-to-node=\"86,0,0\" style=\"line-height: 1.15 !important;\"><b data-path-to-node=\"86,0,0\" data-index-in-node=\"0\" style=\"line-height: 1.15 !important; margin-top: 0px !important;\">不讓生長板提早閉合：</b> 避免過度攝取含糖飲料、高油炸食物，預防肥胖，因為肥胖會誘發性早熟，縮短長高的黃金時間。</p></li><li style=\"line-height: 1.15 !important; margin-top: 0px !important;\"><p data-path-to-node=\"86,1,0\" style=\"line-height: 1.15 !important;\"><b data-path-to-node=\"86,1,0\" data-index-in-node=\"0\" style=\"line-height: 1.15 !important; margin-top: 0px !important;\">確保充足的生長燃料：</b> 優質蛋白質（蛋、奶、豆腐、瘦肉）與鈣質是骨骼生長的基石。</p></li><li style=\"line-height: 1.15 !important; margin-top: 0px !important;\"><p data-path-to-node=\"86,2,0\" style=\"line-height: 1.15 !important;\"><b data-path-to-node=\"86,2,0\" data-index-in-node=\"0\" style=\"line-height: 1.15 !important; margin-top: 0px !important;\">優化生活作息：</b> 把握生長激素分泌的黃金時段，充足的睡眠與適度的縱向運動（跳繩、籃球），能給予骨骼最好的生長刺激。</p></li></ol><blockquote data-path-to-node=\"87\" style=\"font-family: &quot;Google Sans Text&quot;, sans-serif !important; line-height: 1.15 !important; margin-top: 0px !important;\"><p data-path-to-node=\"87,0\" style=\"line-height: 1.15 !important;\"><b data-path-to-node=\"87,0\" data-index-in-node=\"0\" style=\"line-height: 1.15 !important; margin-top: 0px !important;\">玉齡醫師真心話：</b><span style=\"font-size: 1rem;\">遺傳決定了「起跑線」與「天花板」，但</span><b data-path-to-node=\"87,0\" data-index-in-node=\"23\" style=\"font-size: 1rem; line-height: 1.15 !important; margin-top: 0px !important;\">後天的習慣決定了孩子能站得多高</b><span style=\"font-size: 1rem;\">。與其為基因焦慮，不如從今天起，陪孩子建立健康的生活型態！</span></p></blockquote>"
+    },
+    {
+      "id": "飲食-睡眠-運動-哪個對長高影響最大-破解常見排行迷思-arw6",
+      "title": "飲食、睡眠、運動，哪個對長高影響最大？破解常見排行迷思",
+      "category": "衛教",
+      "date": "2026-07-08",
+      "series": "兒童生長發育",
+      "seriesOrder": 0,
+      "tags": [],
+      "cover": "images/cover-placeholder-1.svg",
+      "excerpt": "",
+      "contentHtml": "<p data-path-to-node=\"90\">家長為了幫孩子長高，往往買了各式各樣的營養品，或是逼孩子每天跳繩上百下。到底「飲食、睡眠、運動」這三劍客，哪一個才是真正的長高關鍵？有沒有所謂的「第一名」？</p><h2><b>答案是：它們不是競爭關係，而是「連鎖反應」！</b></h2><p data-path-to-node=\"92\">這三者在科學上是環環相扣的，缺了任何一角，其他兩項的效果都會被打對折。我們來看看它們是如何協同運作的：</p><response-element class=\"\" ng-version=\"0.0.0-PLACEHOLDER\"><!----><!----><!----><!----><!----><!----><code-block _nghost-ng-c3224023702=\"\" class=\"ng-tns-c3224023702-25 enable-luminous-code-block ng-star-inserted\"><!----><!----><div _ngcontent-ng-c3224023702=\"\" class=\"code-block ng-tns-c3224023702-25 ng-animate-disabled ng-trigger ng-trigger-codeBlockRevealAnimation\" jslog=\"223238;track:impression,attention;BardVeMetadataKey:[[&quot;r_dbb429bce25d2538&quot;,&quot;c_09687eb0f9c60f99&quot;,null,&quot;rc_9bde130b376f1264&quot;,null,null,&quot;zh-Hant&quot;,null,1,null,null,1,1]]\" data-hveid=\"0\" decode-data-ved=\"1\" data-ved=\"0CAAQhtANahcKEwjMzJvD5tCVAxUAAAAAHQAAAAAQFA\"><!----><div _ngcontent-ng-c3224023702=\"\" class=\"formatted-code-block-internal-container ng-tns-c3224023702-25\"><div _ngcontent-ng-c3224023702=\"\" class=\"animated-opacity ng-tns-c3224023702-25\"><!----><pre _ngcontent-ng-c3224023702=\"\" class=\"ng-tns-c3224023702-25\"><code _ngcontent-ng-c3224023702=\"\" role=\"text\" data-test-id=\"code-content\" class=\"code-container formatted ng-tns-c3224023702-25 no-decoration-radius\">【優質飲食】 ──提供原料──&gt; 【骨骼肌肉生長】\n     │                             ▲\n  促進運動表現                 提供生長激素\n     ▼                             │\n【縱向運動】 ──加深睡眠──&gt; 【深度睡眠 (分泌生長激素)】\n</code></pre><!----></div></div></div><!----><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element><h2><b>1. 睡眠：生長激素的「製造工廠」</b></h2><p data-path-to-node=\"95\">生長激素在人體內是呈脈衝式分泌的。一天之中分泌量最高的時候，是在<b data-path-to-node=\"95\" data-index-in-node=\"32\">晚上 10 點到凌晨 2 點</b>，且必須在<b data-path-to-node=\"95\" data-index-in-node=\"51\">深度睡眠</b>狀態下。</p><ul data-path-to-node=\"96\"><li><p data-path-to-node=\"96,0,0\"><b data-path-to-node=\"96,0,0\" data-index-in-node=\"0\">迷思：</b> 「睡飽 8 小時就好，幾點睡沒關係？」</p></li><li><p data-path-to-node=\"96,1,0\"><b data-path-to-node=\"96,1,0\" data-index-in-node=\"0\">事實：</b> 熬夜會錯過生長激素分泌的最高峰，即使事後睡再久，效果也無法完全彌補。</p></li></ul><h2><b>2. 飲食：長高所需的「建築材料」</b></h2><p data-path-to-node=\"98\">生長激素再多，如果沒有足夠的建材，骨頭也無法延伸。</p><ul data-path-to-node=\"99\"><li><p data-path-to-node=\"99,0,0\"><b data-path-to-node=\"99,0,0\" data-index-in-node=\"0\">重點：</b> 補鈣（提供骨骼硬度）和補蛋白質（提供骨骼延展與肌肉原料）同樣重要。</p></li><li><p data-path-to-node=\"99,1,0\"><b data-path-to-node=\"99,1,0\" data-index-in-node=\"0\">地雷：</b> <b data-path-to-node=\"99,1,0\" data-index-in-node=\"4\">糖分是生長激素的隱形殺手。</b> 喝下一杯含糖飲料，會讓血糖飆升，進而抑制生長激素分泌長達 2-3 小時。</p></li></ul><h2><b>3. 運動：拉長骨骼的「重力刺激」</b></h2><p data-path-to-node=\"101\">適度的運動能刺激生長板的軟骨細胞分裂。</p><ul data-path-to-node=\"102\"><li><p data-path-to-node=\"102,0,0\"><b data-path-to-node=\"102,0,0\" data-index-in-node=\"0\">推薦：</b> 具有「縱向跳躍」與「抗重力」性質的運動，如跳繩、籃球、羽球，或是跑步。</p></li><li><p data-path-to-node=\"102,1,0\"><b data-path-to-node=\"102,1,0\" data-index-in-node=\"0\">額外好處：</b> 運動能增加食慾，並幫助孩子晚上更快進入「深度睡眠」，形成完美的正向循環。</p></li></ul><div>終極排行榜：<span style=\"font-size: 1rem;\">如果硬要排順序，「飲食（控糖/補蛋白） ＝ 睡眠（規律深睡）」</span><span style=\"font-size: 1rem;\">是地基，地基穩了，加上</span><span style=\"font-size: 1rem;\">「運動（縱向刺激）」這台加速器，孩子的身高才能發揮到極致。</span></div>"
+    },
+    {
+      "id": "轉大人前的最後衝刺-青春期生長板閉合前該注意什麼-ci84",
+      "title": "轉大人前的最後衝刺：青春期生長板閉合前該注意什麼",
+      "category": "衛教",
+      "date": "2026-07-09",
+      "series": "兒童生長發育",
+      "seriesOrder": 0,
+      "tags": [],
+      "cover": "images/cover-placeholder-1.svg",
+      "excerpt": "",
+      "contentHtml": "<p data-path-to-node=\"106\">當孩子進入青春期（女生乳房發育、男生睪丸變大），代表身高進入了「最後的衝刺期」。這個階段就像是跑馬拉松的最後一圈，一旦生長板完全閉合，長高的機會就正式宣告結束。在這個關鍵時刻，家長需要掌握哪些守則？</p><h2><b>1. 密切監測發育進度</b></h2><p data-path-to-node=\"108\">青春期的發育有其固定的黃金時間表，女生與男生的衝刺點有些許不同：</p><ul data-path-to-node=\"109\"><li><p data-path-to-node=\"109,0,0\"><b data-path-to-node=\"109,0,0\" data-index-in-node=\"0\">女生：</b> 通常在<b data-path-to-node=\"109,0,0\" data-index-in-node=\"7\">乳房發育後的 1-2 年</b>（約初經來臨前）是長最快的時期。一旦初經來潮，生長板便會加速閉合，後續長高的空間平均只剩下 5-7 公分左右。</p></li><li><p data-path-to-node=\"109,1,0\"><b data-path-to-node=\"109,1,0\" data-index-in-node=\"0\">男生：</b> 通常在<b data-path-to-node=\"109,1,0\" data-index-in-node=\"7\">變聲期、長出陰毛/腋毛</b>時是長最快的衝刺期。</p></li></ul><h2><b>2. 避開「加速閉合」的地雷</b></h2><p data-path-to-node=\"111\">在最後衝刺階段，我們要避免任何讓生長板提早「拉鐵門」的因素：</p><ul data-path-to-node=\"112\"><li><p data-path-to-node=\"112,0,0\"><b data-path-to-node=\"112,0,0\" data-index-in-node=\"0\">避免塑化劑與環境荷爾蒙：</b> 減少使用塑膠容器裝熱食、少用香精過重的沐浴乳，避免環境荷爾蒙干擾內分泌。</p></li><li><p data-path-to-node=\"112,1,0\"><b data-path-to-node=\"112,1,0\" data-index-in-node=\"0\">控制體重：</b> 脂肪細胞會分泌雌激素，體脂過高會加速骨齡老化。</p></li></ul><h2><b>3. 最後衝刺的行動指南</b></h2><ul data-path-to-node=\"114\"><li><p data-path-to-node=\"114,0,0\"><b data-path-to-node=\"114,0,0\" data-index-in-node=\"0\">飲食不要亂補：</b> 許多家長會急著給孩子吃「轉骨方」或未經醫師評估的補品。要注意，部分中藥材或補品可能含有類似雌激素的成分，反而可能導致生長板加速閉合。</p></li><li><p data-path-to-node=\"114,1,0\"><b data-path-to-node=\"114,1,0\" data-index-in-node=\"0\">運動：</b> 此時每天跳繩 500-1000 下，或維持規律的運動，能給生長板最後的物理刺激。</p></li><li><p data-path-to-node=\"114,2,0\"><b data-path-to-node=\"114,2,0\" data-index-in-node=\"0\">及時諮詢專業：</b> 如果發現孩子在青春期生長速度突然慢下來（一年長不到 4 公分），或是懷疑發育進度過快，應盡快帶給兒童內分泌科醫師評估骨齡，把握最後的黃金治療期。</p></li></ul><blockquote data-path-to-node=\"115\"><p data-path-to-node=\"115,0\"><b>玉齡醫師真心話</b> 青春期是長高的最後一班列車。保持平常心、不盲目跟風進補，用科學、健康的方式陪伴孩子，就是最棒的轉大人禮物。</p></blockquote>"
     }
   ]
 }
