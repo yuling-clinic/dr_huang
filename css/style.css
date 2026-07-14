@@ -53,6 +53,11 @@ p{margin:0 0 1em;}
 .site-nav a:hover{color:var(--coffee);}
 .site-nav a.active{color:var(--caramel-deep);position:relative;}
 .site-nav a.active::after{content:"";position:absolute;left:12px;right:12px;bottom:2px;height:2px;background:var(--caramel);border-radius:2px;}
+.nav-cta{
+  background:var(--caramel)!important;color:#fff!important;border-radius:999px;
+  padding:8px 18px!important;font-weight:600;margin-left:4px;
+}
+.nav-cta:hover{background:var(--caramel-deep)!important;color:#fff!important;}
 .nav-toggle{display:none;background:none;border:none;font-size:1.3rem;color:var(--coffee);cursor:pointer;}
 
 /* ── hero ── */
