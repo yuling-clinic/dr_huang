@@ -1,38 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://example.github.io/site/</loc>
+    <loc>https://yuling-clinic.github.io/dr_huang/</loc>
     <lastmod>2026-07-14</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.github.io/site/articles.html</loc>
+    <loc>https://yuling-clinic.github.io/dr_huang/articles.html</loc>
     <lastmod>2026-07-14</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.github.io/site/posts/growth-curve-basics.html</loc>
-    <lastmod>2026-06-20</lastmod>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/看懂孩子的生長曲線-百分位不是成績單-qyqq.html</loc>
+    <lastmod>2026-07-04</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://example.github.io/site/posts/precocious-puberty-signs.html</loc>
-    <lastmod>2026-05-15</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://example.github.io/site/posts/dolomites-day3.html</loc>
-    <lastmod>2026-07-08</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://example.github.io/site/posts/dolomites-plan.html</loc>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/身高矮小-一定要打生長激素嗎-常見迷思一次釐清-t9sy.html</loc>
     <lastmod>2026-07-02</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://example.github.io/site/posts/dolomites-veg.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/性早熟的觀察重點-家長可以先做什麼-xn9c.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/骨齡是什麼-為什麼醫師要看孩子的骨齡-z06h.html</loc>
+    <lastmod>2026-07-13</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/孩子突然抽高又突然停滯-正常嗎-談生長速度的意義-0z53.html</loc>
+    <lastmod>2026-07-05</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/甲狀腺功能異常對孩子生長的影響-容易被忽略的線索-33h8.html</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/父母都不高-孩子還有機會長高嗎-談遺傳身高與可調整因素-8k4x.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/飲食-睡眠-運動-哪個對長高影響最大-破解常見排行迷思-arw6.html</loc>
+    <lastmod>2026-07-08</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/轉大人前的最後衝刺-青春期生長板閉合前該注意什麼-ci84.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <priority>0.7</priority>
   </url>
 </urlset>
