@@ -210,6 +210,7 @@
       <div class="btn-row" style="margin-top:4px">
         <input type="file" id="art-cover-upload" accept="image/*" style="display:none">
         <button class="btn secondary" onclick="document.getElementById('art-cover-upload').click()">選擇封面上傳</button>
+        <div class="status-msg" id="art-cover-status" style="margin-top:8px;"></div>
         <img class="cover-preview" id="art-cover-preview" src="" alt="">
       </div>
       <input type="text" id="art-cover" placeholder="或填路徑" style="margin-top:10px">
@@ -676,10 +677,18 @@ document.getElementById('art-cover').addEventListener('input',e=>{
 });
 document.getElementById('art-cover-upload').addEventListener('change',async e=>{
   const f=e.target.files[0]; if(!f) return;
-  try{ const src=await handleImageFile(f,'publish-status');
+  const statusEl=document.getElementById('art-cover-status');
+  // 先用本地預覽立即顯示（不必等上傳）
+  const localPreview=URL.createObjectURL(f);
+  document.getElementById('art-cover-preview').src=localPreview;
+  if(statusEl) statusEl.textContent='圖片上傳中…';
+  try{
+    const src=await handleImageFile(f,null);
     document.getElementById('art-cover').value=src;
-    document.getElementById('art-cover-preview').src=src;
-  }catch(err){ setStatus('publish-status',err.message,true); }
+    if(statusEl) statusEl.textContent='✅ 封面已上傳，記得最後按「發布到網站」。';
+  }catch(err){
+    if(statusEl) statusEl.textContent='❌ 上傳失敗：'+err.message;
+  }
   e.target.value='';
 });
 function slugify(t){
