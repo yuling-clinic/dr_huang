@@ -39,6 +39,16 @@
     font-family: var(--font-round);
   }
   .icon-btn:hover{ background: var(--cocoa-soft); color: var(--coffee); }
+  .sort-item{
+    display:flex; align-items:center; gap:10px; padding:12px 14px; margin-bottom:8px;
+    background:var(--paper); border:1px solid var(--hairline-strong); border-radius:12px;
+    cursor:grab; font-size:.9rem; color:var(--ink); font-family:var(--font-round);
+    transition:box-shadow .15s, opacity .15s;
+  }
+  .sort-item:active{ cursor:grabbing; }
+  .sort-item.dragging{ opacity:.4; box-shadow:0 4px 14px rgba(0,0,0,.12); }
+  .sort-item .grip{ color:var(--ink-faint); font-size:1.1rem; flex:none; }
+  .sort-item .num{ font-family:var(--font-round); font-weight:700; color:var(--caramel-deep); min-width:20px; }
   .btn-row{ display:flex; gap:9px; margin-top: 14px; flex-wrap:wrap; align-items:center; }
   .cover-preview{ width:100%; max-width:200px; aspect-ratio:3/2; object-fit:cover; border-radius: 10px; border:1px solid var(--hairline); margin-top:8px; background:var(--cocoa-soft); }
   .status-msg{ font-size:.83rem; color: var(--caramel-deep); min-height:1.2em; margin-top:10px; white-space: pre-line; }
@@ -169,6 +179,13 @@
   </div>
 
   <!-- 文章 -->
+  <div class="panel">
+    <h2>系列文章排序</h2>
+    <p class="hint">選一個系列，直接拖動下面的文章調整先後順序。排好後記得按「發布到網站」。</p>
+    <select id="series-order-select"><option value="">— 選擇系列 —</option></select>
+    <div id="series-order-list" style="margin-top:12px;"></div>
+  </div>
+
   <div class="panel">
     <h2>文章管理</h2>
     <p class="hint">編輯器像 Word 一樣操作。要連到自己的其他文章，按「📎 站內文章」直接挑選，不用管網址。</p>
@@ -645,7 +662,89 @@ function renderArticleList(){
     }
   }));
   refreshSeriesList();
+  if(typeof refreshSeriesOrderSelect === 'function') refreshSeriesOrderSelect();
 }
+
+/* ─── 系列文章排序（拖拉） ─── */
+function seriesOrderVal(a, seriesName){
+  // seriesOrder 存成 { 系列名: 數字 }；沒設定就用很大的值(排後面)，同值再依日期
+  if(a.seriesOrder && typeof a.seriesOrder === 'object' && a.seriesOrder[seriesName] != null){
+    return a.seriesOrder[seriesName];
+  }
+  return null;
+}
+function sortedSeriesArticles(seriesName){
+  const arr = state.articles.filter(a => seriesArr(a).includes(seriesName));
+  return arr.sort((a,b)=>{
+    const oa = seriesOrderVal(a, seriesName), ob = seriesOrderVal(b, seriesName);
+    if(oa != null && ob != null) return oa - ob;
+    if(oa != null) return -1;
+    if(ob != null) return 1;
+    return new Date(b.date) - new Date(a.date); // 都沒排序值，依日期新到舊
+  });
+}
+function refreshSeriesOrderSelect(){
+  const sel = document.getElementById('series-order-select');
+  const cur = sel.value;
+  const names = [...new Set(state.articles.flatMap(a=>seriesArr(a)))];
+  sel.innerHTML = '<option value="">— 選擇系列 —</option>' +
+    names.map(n=>`<option value="${n}">${n}</option>`).join('');
+  if(names.includes(cur)) sel.value = cur;
+}
+function renderSeriesOrderList(){
+  const box = document.getElementById('series-order-list');
+  const seriesName = document.getElementById('series-order-select').value;
+  if(!seriesName){ box.innerHTML = '<p class="hint">先選一個系列。</p>'; return; }
+  const arr = sortedSeriesArticles(seriesName);
+  if(arr.length < 2){ box.innerHTML = '<p class="hint">這個系列目前只有一篇（或沒有）文章，不需要排序。</p>'; return; }
+  box.innerHTML = arr.map((a,i)=>`
+    <div class="sort-item" draggable="true" data-id="${a.id}">
+      <span class="grip">⠿</span>
+      <span class="num">${i+1}</span>
+      <span>${a.title||'（未命名）'}</span>
+    </div>`).join('');
+  bindSeriesDrag(seriesName);
+}
+function bindSeriesDrag(seriesName){
+  const box = document.getElementById('series-order-list');
+  let dragEl = null;
+  box.querySelectorAll('.sort-item').forEach(item=>{
+    item.addEventListener('dragstart', ()=>{ dragEl=item; item.classList.add('dragging'); });
+    item.addEventListener('dragend', ()=>{
+      item.classList.remove('dragging'); dragEl=null;
+      commitSeriesOrder(seriesName);
+    });
+    item.addEventListener('dragover', e=>{
+      e.preventDefault();
+      const after = getDragAfter(box, e.clientY);
+      if(!dragEl) return;
+      if(after==null) box.appendChild(dragEl);
+      else box.insertBefore(dragEl, after);
+    });
+  });
+}
+function getDragAfter(box, y){
+  const els = [...box.querySelectorAll('.sort-item:not(.dragging)')];
+  return els.reduce((closest, child)=>{
+    const rect = child.getBoundingClientRect();
+    const offset = y - rect.top - rect.height/2;
+    if(offset < 0 && offset > closest.offset) return {offset, element:child};
+    return closest;
+  }, {offset:-Infinity}).element;
+}
+function commitSeriesOrder(seriesName){
+  const box = document.getElementById('series-order-list');
+  const ids = [...box.querySelectorAll('.sort-item')].map(el=>el.dataset.id);
+  ids.forEach((id, idx)=>{
+    const a = state.articles.find(x=>x.id===id);
+    if(!a) return;
+    if(!a.seriesOrder || typeof a.seriesOrder !== 'object') a.seriesOrder = {};
+    a.seriesOrder[seriesName] = idx + 1;
+  });
+  saveDraft();
+  renderSeriesOrderList(); // 重繪以更新編號
+}
+document.getElementById('series-order-select').addEventListener('change', renderSeriesOrderList);
 
 let editingId=null;
 function openEditor(id){
@@ -839,7 +938,7 @@ function applyState(ns){
   state=JSON.parse(JSON.stringify(DEFAULT_STATE));
   state.site=Object.assign({},DEFAULT_STATE.site,(ns&&ns.site)||{});
   state.articles=((ns&&ns.articles)||[]).map(a=>({series:[],...a}));
-  fillSiteForm(); renderInstitutionGroups(); renderArticleList(); renderAnalyticsView(); saveDraft();
+  fillSiteForm(); renderInstitutionGroups(); renderArticleList(); renderAnalyticsView(); refreshSeriesOrderSelect(); renderSeriesOrderList(); saveDraft();
 }
 
 (function init(){

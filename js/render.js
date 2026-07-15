@@ -60,7 +60,15 @@ function articleCardHTML(article){
    系列文章：一篇文章可能同時屬於多個系列，各自列出同系列文章
    ============================================================ */
 function seriesSiblings(articles, seriesName){
-  return sortByDateDesc(articles.filter(a => getSeriesArray(a).includes(seriesName)));
+  const ov = a => (a.seriesOrder && typeof a.seriesOrder === 'object' && a.seriesOrder[seriesName] != null)
+    ? a.seriesOrder[seriesName] : null;
+  return [...articles.filter(a => getSeriesArray(a).includes(seriesName))].sort((x,y)=>{
+    const ox = ov(x), oy = ov(y);
+    if(ox != null && oy != null) return ox - oy;
+    if(ox != null) return -1;
+    if(oy != null) return 1;
+    return new Date(y.date) - new Date(x.date);
+  });
 }
 function seriesBoxHTML(articles, current){
   const seriesList = getSeriesArray(current);

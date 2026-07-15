@@ -60,13 +60,25 @@ function getSeriesArrayGen(article){
   if(typeof article.series === 'string' && article.series) return [article.series];
   return [];
 }
+/* 系列排序：優先用後台拖拉設定的 seriesOrder，其次依日期新到舊 */
+function sortBySeriesOrder(list, seriesName){
+  const ov = a => (a.seriesOrder && typeof a.seriesOrder === 'object' && a.seriesOrder[seriesName] != null)
+    ? a.seriesOrder[seriesName] : null;
+  return [...list].sort((x,y)=>{
+    const ox = ov(x), oy = ov(y);
+    if(ox != null && oy != null) return ox - oy;
+    if(ox != null) return -1;
+    if(oy != null) return 1;
+    return new Date(y.date) - new Date(x.date);
+  });
+}
 
 /* ── 單篇文章的靜態 HTML ── */
 function buildPostHTML(site, articles, a, baseUrl){
   const seriesNames = getSeriesArrayGen(a);
   const seriesBox = seriesNames.map(seriesName => {
-    const siblings = [...articles.filter(x => getSeriesArrayGen(x).includes(seriesName))]
-      .sort((x,y) => new Date(y.date) - new Date(x.date));
+    const siblings = sortBySeriesOrder(
+      articles.filter(x => getSeriesArrayGen(x).includes(seriesName)), seriesName);
     if(siblings.length < 2) return '';
     return `
     <div class="series-box">
@@ -81,17 +93,23 @@ function buildPostHTML(site, articles, a, baseUrl){
 
   // 上下篇：優先取「同一系列」中的前後篇；沒有系列才退回全站日期排序
   const mySeriesList = getSeriesArrayGen(a);
-  let pool;
+  let pool, sorted;
   if(mySeriesList.length){
-    // 只取與本篇有共同系列的文章
+    const primary = mySeriesList[0];
     pool = articles.filter(x => !x.externalUrl && getSeriesArrayGen(x).some(s => mySeriesList.includes(s)));
+    sorted = sortBySeriesOrder(pool, primary);
+    // 系列內用手動順序，「下一篇」是順序較後者
+    const i = sorted.findIndex(x => x.id === a.id);
+    const prev = sorted[i-1], next = sorted[i+1];
+    return finishPost(prev, next);
   } else {
     pool = articles.filter(x => !x.externalUrl);
+    sorted = [...pool].sort((x,y) => new Date(y.date) - new Date(x.date));
+    const idx = sorted.findIndex(x => x.id === a.id);
+    return finishPost(sorted[idx+1], sorted[idx-1]);
   }
-  const sorted = [...pool].sort((x,y) => new Date(y.date) - new Date(x.date));
-  const idx = sorted.findIndex(x => x.id === a.id);
-  const prev = sorted[idx+1], next = sorted[idx-1];
 
+  function finishPost(prev, next){
   const body = fixDepth(rewriteInternalLinks(a.contentHtml || ''));
   const desc = (a.excerpt || stripTags(a.contentHtml)).slice(0, 150);
   const canonical = `${baseUrl.replace(/\/$/,'')}/posts/${a.id}.html`;
@@ -196,6 +214,7 @@ ${body}
 ${analyticsSnippet(site)}
 </body>
 </html>`;
+  }
 }
 
 /* ── sitemap.xml ── */
