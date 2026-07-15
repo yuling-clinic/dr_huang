@@ -395,7 +395,7 @@ async function handleImageFile(file,statusId){
     if(statusId) setStatus(statusId,'（尚未設定 GitHub，圖片以內嵌方式儲存）');
     return dataUrl;
   }
-  const name=file.name.replace(/[^\w.\-]+/g,'-');
+  const name=file.name.replace(/[^\w.\-\u4e00-\u9fa5]+/g,'-').replace(/-+/g,'-').replace(/^-|-(?=\.)/g,'');
   const path=`images/uploads/${Date.now().toString(36)}-${name}`;
   if(statusId) setStatus(statusId,'圖片上傳中…');
   await ghPutFile(path,dataUrl.split(',')[1],`上傳圖片 ${name}`);
