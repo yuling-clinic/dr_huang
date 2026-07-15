@@ -171,7 +171,6 @@ ${JSON.stringify(jsonLd, null, 2)}
     <h1 class="post-full">${esc(a.title)}</h1>
     <div class="article-meta post-full">${esc(fmtDate)}${(a.tags||[]).length ? '　·　' + (a.tags||[]).map(esc).join('　·　') : ''}</div>
     ${a.cover ? `<div class="article-cover post-body-col"><img src="${esc(relPath(a.cover))}" alt="${esc(a.title)}"></div>` : ''}
-    ${seriesBox ? `<aside class="series-rail post-toc-col">${seriesBox}\n    </aside>` : ''}
     <div class="article-body post-body-col${a.font === 'serif' ? ' font-serif' : ''}">
 ${body}
     </div>
@@ -179,6 +178,7 @@ ${body}
       ${prev ? `<a href="${esc(prev.id)}.html">← ${esc(prev.title)}</a>` : '<a href="../articles.html">← 回文章列表</a>'}
       ${next ? `<a href="${esc(next.id)}.html">${esc(next.title)} →</a>` : '<a href="../articles.html">更多文章 →</a>'}
     </nav>
+    ${seriesBox ? `<aside class="series-rail post-toc-col">${seriesBox}\n    </aside>` : ''}
   </div>
 </article>
 

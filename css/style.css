@@ -182,13 +182,13 @@ p{margin:0 0 1em;}
 @media(min-width:1000px){
   .post-grid.has-rail{
     display:grid;
-    grid-template-columns:270px minmax(0,60ch);
+    grid-template-columns:minmax(240px,1fr) 2fr;
     grid-template-areas:
       "back  back"
       "tag   tag"
       "title title"
       "meta  meta"
-      "cover cover"
+      "rail  cover"
       "rail  body"
       "rail  nav";
     column-gap:44px;
