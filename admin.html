@@ -190,6 +190,13 @@
           </select>
         </div>
         <div><label>發布日期</label><input type="date" id="art-date"></div>
+        <div>
+          <label>內文字型</label>
+          <select id="art-font">
+            <option value="round">黑體（清楚好讀）</option>
+            <option value="serif">明體（溫暖，與標題一致）</option>
+          </select>
+        </div>
       </div>
 
       <label>系列標籤（可填多個，逗號分隔，例如：多洛米蒂健行, 跑步日常。同系列文章會互相串連，排序依發布日期，不是系列就留空）</label>
@@ -496,6 +503,25 @@ document.getElementById('add-institution').addEventListener('click',()=>{
 
 /* ─── 編輯器 ─── */
 const editor=document.getElementById('editor');
+/* 清除貼上／手動編輯殘留的行內樣式（字體、行距、字級、顏色等），讓文章格式統一 */
+function cleanInlineStyles(html){
+  const box=document.createElement('div');
+  box.innerHTML=html;
+  box.querySelectorAll('[style]').forEach(el=>{
+    // 只保留少數有意義的樣式（例如文字對齊），其餘清掉
+    const keep=[];
+    const align=el.style.textAlign;
+    if(align && (align==='center'||align==='right')) keep.push('text-align:'+align);
+    if(keep.length){ el.setAttribute('style',keep.join(';')); }
+    else{ el.removeAttribute('style'); }
+  });
+  // 清掉編輯器常見的多餘標籤屬性
+  box.querySelectorAll('[face],[color],font').forEach(el=>{
+    if(el.tagName==='FONT'){ el.replaceWith(...el.childNodes); }
+    else{ el.removeAttribute('face'); el.removeAttribute('color'); }
+  });
+  return box.innerHTML;
+}
 const rawHtmlBox=document.getElementById('art-raw-html');
 let rawHtmlMode=false;
 function setRawHtmlMode(on, skipSync){
@@ -628,6 +654,7 @@ function openEditor(id){
   editingId=id||null;
   document.getElementById('art-title').value=a?a.title:'';
   document.getElementById('art-category').value=a?a.category:'衛教';
+  document.getElementById('art-font').value=a?(a.font||'round'):'round';
   document.getElementById('art-date').value=a?a.date:new Date().toISOString().slice(0,10);
   document.getElementById('art-series').value=a?seriesArr(a).join(', '):'';
   document.getElementById('art-tags').value=a?(a.tags||[]).join(', '):'';
@@ -666,13 +693,14 @@ document.getElementById('save-article-btn').addEventListener('click',()=>{
     id: editingId||slugify(title),
     title,
     category: document.getElementById('art-category').value,
+    font: document.getElementById('art-font').value,
     date: document.getElementById('art-date').value||new Date().toISOString().slice(0,10),
     series: document.getElementById('art-series').value.split(',').map(s=>s.trim()).filter(Boolean),
     tags: document.getElementById('art-tags').value.split(',').map(s=>s.trim()).filter(Boolean),
     cover: document.getElementById('art-cover').value||'images/cover-placeholder-1.svg',
     excerpt: document.getElementById('art-excerpt').value,
     externalUrl: document.getElementById('art-external-url').value.trim(),
-    contentHtml: rawHtmlMode ? rawHtmlBox.value : editor.innerHTML
+    contentHtml: rawHtmlMode ? rawHtmlBox.value : cleanInlineStyles(editor.innerHTML)
   };
   if(editingId){
     state.articles[state.articles.findIndex(a=>a.id===editingId)]=data;

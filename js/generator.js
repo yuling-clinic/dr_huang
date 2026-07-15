@@ -167,7 +167,7 @@ ${JSON.stringify(jsonLd, null, 2)}
   </section>
 
   <section class="wrap article-layout">
-    <div class="article-body">
+    <div class="article-body${a.font === 'serif' ? ' font-serif' : ''}">
 ${body}
     </div>
 ${seriesBox ? `    <aside class="series-rail">${seriesBox}\n    </aside>` : ''}

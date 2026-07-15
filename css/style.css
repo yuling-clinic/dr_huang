@@ -155,8 +155,16 @@ p{margin:0 0 1em;}
 .article-meta{color:var(--ink-faint);font-size:.84rem;margin-top:10px;font-family:var(--font-round);}
 .article-cover{max-width:64ch;margin:20px auto 10px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:var(--cocoa-soft);border:1px solid var(--hairline);}
 .article-cover img{width:100%;height:100%;object-fit:cover;}
-.article-body{max-width:64ch;margin:0 auto;font-size:1.02rem;color:#6a563f;padding-bottom:30px;}
-.article-body h2{font-size:1.2rem;margin-top:1.8em;}
+.article-body{max-width:64ch;margin:0 auto;font-size:1.02rem;line-height:1.95;color:#6a563f;padding-bottom:30px;font-family:var(--font-round);}
+/* 強制統一：清掉手動編輯殘留的行內字體、行距、字級、顏色，確保每篇一致 */
+.article-body p,.article-body li,.article-body span,.article-body div{
+  font-family:inherit!important;line-height:inherit!important;
+}
+.article-body p{margin:0 0 1.1em;font-size:1.02rem!important;}
+.article-body [style*="font-size"]{font-size:1.02rem!important;}
+/* 明體內文（文章可個別選用） */
+.article-body.font-serif{font-family:var(--font-hand);}
+.article-body h2{font-size:1.2rem;margin-top:1.8em;font-family:var(--font-hand);}
 .article-body h2::after{content:"";display:block;width:36px;height:2px;background:var(--caramel);margin-top:6px;border-radius:2px;}
 .article-body h3{font-size:1.06rem;margin-top:1.4em;}
 .article-body img{border-radius:12px;margin:20px 0;border:1px solid var(--hairline);}
