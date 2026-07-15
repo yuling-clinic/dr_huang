@@ -166,11 +166,11 @@ ${JSON.stringify(jsonLd, null, 2)}
     </div>
   </section>
 
-  <section class="wrap">
+  <section class="wrap article-layout">
     <div class="article-body">
 ${body}
     </div>
-${seriesBox}
+${seriesBox ? `    <aside class="series-rail">${seriesBox}\n    </aside>` : ''}
     <nav class="article-nav">
       ${prev ? `<a href="${esc(prev.id)}.html">← ${esc(prev.title)}</a>` : '<a href="../articles.html">← 回文章列表</a>'}
       ${next ? `<a href="${esc(next.id)}.html">${esc(next.title)} →</a>` : '<a href="../articles.html">更多文章 →</a>'}

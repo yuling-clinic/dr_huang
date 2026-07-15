@@ -223,10 +223,10 @@
       <div class="toolbar" id="wysiwyg-toolbar">
         <button type="button" data-cmd="bold" title="粗體"><b>B</b></button>
         <button type="button" data-cmd="italic" title="斜體"><i>I</i></button>
+        <button type="button" data-cmd="underline" title="底線"><u>U</u></button>
         <span class="sep"></span>
         <button type="button" data-block="h2">大標</button>
         <button type="button" data-block="h3">小標</button>
-        <button type="button" data-block="p">段落</button>
         <button type="button" data-block="blockquote">❝ 引言</button>
         <span class="sep"></span>
         <button type="button" data-cmd="insertUnorderedList">• 條列</button>
@@ -498,12 +498,13 @@ document.getElementById('add-institution').addEventListener('click',()=>{
 const editor=document.getElementById('editor');
 const rawHtmlBox=document.getElementById('art-raw-html');
 let rawHtmlMode=false;
-function setRawHtmlMode(on){
+function setRawHtmlMode(on, skipSync){
   rawHtmlMode=on;
   document.getElementById('wysiwyg-toolbar').style.display=on?'none':'flex';
   editor.style.display=on?'none':'block';
   rawHtmlBox.style.display=on?'block':'none';
   document.getElementById('raw-html-hint').style.display=on?'block':'none';
+  if(skipSync) return;
   if(on){ rawHtmlBox.value=editor.innerHTML; }
   else{ editor.innerHTML=rawHtmlBox.value; }
 }
@@ -521,7 +522,18 @@ editor.addEventListener('keyup',rememberSelection);
 editor.addEventListener('mouseup',rememberSelection);
 
 document.querySelectorAll('.toolbar [data-cmd]').forEach(b=>b.addEventListener('click',()=>{
-  editor.focus(); restoreSelection(); document.execCommand(b.dataset.cmd,false,null);
+  editor.focus(); restoreSelection();
+  if(b.dataset.cmd==='removeFormat'){
+    // 完整清除：行內格式 + 連結 + 區塊格式（標題／引言轉回段落）
+    document.execCommand('removeFormat',false,null);
+    document.execCommand('unlink',false,null);
+    const sel=window.getSelection();
+    if(sel && !sel.isCollapsed){
+      document.execCommand('formatBlock',false,'div');
+    }
+  } else {
+    document.execCommand(b.dataset.cmd,false,null);
+  }
 }));
 document.querySelectorAll('.toolbar [data-block]').forEach(b=>b.addEventListener('click',()=>{
   editor.focus(); restoreSelection(); document.execCommand('formatBlock',false,b.dataset.block);
@@ -624,7 +636,7 @@ function openEditor(id){
   document.getElementById('art-excerpt').value=a?(a.excerpt||''):'';
   document.getElementById('art-external-url').value=a?(a.externalUrl||''):'';
   editor.innerHTML=a?articleHTML(a):'';
-  setRawHtmlMode(false);
+  setRawHtmlMode(false, true);
   savedRange=null;
   box.scrollIntoView({behavior:'smooth',block:'start'});
 }
