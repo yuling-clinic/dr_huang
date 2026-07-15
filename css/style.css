@@ -151,9 +151,9 @@ p{margin:0 0 1em;}
 
 /* ── 單篇文章 ── */
 .article-header{padding:38px 0 14px;}
-.article-header h1{font-size:1.6rem;line-height:1.6;max-width:32ch;}
+.article-header h1{font-size:1.6rem;line-height:1.6;}
 .article-meta{color:var(--ink-faint);font-size:.84rem;margin-top:10px;font-family:var(--font-round);}
-.article-cover{margin:20px 0 10px;border-radius:14px;overflow:hidden;aspect-ratio:16/8;background:var(--cocoa-soft);border:1px solid var(--hairline);}
+.article-cover{max-width:64ch;margin:20px auto 10px;border-radius:14px;overflow:hidden;aspect-ratio:16/7;background:var(--cocoa-soft);border:1px solid var(--hairline);}
 .article-cover img{width:100%;height:100%;object-fit:cover;}
 .article-body{max-width:64ch;margin:0 auto;font-size:1.02rem;color:#6a563f;padding-bottom:30px;}
 .article-body h2{font-size:1.2rem;margin-top:1.8em;}
