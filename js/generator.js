@@ -79,7 +79,16 @@ function buildPostHTML(site, articles, a, baseUrl){
     </div>`;
   }).join('');
 
-  const sorted = [...articles].filter(x => !x.externalUrl).sort((x,y) => new Date(y.date) - new Date(x.date));
+  // 上下篇：優先取「同一系列」中的前後篇；沒有系列才退回全站日期排序
+  const mySeriesList = getSeriesArrayGen(a);
+  let pool;
+  if(mySeriesList.length){
+    // 只取與本篇有共同系列的文章
+    pool = articles.filter(x => !x.externalUrl && getSeriesArrayGen(x).some(s => mySeriesList.includes(s)));
+  } else {
+    pool = articles.filter(x => !x.externalUrl);
+  }
+  const sorted = [...pool].sort((x,y) => new Date(y.date) - new Date(x.date));
   const idx = sorted.findIndex(x => x.id === a.id);
   const prev = sorted[idx+1], next = sorted[idx-1];
 
@@ -156,26 +165,21 @@ ${JSON.stringify(jsonLd, null, 2)}
 </header>
 
 <article>
-  <section class="article-header">
-    <div class="wrap">
-      <a class="back-link" href="../articles.html">← 回文章列表</a>
-      <div><span class="tag" data-cat="${esc(a.category)}">${esc(a.category)}</span></div>
-      <h1>${esc(a.title)}</h1>
-      <div class="article-meta">${esc(fmtDate)}${(a.tags||[]).length ? '　·　' + (a.tags||[]).map(esc).join('　·　') : ''}</div>
-      ${a.cover ? `<div class="article-cover"><img src="${esc(relPath(a.cover))}" alt="${esc(a.title)}"></div>` : ''}
-    </div>
-  </section>
-
-  <section class="wrap article-layout">
-    <div class="article-body${a.font === 'serif' ? ' font-serif' : ''}">
+  <div class="wrap post-grid${seriesBox ? ' has-rail' : ''}">
+    <a class="back-link post-full" href="../articles.html">← 回文章列表</a>
+    <div class="post-full post-tagline"><span class="tag" data-cat="${esc(a.category)}">${esc(a.category)}</span></div>
+    <h1 class="post-full">${esc(a.title)}</h1>
+    <div class="article-meta post-full">${esc(fmtDate)}${(a.tags||[]).length ? '　·　' + (a.tags||[]).map(esc).join('　·　') : ''}</div>
+    ${a.cover ? `<div class="article-cover post-body-col"><img src="${esc(relPath(a.cover))}" alt="${esc(a.title)}"></div>` : ''}
+    ${seriesBox ? `<aside class="series-rail post-toc-col">${seriesBox}\n    </aside>` : ''}
+    <div class="article-body post-body-col${a.font === 'serif' ? ' font-serif' : ''}">
 ${body}
     </div>
-${seriesBox ? `    <aside class="series-rail">${seriesBox}\n    </aside>` : ''}
-    <nav class="article-nav">
+    <nav class="article-nav post-body-col">
       ${prev ? `<a href="${esc(prev.id)}.html">← ${esc(prev.title)}</a>` : '<a href="../articles.html">← 回文章列表</a>'}
       ${next ? `<a href="${esc(next.id)}.html">${esc(next.title)} →</a>` : '<a href="../articles.html">更多文章 →</a>'}
     </nav>
-  </section>
+  </div>
 </article>
 
 <footer class="site-footer">
