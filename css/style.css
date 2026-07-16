@@ -169,7 +169,9 @@ p{margin:0 0 1em;}
 .article-body h2{font-size:1.2rem;margin-top:1.8em;font-family:var(--font-hand);}
 .article-body h2::after{content:"";display:block;width:36px;height:2px;background:var(--caramel);margin-top:6px;border-radius:2px;}
 .article-body h3{font-size:1.06rem;margin-top:1.4em;}
-.article-body img{border-radius:12px;margin:20px 0;border:1px solid var(--hairline);}
+.article-body img{border-radius:12px;margin:20px auto;border:1px solid var(--hairline);max-height:20rem;width:auto;max-width:100%;display:block;object-fit:contain;}
+.article-body figure.gallery-scroll img,.article-body figure.gallery-grid img{max-height:none;width:100%;border:none;}
+.article-body figure.article-figure img{max-height:20rem;width:auto;max-width:100%;margin:0 auto 8px;}
 .article-body figure.article-figure{margin:22px 0;}
 .article-body figure.article-figure img{margin:0 0 8px;}
 .article-body figure.article-figure figcaption{

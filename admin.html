@@ -191,7 +191,7 @@
 
   <div class="panel">
     <h2>文章管理</h2>
-    <p class="hint">編輯器像 Word 一樣操作。要連到自己的其他文章，按「📎 站內文章」直接挑選，不用管網址。</p>
+    <p class="hint">編輯器像 Word 一樣操作。要連到自己的其他文章，按「📎 站內文章」直接挑選，不用管網址。<strong>點一下已插入的圖片，就能新增或修改圖說。</strong></p>
     <div class="btn-row" style="margin-bottom:12px;">
       <select id="filter-category">
         <option value="">全部分類</option>
@@ -696,6 +696,31 @@ editor.addEventListener('paste',async e=>{
   try{ const src=await handleImageFile(item.getAsFile(),'publish-status');
     insertFigure(src);
   }catch(err){ setStatus('publish-status',err.message,true); }
+});
+/* 點編輯器裡的圖片 → 新增或修改圖說 */
+editor.addEventListener('click',e=>{
+  if(e.target.tagName!=='IMG') return;
+  // 找出圖片所屬的 figure（單圖或相冊）
+  let fig=e.target.closest('figure');
+  if(!fig){
+    // 舊的、沒包 figure 的單張圖片：幫它補上 figure 結構
+    const img=e.target;
+    const wrap=document.createElement('figure');
+    wrap.className='article-figure';
+    img.replaceWith(wrap);
+    wrap.appendChild(img);
+    fig=wrap;
+  }
+  const existing=fig.querySelector('figcaption');
+  const cur=existing?existing.textContent:'';
+  const val=prompt('圖說文字（清空並確定可移除圖說）：',cur);
+  if(val===null) return; // 取消
+  const text=val.trim();
+  if(text){
+    if(existing){ existing.textContent=text; }
+    else{ const fc=document.createElement('figcaption'); fc.textContent=text; fig.appendChild(fc); }
+  }else if(existing){ existing.remove(); }
+  saveDraft && saveDraft();
 });
 
 /* ─── 站內文章連結 ─── */
