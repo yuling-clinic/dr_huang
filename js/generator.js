@@ -145,6 +145,9 @@ function buildPostHTML(site, articles, a, baseUrl){
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="../images/favicon-96.png">
+<link rel="icon" type="image/png" sizes="48x48" href="../images/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../images/favicon-180.png">
 <title>${esc(a.title)}｜${esc(site.name)}</title>
 <meta name="description" content="${esc(desc)}">
 ${verifySnippet(site)}
