@@ -650,52 +650,81 @@ function insertFigure(src){
   editor.focus(); restoreSelection();
   document.execCommand('insertHTML',false,figure);
 }
+/* 產生本地即時預覽 URL（讓使用者馬上看到圖，不必等上傳） */
+function localPreviewURL(file){ return URL.createObjectURL(file); }
+/* 插入圖片：先顯示本地預覽，背景上傳完再把 src 換成 GitHub 正式路徑 */
+async function insertImageLive(file){
+  const preview=localPreviewURL(file);
+  const marker='live-'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  const caption=prompt('要幫這張圖片加圖說嗎？（不需要就留空、直接按確定）','');
+  const cap=(caption||'').trim();
+  const capHtml=cap?`<figcaption>${cap.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</figcaption>`:'';
+  const figure=`<figure class="article-figure"><img src="${preview}" data-marker="${marker}" alt="${cap}" style="opacity:.6">${capHtml}</figure><p><br></p>`;
+  editor.focus(); restoreSelection();
+  document.execCommand('insertHTML',false,figure);
+  setStatus('publish-status','圖片上傳中…（已先顯示預覽）');
+  try{
+    const src=await handleImageFile(file,null);
+    const img=editor.querySelector(`img[data-marker="${marker}"]`);
+    if(img){ img.src=src; img.style.opacity=''; img.removeAttribute('data-marker'); }
+    setStatus('publish-status','✅ 圖片已上傳，記得最後按「發布到網站」。');
+    saveDraft && saveDraft();
+  }catch(err){
+    const img=editor.querySelector(`img[data-marker="${marker}"]`);
+    if(img && img.closest('figure')) img.closest('figure').remove();
+    setStatus('publish-status','❌ 圖片上傳失敗：'+err.message,true);
+  }
+}
 document.getElementById('editor-img-upload').addEventListener('change',async e=>{
   const f=e.target.files[0]; if(!f) return;
-  try{ const src=await handleImageFile(f,'publish-status');
-    insertFigure(src);
-  }catch(err){ setStatus('publish-status',err.message,true); }
   e.target.value='';
+  await insertImageLive(f);
 });
 document.getElementById('tb-gallery').addEventListener('click',()=>{ rememberSelection(); document.getElementById('editor-gallery-upload').click(); });
 document.getElementById('editor-gallery-upload').addEventListener('change',async e=>{
   const files=[...e.target.files]; if(!files.length){ return; }
   e.target.value='';
   if(files.length===1){
-    try{ const src=await handleImageFile(files[0],'publish-status'); insertFigure(src); }
-    catch(err){ setStatus('publish-status',err.message,true); }
+    await insertImageLive(files[0]);
     return;
   }
   const layout=prompt('多圖版型：輸入 1 = 橫向滑動相冊，輸入 2 = 網格並排','1');
   if(layout===null) return;
   const cap=(prompt('要幫這組相片加一行圖說嗎？（不需要就留空）','')||'').trim();
+  // 先用本地預覽即時插入整組
+  const markers=files.map((f,i)=>'liveg-'+Date.now().toString(36)+'-'+i);
+  const imgsPreview=files.map((f,i)=>`<img src="${localPreviewURL(f)}" data-marker="${markers[i]}" alt="" style="opacity:.6">`).join('');
+  const capHtml=cap?`<figcaption>${cap.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</figcaption>`:'';
+  let cls, extra='';
+  if(layout.trim()==='2'){ cls='gallery-grid'; if(files.length%3===0) extra=' cols-3'; }
+  else{ cls='gallery-scroll'; }
+  const figure=`<figure class="${cls}${extra}"><div class="gallery-track">${imgsPreview}</div>${capHtml}</figure><p><br></p>`;
+  editor.focus(); restoreSelection();
+  document.execCommand('insertHTML',false,figure);
+  // 背景逐張上傳，完成一張換一張
   setStatus('publish-status',`多圖上傳中… 0/${files.length}`);
-  const srcs=[];
+  let done=0;
   for(let i=0;i<files.length;i++){
     try{
       const src=await handleImageFile(files[i],null);
-      srcs.push(src);
-      setStatus('publish-status',`多圖上傳中… ${i+1}/${files.length}`);
-    }catch(err){ setStatus('publish-status',`第 ${i+1} 張失敗：${err.message}`,true); }
+      const img=editor.querySelector(`img[data-marker="${markers[i]}"]`);
+      if(img){ img.src=src; img.style.opacity=''; img.removeAttribute('data-marker'); }
+      done++;
+      setStatus('publish-status',`多圖上傳中… ${done}/${files.length}`);
+    }catch(err){
+      const img=editor.querySelector(`img[data-marker="${markers[i]}"]`);
+      if(img) img.remove();
+      setStatus('publish-status',`第 ${i+1} 張失敗：${err.message}`,true);
+    }
   }
-  if(!srcs.length) return;
-  const imgs=srcs.map(s=>`<img src="${s}" alt="">`).join('');
-  const capHtml=cap?`<figcaption>${cap.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</figcaption>`:'';
-  let cls, extra='';
-  if(layout.trim()==='2'){ cls='gallery-grid'; if(srcs.length%3===0) extra=' cols-3'; }
-  else{ cls='gallery-scroll'; }
-  const figure=`<figure class="${cls}${extra}"><div class="gallery-track">${imgs}</div>${capHtml}</figure><p><br></p>`;
-  editor.focus(); restoreSelection();
-  document.execCommand('insertHTML',false,figure);
-  setStatus('publish-status',`✅ 已插入 ${srcs.length} 張相片，記得最後按「發布到網站」。`);
+  saveDraft && saveDraft();
+  setStatus('publish-status',`✅ 已插入 ${done} 張相片，記得最後按「發布到網站」。`);
 });
 editor.addEventListener('paste',async e=>{
   const item=[...(e.clipboardData?.items||[])].find(i=>i.type.startsWith('image/'));
   if(!item) return;
   e.preventDefault();
-  try{ const src=await handleImageFile(item.getAsFile(),'publish-status');
-    insertFigure(src);
-  }catch(err){ setStatus('publish-status',err.message,true); }
+  await insertImageLive(item.getAsFile());
 });
 /* 點編輯器裡的圖片 → 新增或修改圖說 */
 editor.addEventListener('click',e=>{
@@ -932,6 +961,10 @@ function slugify(t){
 document.getElementById('save-article-btn').addEventListener('click',()=>{
   const title=document.getElementById('art-title').value.trim();
   if(!title){ alert('請先輸入標題'); return; }
+  if(!rawHtmlMode && /src="blob:/.test(editor.innerHTML)){
+    alert('有圖片還在上傳中（顯示為半透明），請稍等上傳完成再儲存。');
+    return;
+  }
   const data={
     id: editingId||slugify(title),
     title,
