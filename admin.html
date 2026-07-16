@@ -419,16 +419,51 @@ async function ghPutFile(path,b64,msg,_retried){
   }
   return res.json();
 }
+/* 上傳前自動處理：縮到合理尺寸、轉 JPEG、壓縮，解決大檔上傳失敗與格式相容問題 */
+async function compressImage(file, maxW=1600, quality=0.82){
+  // 讀成圖片
+  const dataUrl=await new Promise((res,rej)=>{
+    const r=new FileReader(); r.onload=()=>res(r.result);
+    r.onerror=()=>rej(new Error('讀取圖片失敗')); r.readAsDataURL(file);
+  });
+  const img=await new Promise((res,rej)=>{
+    const im=new Image(); im.onload=()=>res(im);
+    im.onerror=()=>rej(new Error('這個圖片格式瀏覽器無法處理，請改用 JPG 或 PNG'));
+    im.src=dataUrl;
+  });
+  // 計算縮放後尺寸（只縮小、不放大）
+  let w=img.naturalWidth, h=img.naturalHeight;
+  if(w>maxW){ h=Math.round(h*maxW/w); w=maxW; }
+  const canvas=document.createElement('canvas');
+  canvas.width=w; canvas.height=h;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h); // 透明底填白，避免轉JPEG變黑底
+  ctx.drawImage(img,0,0,w,h);
+  // 有透明區域的PNG（例如去背圖）維持PNG，其餘轉JPEG壓縮
+  const hasAlpha = /\.png$/i.test(file.name);
+  const mime = hasAlpha ? 'image/png' : 'image/jpeg';
+  const ext = hasAlpha ? 'png' : 'jpg';
+  const outUrl = canvas.toDataURL(mime, quality);
+  return { dataUrl: outUrl, ext };
+}
+
 async function handleImageFile(file,statusId){
-  const dataUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(new Error('讀取圖片失敗')); r.readAsDataURL(file); });
+  // 先壓縮轉檔（失敗就退回原檔，例如瀏覽器不支援的格式）
+  let processed;
+  try{ processed = await compressImage(file); }
+  catch(err){
+    if(statusId) setStatus(statusId, err.message, true);
+    throw err;
+  }
+  const dataUrl = processed.dataUrl;
   if(!ghReady()){
     if(statusId) setStatus(statusId,'（尚未設定 GitHub，圖片以內嵌方式儲存）');
     return dataUrl;
   }
-  const name=file.name.replace(/[^\w.\-\u4e00-\u9fa5]+/g,'-').replace(/-+/g,'-').replace(/^-|-(?=\.)/g,'');
-  const path=`images/uploads/${Date.now().toString(36)}-${name}`;
+  const baseName=file.name.replace(/\.[^.]+$/,'').replace(/[^\w\-\u4e00-\u9fa5]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'')||'img';
+  const path=`images/uploads/${Date.now().toString(36)}-${baseName}.${processed.ext}`;
   if(statusId) setStatus(statusId,'圖片上傳中…');
-  await ghPutFile(path,dataUrl.split(',')[1],`上傳圖片 ${name}`);
+  await ghPutFile(path,dataUrl.split(',')[1],`上傳圖片 ${baseName}`);
   if(statusId) setStatus(statusId,`圖片已上傳：${path}`);
   return path;
 }
@@ -601,12 +636,19 @@ document.getElementById('tb-link').addEventListener('click',()=>{
   editor.focus(); restoreSelection();
   document.execCommand('createLink',false,url);
 });
-document.getElementById('tb-img').addEventListener('click',()=>document.getElementById('editor-img-upload').click());
+document.getElementById('tb-img').addEventListener('click',()=>{ rememberSelection(); document.getElementById('editor-img-upload').click(); });
+function insertFigure(src){
+  const caption=prompt('要幫這張圖片加圖說嗎？（不需要就留空、直接按確定）','');
+  const cap=(caption||'').trim();
+  const capHtml=cap?`<figcaption>${cap.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</figcaption>`:'';
+  const figure=`<figure class="article-figure"><img src="${src}" alt="${cap}">${capHtml}</figure><p><br></p>`;
+  editor.focus(); restoreSelection();
+  document.execCommand('insertHTML',false,figure);
+}
 document.getElementById('editor-img-upload').addEventListener('change',async e=>{
   const f=e.target.files[0]; if(!f) return;
   try{ const src=await handleImageFile(f,'publish-status');
-    editor.focus(); restoreSelection();
-    document.execCommand('insertImage',false,src);
+    insertFigure(src);
   }catch(err){ setStatus('publish-status',err.message,true); }
   e.target.value='';
 });
@@ -615,7 +657,7 @@ editor.addEventListener('paste',async e=>{
   if(!item) return;
   e.preventDefault();
   try{ const src=await handleImageFile(item.getAsFile(),'publish-status');
-    document.execCommand('insertImage',false,src);
+    insertFigure(src);
   }catch(err){ setStatus('publish-status',err.message,true); }
 });
 
