@@ -78,7 +78,9 @@ function seriesBoxHTML(articles, current){
     if(list.length < 2) return '';
     const items = list.map(a => a.id === current.id
       ? `<li class="current"><span>${a.title}</span>（本篇）</li>`
-      : `<li><a href="posts/${encodeURIComponent(a.id)}.html">${a.title}</a></li>`
+      : a.externalUrl
+        ? `<li><a href="${a.externalUrl}" target="_blank" rel="noopener">${a.title} <span class="ext-icon">↗</span></a></li>`
+        : `<li><a href="posts/${encodeURIComponent(a.id)}.html">${a.title}</a></li>`
     ).join('');
     return `<div class="series-box">
       <div class="series-title">${seriesName} — 系列文章</div>

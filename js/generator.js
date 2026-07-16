@@ -86,7 +86,9 @@ function buildPostHTML(site, articles, a, baseUrl){
       <ol>
         ${siblings.map(s => s.id === a.id
           ? `<li class="current"><span>${esc(s.title)}</span>（本篇）</li>`
-          : `<li><a href="${esc(s.id)}.html">${esc(s.title)}</a></li>`).join('\n        ')}
+          : s.externalUrl
+            ? `<li><a href="${esc(s.externalUrl)}" target="_blank" rel="noopener">${esc(s.title)} <span class="ext-icon">↗</span></a></li>`
+            : `<li><a href="${esc(s.id)}.html">${esc(s.title)}</a></li>`).join('\n        ')}
       </ol>
     </div>`;
   }).join('');

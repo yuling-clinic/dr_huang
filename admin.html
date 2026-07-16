@@ -189,6 +189,19 @@
   <div class="panel">
     <h2>文章管理</h2>
     <p class="hint">編輯器像 Word 一樣操作。要連到自己的其他文章，按「📎 站內文章」直接挑選，不用管網址。</p>
+    <div class="btn-row" style="margin-bottom:12px;">
+      <select id="filter-category">
+        <option value="">全部分類</option>
+        <option value="衛教">衛教</option>
+        <option value="旅遊">旅遊</option>
+        <option value="生活">生活</option>
+        <option value="新聞稿">新聞稿</option>
+      </select>
+      <select id="filter-series">
+        <option value="">全部系列</option>
+      </select>
+      <input type="text" id="filter-keyword" placeholder="🔍 搜尋標題..." style="flex:1;min-width:140px;">
+    </div>
     <div id="article-list"></div>
     <div class="btn-row"><button class="btn" id="new-article-btn">＋ 新增文章</button></div>
 
@@ -640,20 +653,38 @@ pickModal.addEventListener('click',e=>{
 function refreshSeriesList(){
   const names=[...new Set(state.articles.flatMap(a=>seriesArr(a)))];
   document.getElementById('series-list').innerHTML=names.map(n=>`<option value="${n}">`).join('');
+  // 同步更新篩選器的系列選單
+  const fs=document.getElementById('filter-series');
+  if(fs){
+    const cur=fs.value;
+    fs.innerHTML='<option value="">全部系列</option>'+names.map(n=>`<option value="${n}">${n}</option>`).join('');
+    if(names.includes(cur)) fs.value=cur;
+  }
 }
+['filter-category','filter-series','filter-keyword'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener(id==='filter-keyword'?'input':'change',()=>renderArticleList());
+});
 function renderArticleList(){
   const w=document.getElementById('article-list');
-  const sorted=[...state.articles].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const fCat=document.getElementById('filter-category')?.value||'';
+  const fSeries=document.getElementById('filter-series')?.value||'';
+  const fKw=(document.getElementById('filter-keyword')?.value||'').trim().toLowerCase();
+  let list=[...state.articles];
+  if(fCat) list=list.filter(a=>a.category===fCat);
+  if(fSeries) list=list.filter(a=>seriesArr(a).includes(fSeries));
+  if(fKw) list=list.filter(a=>(a.title||'').toLowerCase().includes(fKw));
+  const sorted=list.sort((a,b)=>new Date(b.date)-new Date(a.date));
   w.innerHTML=sorted.length?sorted.map(a=>{
     const sList=seriesArr(a);
     return `
     <div class="article-row">
-      <div class="info"><strong>${a.title||'（未命名）'}</strong>
+      <div class="info"><strong>${a.title||'（未命名）'}${a.externalUrl?' ↗':''}</strong>
         <span>${a.category}${sList.length?' · 🐻 '+sList.join('、'):''} · ${a.date||'未設定'}</span></div>
       <button class="icon-btn" data-edit="${a.id}">編輯</button>
       <button class="icon-btn" data-del="${a.id}">刪除</button>
     </div>`;
-  }).join(''):'<p class="hint">還沒有文章，點下方新增。</p>';
+  }).join(''):'<p class="hint">'+(state.articles.length?'沒有符合篩選條件的文章。':'還沒有文章，點下方新增。')+'</p>';
   w.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>openEditor(b.dataset.edit)));
   w.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{
     if(confirm('確定要刪除這篇文章嗎？')){
