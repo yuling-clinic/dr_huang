@@ -83,6 +83,15 @@
   }
   #editor:focus{ outline:none; border-color: var(--caramel); }
   #editor img{ max-width:100%; border-radius: 10px; }
+  /* 讓編輯器內的圖片預覽跟前台一致 */
+  #editor figure{ margin:20px 0; }
+  #editor figure.article-figure img{ max-height:20rem; width:auto; max-width:100%; display:block; margin:0 auto 8px; }
+  #editor figure figcaption{ font-size:.85rem; color:var(--ink-faint); text-align:center; line-height:1.6; margin-top:6px; }
+  #editor figure.gallery-scroll .gallery-track{ display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; }
+  #editor figure.gallery-scroll .gallery-track img{ flex:0 0 48%; max-width:48%; margin:0; border-radius:10px; max-height:none; }
+  #editor figure.gallery-grid .gallery-track{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  #editor figure.gallery-grid.cols-3 .gallery-track{ grid-template-columns:repeat(3,1fr); }
+  #editor figure.gallery-grid .gallery-track img{ width:100%; margin:0; border-radius:10px; max-height:none; }
   #editor blockquote{ margin:14px 0; padding:10px 16px; background: var(--cocoa-soft); border-radius:10px; border-left:3px solid var(--caramel); color:#7a6047; }
   #editor h2{ font-size:1.2rem; margin:1em 0 .4em; }
   #editor h3{ font-size:1.05rem; margin:.9em 0 .35em; }
@@ -666,9 +675,13 @@ async function insertImageLive(file){
   try{
     const src=await handleImageFile(file,null);
     const img=editor.querySelector(`img[data-marker="${marker}"]`);
-    if(img){ img.src=src; img.style.opacity=''; img.removeAttribute('data-marker'); }
+    if(img){
+      const probe=new Image();
+      probe.onload=()=>{ img.src=src; img.style.opacity=''; img.removeAttribute('data-marker'); img.dataset.finalSrc=src; saveDraft&&saveDraft(); };
+      probe.onerror=()=>{ img.style.opacity=''; img.removeAttribute('data-marker'); img.dataset.finalSrc=src; saveDraft&&saveDraft(); };
+      probe.src=src;
+    }
     setStatus('publish-status','✅ 圖片已上傳，記得最後按「發布到網站」。');
-    saveDraft && saveDraft();
   }catch(err){
     const img=editor.querySelector(`img[data-marker="${marker}"]`);
     if(img && img.closest('figure')) img.closest('figure').remove();
@@ -708,7 +721,13 @@ document.getElementById('editor-gallery-upload').addEventListener('change',async
     try{
       const src=await handleImageFile(files[i],null);
       const img=editor.querySelector(`img[data-marker="${markers[i]}"]`);
-      if(img){ img.src=src; img.style.opacity=''; img.removeAttribute('data-marker'); }
+      if(img){
+        img.dataset.finalSrc=src;
+        const probe=new Image();
+        probe.onload=()=>{ img.src=src; img.style.opacity=''; img.removeAttribute('data-marker'); };
+        probe.onerror=()=>{ img.style.opacity=''; img.removeAttribute('data-marker'); };
+        probe.src=src;
+      }
       done++;
       setStatus('publish-status',`多圖上傳中… ${done}/${files.length}`);
     }catch(err){
@@ -961,6 +980,8 @@ function slugify(t){
 document.getElementById('save-article-btn').addEventListener('click',()=>{
   const title=document.getElementById('art-title').value.trim();
   if(!title){ alert('請先輸入標題'); return; }
+  // 把已上傳完成、但仍顯示本地預覽的圖片，存檔時換成 GitHub 正式路徑
+  editor.querySelectorAll('img[data-final-src]').forEach(img=>{ img.setAttribute('src', img.dataset.finalSrc); });
   if(!rawHtmlMode && /src="blob:/.test(editor.innerHTML)){
     alert('有圖片還在上傳中（顯示為半透明），請稍等上傳完成再儲存。');
     return;
