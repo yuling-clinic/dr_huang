@@ -277,12 +277,14 @@
         <button type="button" id="tb-link" title="連到外部網址">🔗 外部連結</button>
         <button type="button" data-cmd="unlink">解除連結</button>
         <button type="button" id="tb-img">🖼 插圖</button>
+        <button type="button" id="tb-gallery">🖼🖼 多圖</button>
         <span class="sep"></span>
         <button type="button" data-cmd="removeFormat">清除格式</button>
       </div>
       <div id="editor" contenteditable="true"></div>
       <textarea id="art-raw-html" rows="16" style="display:none;font-family:monospace;font-size:.85rem;" placeholder="貼上完整 HTML..."></textarea>
       <input type="file" id="editor-img-upload" accept="image/*" style="display:none">
+      <input type="file" id="editor-gallery-upload" accept="image/*" multiple style="display:none">
 
       <div class="btn-row">
         <button class="btn" id="save-article-btn">儲存這篇文章</button>
@@ -654,6 +656,38 @@ document.getElementById('editor-img-upload').addEventListener('change',async e=>
     insertFigure(src);
   }catch(err){ setStatus('publish-status',err.message,true); }
   e.target.value='';
+});
+document.getElementById('tb-gallery').addEventListener('click',()=>{ rememberSelection(); document.getElementById('editor-gallery-upload').click(); });
+document.getElementById('editor-gallery-upload').addEventListener('change',async e=>{
+  const files=[...e.target.files]; if(!files.length){ return; }
+  e.target.value='';
+  if(files.length===1){
+    try{ const src=await handleImageFile(files[0],'publish-status'); insertFigure(src); }
+    catch(err){ setStatus('publish-status',err.message,true); }
+    return;
+  }
+  const layout=prompt('多圖版型：輸入 1 = 橫向滑動相冊，輸入 2 = 網格並排','1');
+  if(layout===null) return;
+  const cap=(prompt('要幫這組相片加一行圖說嗎？（不需要就留空）','')||'').trim();
+  setStatus('publish-status',`多圖上傳中… 0/${files.length}`);
+  const srcs=[];
+  for(let i=0;i<files.length;i++){
+    try{
+      const src=await handleImageFile(files[i],null);
+      srcs.push(src);
+      setStatus('publish-status',`多圖上傳中… ${i+1}/${files.length}`);
+    }catch(err){ setStatus('publish-status',`第 ${i+1} 張失敗：${err.message}`,true); }
+  }
+  if(!srcs.length) return;
+  const imgs=srcs.map(s=>`<img src="${s}" alt="">`).join('');
+  const capHtml=cap?`<figcaption>${cap.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</figcaption>`:'';
+  let cls, extra='';
+  if(layout.trim()==='2'){ cls='gallery-grid'; if(srcs.length%3===0) extra=' cols-3'; }
+  else{ cls='gallery-scroll'; }
+  const figure=`<figure class="${cls}${extra}"><div class="gallery-track">${imgs}</div>${capHtml}</figure><p><br></p>`;
+  editor.focus(); restoreSelection();
+  document.execCommand('insertHTML',false,figure);
+  setStatus('publish-status',`✅ 已插入 ${srcs.length} 張相片，記得最後按「發布到網站」。`);
 });
 editor.addEventListener('paste',async e=>{
   const item=[...(e.clipboardData?.items||[])].find(i=>i.type.startsWith('image/'));
