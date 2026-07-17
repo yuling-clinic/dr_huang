@@ -200,7 +200,7 @@
 
   <div class="panel">
     <h2>文章管理</h2>
-    <p class="hint">編輯器像 Word 一樣操作。要連到自己的其他文章，按「📎 站內文章」直接挑選，不用管網址。<strong>點一下已插入的圖片，就能新增或修改圖說。</strong></p>
+    <p class="hint">編輯器像 Word 一樣操作。要連到自己的其他文章，按「📎 站內文章」直接挑選，不用管網址。<strong>點一下已插入的圖片：單張圖可改圖說，相冊裡的圖可選裁切要保留的位置。</strong></p>
     <div class="btn-row" style="margin-bottom:12px;">
       <select id="filter-category">
         <option value="">全部分類</option>
@@ -588,10 +588,11 @@ function cleanInlineStyles(html){
   const box=document.createElement('div');
   box.innerHTML=html;
   box.querySelectorAll('[style]').forEach(el=>{
-    // 只保留少數有意義的樣式（例如文字對齊），其餘清掉
+    // 只保留少數有意義的樣式（文字對齊、圖片裁切位置），其餘清掉
     const keep=[];
     const align=el.style.textAlign;
     if(align && (align==='center'||align==='right')) keep.push('text-align:'+align);
+    if(el.tagName==='IMG' && el.style.objectPosition) keep.push('object-position:'+el.style.objectPosition);
     if(keep.length){ el.setAttribute('style',keep.join(';')); }
     else{ el.removeAttribute('style'); }
   });
@@ -748,11 +749,23 @@ editor.addEventListener('paste',async e=>{
 /* 點編輯器裡的圖片 → 新增或修改圖說 */
 editor.addEventListener('click',e=>{
   if(e.target.tagName!=='IMG') return;
-  // 找出圖片所屬的 figure（單圖或相冊）
-  let fig=e.target.closest('figure');
+  const img=e.target;
+  const gallery=img.closest('figure.gallery-scroll, figure.gallery-grid');
+  if(gallery){
+    // 相冊內的圖片：選裁切保留的位置（九宮格）
+    const options=['左上','上中','右上','左中','正中','右中','左下','下中','右下'];
+    const posMap={'左上':'left top','上中':'center top','右上':'right top','左中':'left center','正中':'center center','右中':'right center','左下':'left bottom','下中':'center bottom','右下':'right bottom'};
+    const cur=img.style.objectPosition||'center center';
+    const curName=Object.keys(posMap).find(k=>posMap[k]===cur)||'正中';
+    const pick=prompt(`這張圖要保留哪個位置？（目前：${curName}）\n輸入數字：\n1 左上　2 上中　3 右上\n4 左中　5 正中　6 右中\n7 左下　8 下中　9 右下`,'5');
+    if(pick===null) return;
+    const idx=parseInt(pick.trim(),10)-1;
+    if(idx>=0 && idx<9){ img.style.objectPosition=posMap[options[idx]]; saveDraft&&saveDraft(); }
+    return;
+  }
+  // 單張圖：編輯圖說
+  let fig=img.closest('figure');
   if(!fig){
-    // 舊的、沒包 figure 的單張圖片：幫它補上 figure 結構
-    const img=e.target;
     const wrap=document.createElement('figure');
     wrap.className='article-figure';
     img.replaceWith(wrap);
@@ -762,7 +775,7 @@ editor.addEventListener('click',e=>{
   const existing=fig.querySelector('figcaption');
   const cur=existing?existing.textContent:'';
   const val=prompt('圖說文字（清空並確定可移除圖說）：',cur);
-  if(val===null) return; // 取消
+  if(val===null) return;
   const text=val.trim();
   if(text){
     if(existing){ existing.textContent=text; }
