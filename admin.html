@@ -271,6 +271,9 @@
         貼上完整 HTML（可以包含 &lt;style&gt; 樣式、&lt;details&gt; 展開卡片等），會原封不動存起來，不會被編輯器過濾掉。適合從別的網站搬移內容。切回一般模式再重新編輯，複雜結構可能會被簡化，請斟酌使用。
       </p>
       <div class="toolbar" id="wysiwyg-toolbar">
+        <button type="button" id="tb-undo" title="復原上一步（Ctrl / ⌘ + Z）">↶ 復原</button>
+        <button type="button" id="tb-redo" title="重做（Ctrl / ⌘ + Shift + Z）">↷ 重做</button>
+        <span class="sep"></span>
         <button type="button" data-cmd="bold" title="粗體"><b>B</b></button>
         <button type="button" data-cmd="italic" title="斜體"><i>I</i></button>
         <button type="button" data-cmd="underline" title="底線"><u>U</u></button>
@@ -348,7 +351,11 @@
   <!-- 發布 -->
   <div class="panel">
     <h2>發布到網站</h2>
-    <p class="hint">會把所有內容寫回 GitHub，並為每篇文章產生獨立的網頁檔（讓 Google 搜尋得到），同時更新 sitemap。網站約 1–2 分鐘後更新。</p>
+    <p class="hint">只會上傳「這次真的有改動」的檔案，而且全部打包成一次更新，所以速度很快。文章頁、sitemap、robots 都會自動處理，網站約 1–2 分鐘後生效。</p>
+    <label style="display:flex;align-items:center;gap:8px;margin:0 0 4px;">
+      <input type="checkbox" id="publish-force" style="width:auto;">
+      <span>強制重新產生全部檔案（改過網站樣式、或覺得哪裡沒更新到時再勾）</span>
+    </label>
     <div class="btn-row">
       <button class="btn" id="publish-btn">🚀 發布到網站</button>
       <button class="btn secondary" id="export-btn">改用下載檔案</button>
@@ -627,6 +634,87 @@ function restoreSelection(){
 }
 editor.addEventListener('keyup',rememberSelection);
 editor.addEventListener('mouseup',rememberSelection);
+
+/* ─── 編輯器：復原／重做 ───────────────────────────────
+   用快照的方式記錄內文狀態。不只打字，連插圖、改圖說、
+   相冊裁切等直接改 DOM 的動作也都記得到（瀏覽器內建的
+   Ctrl+Z 對這些操作是失效的）。 */
+const HIST_MAX = 80;          // 最多記住幾步
+const HIST_DELAY = 450;       // 連續打字停下多久才存一個快照(ms)
+let histStack = [], histIdx = -1, histLock = false, histTimer = null;
+
+function histReset(){
+  clearTimeout(histTimer);
+  histStack = [editor.innerHTML];
+  histIdx = 0;
+  histUpdateButtons();
+}
+function histPush(){
+  if(histLock) return;
+  const cur = editor.innerHTML;
+  if(histIdx >= 0 && histStack[histIdx] === cur) return;   // 沒變就不記
+  histStack = histStack.slice(0, histIdx + 1);             // 砍掉重做分支
+  histStack.push(cur);
+  if(histStack.length > HIST_MAX) histStack.shift();
+  histIdx = histStack.length - 1;
+  histUpdateButtons();
+}
+function histSchedule(){
+  if(histLock) return;
+  clearTimeout(histTimer);
+  histTimer = setTimeout(histPush, HIST_DELAY);
+}
+function histApply(i){
+  histLock = true;
+  histIdx = i;
+  editor.innerHTML = histStack[i];
+  histLock = false;
+  savedRange = null;
+  histCaretToEnd();
+  histUpdateButtons();
+}
+function histCaretToEnd(){
+  try{
+    editor.focus();
+    const r = document.createRange();
+    r.selectNodeContents(editor); r.collapse(false);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    rememberSelection();
+  }catch(e){}
+}
+function histUndo(){
+  clearTimeout(histTimer);
+  histPush();                       // 先把還沒存檔的最新狀態記下來
+  if(histIdx <= 0) return;
+  histApply(histIdx - 1);
+}
+function histRedo(){
+  clearTimeout(histTimer);
+  if(histIdx >= histStack.length - 1) return;
+  histApply(histIdx + 1);
+}
+function histUpdateButtons(){
+  const u = document.getElementById('tb-undo'), r = document.getElementById('tb-redo');
+  if(!u || !r) return;
+  const canUndo = histIdx > 0 || (histIdx === histStack.length - 1 && histStack[histIdx] !== editor.innerHTML);
+  u.disabled = !canUndo;  u.style.opacity = canUndo ? '1' : '.4';
+  const canRedo = histIdx < histStack.length - 1;
+  r.disabled = !canRedo;  r.style.opacity = canRedo ? '1' : '.4';
+}
+document.getElementById('tb-undo').addEventListener('click', histUndo);
+document.getElementById('tb-redo').addEventListener('click', histRedo);
+editor.addEventListener('keydown', e => {
+  const mod = e.ctrlKey || e.metaKey;
+  if(!mod) return;
+  const k = e.key.toLowerCase();
+  if(k === 'z'){ e.preventDefault(); e.shiftKey ? histRedo() : histUndo(); }
+  else if(k === 'y'){ e.preventDefault(); histRedo(); }
+});
+/* 監看編輯器裡的任何變動，自動排程快照 */
+new MutationObserver(histSchedule).observe(editor, {
+  childList:true, subtree:true, characterData:true, attributes:true
+});
+histReset();
 
 document.querySelectorAll('.toolbar [data-cmd]').forEach(b=>b.addEventListener('click',()=>{
   editor.focus(); restoreSelection();
@@ -961,6 +1049,7 @@ function openEditor(id){
   editor.innerHTML=a?articleHTML(a):'';
   setRawHtmlMode(false, true);
   savedRange=null;
+  histReset();   // 換一篇文章＝重新開始一段編輯歷程
   box.scrollIntoView({behavior:'smooth',block:'start'});
 }
 document.getElementById('new-article-btn').addEventListener('click',()=>openEditor(null));
@@ -1023,6 +1112,54 @@ document.getElementById('save-article-btn').addEventListener('click',()=>{
 });
 
 /* ─── 發布 ─── */
+/* 指紋表：記錄上次發布時每個檔案的內容特徵，用來判斷這次哪些真的要重傳 */
+const HASH_PATH = 'data/build-hashes.json';
+
+/* 輕量雜湊（FNV-1a），只是用來比對「內容有沒有變」，不需要密碼學強度 */
+function quickHash(str){
+  let h = 0x811c9dc5;
+  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193); }
+  return (h>>>0).toString(16) + '-' + str.length;
+}
+
+/* Git Data API：不管幾個檔案，都只打包成「一次 commit」 */
+async function ghApi(path, opt){
+  const c = ghConfig();
+  const res = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/${path}`, {
+    ...(opt||{}),
+    headers:{ ...ghHeaders(), 'Content-Type':'application/json', ...((opt&&opt.headers)||{}) },
+    cache:'no-store'
+  });
+  if(!res.ok){
+    const d = await res.json().catch(()=>({}));
+    throw new Error(`${path}（${res.status}）${d.message||''}`);
+  }
+  return res.json();
+}
+async function ghCommitFiles(files, deletes, message){
+  const c = ghConfig();
+  const ref = await ghApi(`git/ref/heads/${c.branch}?_=${Date.now()}`);
+  const parentSha = ref.object.sha;
+  const parentCommit = await ghApi(`git/commits/${parentSha}`);
+  const tree = [
+    ...files.map(f => ({ path:f.path, mode:'100644', type:'blob', content:f.content })),
+    ...deletes.map(p => ({ path:p, mode:'100644', type:'blob', sha:null }))
+  ];
+  const newTree = await ghApi('git/trees', {
+    method:'POST',
+    body: JSON.stringify({ base_tree: parentCommit.tree.sha, tree })
+  });
+  const commit = await ghApi('git/commits', {
+    method:'POST',
+    body: JSON.stringify({ message, tree:newTree.sha, parents:[parentSha] })
+  });
+  await ghApi(`git/refs/heads/${c.branch}`, {
+    method:'PATCH',
+    body: JSON.stringify({ sha: commit.sha })
+  });
+  return commit.sha;
+}
+
 document.getElementById('publish-btn').addEventListener('click',async()=>{
   readSiteForm();
   if(!ghReady()){ setStatus('publish-status','請先設定 GitHub 連線，或改用下載檔案。',true); return; }
@@ -1032,43 +1169,74 @@ document.getElementById('publish-btn').addEventListener('click',async()=>{
     setStatus('publish-status','請先在「網站基本資訊」填寫網站網址，Google 才能正確收錄你的文章。',true);
     return;
   }
-
-  const stamp = new Date().toLocaleString('zh-TW');
-  const total = state.articles.length + 4;
-  let done = 0;
-  const step = (label) => { done++; setStatus('publish-status', `發布中… (${done}/${total}) ${label}`); };
+  const force = !!document.getElementById('publish-force')?.checked;
+  const btn = document.getElementById('publish-btn');
+  btn.disabled = true;
 
   try{
-    // 1. 資料檔
-    await ghPutFile('data/articles.json', b64encode(JSON.stringify(state,null,2)), `更新網站內容 ${stamp}`);
-    step('網站內容');
+    setStatus('publish-status','正在比對哪些檔案有變更…');
 
-    // 2. 每篇文章 → 產生真實的靜態 HTML（Google 直接讀得到，不需要跑 JS）
-    //    外部連結文章（如新聞稿）不需要內部頁面，直接跳過
+    /* 1. 先在本機把「這次網站應該長成什麼樣」全部產生出來（不上傳） */
+    const files = [];
+    files.push({ path:'data/articles.json', content: JSON.stringify(state,null,2) });
+    const titleOf = {};
     for(const a of state.articles){
-      if(a.externalUrl){ continue; }
-      const html = buildPostHTML(state.site, state.articles, a, baseUrl);
-      await ghPutFile(`posts/${a.id}.html`, b64encode(html), `更新文章：${a.title}`);
-      step(a.title);
+      if(a.externalUrl) continue;              // 外部連結文章不需要站內頁面
+      const p = `posts/${a.id}.html`;
+      titleOf[p] = a.title;
+      files.push({ path:p, content: buildPostHTML(state.site, state.articles, a, baseUrl) });
+    }
+    files.push({ path:'sitemap.xml',  content: buildSitemap(state.site, state.articles, baseUrl) });
+    files.push({ path:'robots.txt',   content: buildRobots(baseUrl) });
+    files.push({ path:'article.html', content: buildRedirectPage() });
+
+    /* 2. 讀上次發布留下的指紋表 */
+    let prev = {};
+    if(!force){
+      const f = await ghGetFile(HASH_PATH);
+      if(f && f.content){ try{ prev = JSON.parse(b64decode(f.content)); }catch(e){ prev = {}; } }
     }
 
-    // 3. sitemap（告訴 Google 有哪些頁面）
-    await ghPutFile('sitemap.xml', b64encode(buildSitemap(state.site, state.articles, baseUrl)), `更新 sitemap ${stamp}`);
-    step('sitemap.xml');
+    /* 3. 只留下內容真的不一樣的檔案
+          （改一篇文章時，同系列鄰居的目錄／上下篇導覽也會跟著變，
+            指紋比對會自動把受影響的那幾篇一起挑出來，不會漏） */
+    const next = {};
+    files.forEach(f => { next[f.path] = quickHash(f.content); });
+    const changed = files.filter(f => prev[f.path] !== next[f.path]);
 
-    // 4. robots（允許搜尋引擎爬，但擋掉後台）
-    await ghPutFile('robots.txt', b64encode(buildRobots(baseUrl)), `更新 robots.txt`);
-    step('robots.txt');
+    /* 4. 已刪除或改過標題(網址)的舊文章頁，從 repo 一併清掉 */
+    const gone = Object.keys(prev).filter(p => p.startsWith('posts/') && !next[p]);
 
-    // 5. 舊網址轉址頁
-    await ghPutFile('article.html', b64encode(buildRedirectPage()), `更新轉址頁`);
-    step('轉址頁');
+    if(!changed.length && !gone.length){
+      setStatus('publish-status','✅ 沒有偵測到任何變更，網站已是最新狀態。');
+      btn.disabled = false;
+      return;
+    }
+
+    const changedPosts = changed.filter(f => f.path.startsWith('posts/'));
+    const summary = changedPosts.length
+      ? changedPosts.slice(0,6).map(f => '・' + (titleOf[f.path]||f.path)).join('\n')
+        + (changedPosts.length>6 ? `\n・…等共 ${changedPosts.length} 篇` : '')
+      : '（這次沒有文章內容變動）';
+
+    /* 指紋表本身也放進同一個 commit */
+    const payload = changed.concat([{ path:HASH_PATH, content: JSON.stringify(next,null,2) }]);
+
+    setStatus('publish-status', `上傳中… 共 ${payload.length} 個檔案${gone.length?`，並清除 ${gone.length} 個舊頁面`:''}\n${summary}`);
+
+    const stamp = new Date().toLocaleString('zh-TW');
+    await ghCommitFiles(payload, gone, `更新網站 ${stamp}`);
 
     setStatus('publish-status',
-      `✅ 已發布！共 ${state.articles.length} 篇文章。\n約 1–2 分鐘後生效。\n` +
-      `每篇文章都已產生獨立網頁，Google 可以直接讀取內容。`);
+      `✅ 已發布！這次只上傳了 ${payload.length} 個檔案（全站共 ${state.articles.length} 篇文章）。\n` +
+      (gone.length ? `已清除 ${gone.length} 個不再使用的舊頁面。\n` : '') +
+      `更新內容：\n${summary}\n約 1–2 分鐘後生效。`);
+    document.getElementById('publish-force').checked = false;
   }catch(e){
-    setStatus('publish-status',`發布失敗：${e.message}\n請確認 token 權限包含 Contents 的 Read and write。`,true);
+    setStatus('publish-status',
+      `發布失敗：${e.message}\n請確認 token 權限包含 Contents 的 Read and write。\n（若持續失敗，可勾選「強制重新產生全部檔案」再試一次）`, true);
+  }finally{
+    btn.disabled = false;
   }
 });
 document.getElementById('export-btn').addEventListener('click',()=>{
