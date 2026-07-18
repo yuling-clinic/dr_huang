@@ -292,6 +292,7 @@
         <button type="button" id="tb-gallery">🖼🖼 多圖</button>
         <span class="sep"></span>
         <button type="button" data-cmd="removeFormat">清除格式</button>
+        <button type="button" id="tb-paste-mode" title="切換貼上時要不要保留來源格式">📋 純文字貼上：開</button>
       </div>
       <div id="editor" contenteditable="true"></div>
       <textarea id="art-raw-html" rows="16" style="display:none;font-family:monospace;font-size:.85rem;" placeholder="貼上完整 HTML..."></textarea>
@@ -850,11 +851,21 @@ document.getElementById('editor-gallery-upload').addEventListener('change',async
   saveDraft && saveDraft();
   setStatus('publish-status',`✅ 已插入 ${done} 張相片，記得最後按「發布到網站」。`);
 });
+/* 貼上：預設轉成純文字，套用網站自己的字體與顏色。
+   （從記事本、Word、網頁複製過來時，會夾帶原本的字型／顏色／字級） */
+let pastePlain = true;
 editor.addEventListener('paste',async e=>{
   const item=[...(e.clipboardData?.items||[])].find(i=>i.type.startsWith('image/'));
-  if(!item) return;
+  if(item){
+    e.preventDefault();
+    await insertImageLive(item.getAsFile());
+    return;
+  }
+  if(!pastePlain) return;                      // 關掉時走瀏覽器預設（保留原格式）
+  const text = e.clipboardData?.getData('text/plain');
+  if(text == null || text === '') return;
   e.preventDefault();
-  await insertImageLive(item.getAsFile());
+  document.execCommand('insertText', false, text);
 });
 /* 點編輯器裡的圖片 → 新增或修改圖說 */
 editor.addEventListener('click',e=>{
@@ -1205,6 +1216,13 @@ async function ghPutFilesOneByOne(files, deletes, message, onStep){
   }
 }
 
+document.getElementById('tb-paste-mode').addEventListener('click', () => {
+  pastePlain = !pastePlain;
+  const b = document.getElementById('tb-paste-mode');
+  b.textContent = pastePlain ? '📋 純文字貼上：開' : '📋 純文字貼上：關';
+  b.style.opacity = pastePlain ? '1' : '.55';
+});
+
 /* 掃描所有文章引用到的站內圖片，確認 repo 裡真的存在
    （網路中斷時圖片上傳可能失敗，但路徑已經寫進內文了） */
 document.getElementById('check-images-btn').addEventListener('click', async () => {
@@ -1273,6 +1291,29 @@ async function ensureGenerator(){
   if(!ok()) throw new Error('js/generator.js 已載入，但裡面找不到產生文章頁的函式');
 }
 
+/* 編輯器裡有還沒按「儲存這篇文章」的改動嗎？
+   （常見狀況：改完文字直接按發布，結果什麼都沒更新） */
+function editorDirty(){
+  const box = document.getElementById('article-editor');
+  if(!box.classList.contains('open')) return false;
+  const v = id => document.getElementById(id).value;
+  const title = v('art-title').trim();
+  const html = rawHtmlMode ? rawHtmlBox.value : cleanInlineStyles(editor.innerHTML);
+  if(!editingId) return !!(title || html.replace(/<[^>]*>/g,'').trim());
+  const a = state.articles.find(x => x.id === editingId);
+  if(!a) return true;
+  const norm = s => (s||'').replace(/\s+/g,' ').trim();
+  return norm(title) !== norm(a.title)
+      || norm(html) !== norm(a.contentHtml)
+      || v('art-category') !== a.category
+      || v('art-date') !== a.date
+      || norm(v('art-excerpt')) !== norm(a.excerpt)
+      || norm(v('art-cover')) !== norm(a.cover)
+      || norm(v('art-external-url')) !== norm(a.externalUrl)
+      || v('art-series').split(',').map(s=>s.trim()).filter(Boolean).join(',') !== seriesArr(a).join(',')
+      || v('art-tags').split(',').map(s=>s.trim()).filter(Boolean).join(',') !== (a.tags||[]).join(',');
+}
+
 document.getElementById('publish-btn').addEventListener('click',async()=>{
   readSiteForm();
   if(!ghReady()){ setStatus('publish-status','請先設定 GitHub 連線，或改用下載檔案。',true); return; }
@@ -1283,6 +1324,17 @@ document.getElementById('publish-btn').addEventListener('click',async()=>{
     return;
   }
   const force = !!document.getElementById('publish-force')?.checked;
+
+  if(editorDirty()){
+    const go = confirm('文章編輯器裡有還沒儲存的改動。\n\n按「確定」＝先儲存這篇文章，再繼續發布。\n按「取消」＝停下來，這次不發布。');
+    if(!go) return;
+    document.getElementById('save-article-btn').click();
+    if(editorDirty()){                 // 儲存被擋下（例如沒填標題、圖片還在上傳）
+      setStatus('publish-status','文章尚未儲存成功，請看上方提示處理後再發布。',true);
+      return;
+    }
+  }
+
   const btn = document.getElementById('publish-btn');
   btn.disabled = true;
 
@@ -1322,7 +1374,7 @@ document.getElementById('publish-btn').addEventListener('click',async()=>{
     const gone = Object.keys(prev).filter(p => p.startsWith('posts/') && !next[p]);
 
     if(!changed.length && !gone.length){
-      setStatus('publish-status','✅ 沒有偵測到任何變更，網站已是最新狀態。');
+      setStatus('publish-status','✅ 沒有偵測到任何變更，網站已是最新狀態。\n（如果你剛改過文章卻看到這個訊息，請確認有按過「儲存這篇文章」——編輯器裡的內容要儲存後才算數。）');
       btn.disabled = false;
       return;
     }
