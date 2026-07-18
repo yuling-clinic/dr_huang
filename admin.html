@@ -1123,24 +1123,41 @@ function quickHash(str){
 }
 
 /* Git Data API：不管幾個檔案，都只打包成「一次 commit」 */
-async function ghApi(path, opt){
+async function ghApi(path, opt, label){
   const c = ghConfig();
-  const res = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/${path}`, {
-    ...(opt||{}),
-    headers:{ ...ghHeaders(), 'Content-Type':'application/json', ...((opt&&opt.headers)||{}) },
-    cache:'no-store'
-  });
+  let res;
+  try{
+    res = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/${path}`, {
+      ...(opt||{}),
+      headers:{ ...ghHeaders(), 'Content-Type':'application/json', ...((opt&&opt.headers)||{}) },
+      cache:'no-store'
+    });
+  }catch(e){
+    // fetch 直接拋錯＝請求沒送出或沒收到回應（被擴充功能/proxy 擋、離線、body 過大）
+    const err = new Error(`網路層失敗（步驟：${label||path}）：${e.message}`);
+    err.isNetwork = true;
+    throw err;
+  }
   if(!res.ok){
     const d = await res.json().catch(()=>({}));
-    throw new Error(`${path}（${res.status}）${d.message||''}`);
+    throw new Error(`${label||path}（HTTP ${res.status}）${d.message||''}`);
   }
   return res.json();
 }
+async function ghDeleteFile(path, msg){
+  const cur = await ghGetFile(path);
+  if(!cur || !cur.sha) return;
+  await fetch(ghUrl(path), {
+    method:'DELETE',
+    headers:{ ...ghHeaders(), 'Content-Type':'application/json' },
+    body: JSON.stringify({ message: msg, sha: cur.sha, branch: ghConfig().branch })
+  });
+}
 async function ghCommitFiles(files, deletes, message){
   const c = ghConfig();
-  const ref = await ghApi(`git/ref/heads/${c.branch}?_=${Date.now()}`);
+  const ref = await ghApi(`git/ref/heads/${c.branch}?_=${Date.now()}`, null, '讀取分支位置');
   const parentSha = ref.object.sha;
-  const parentCommit = await ghApi(`git/commits/${parentSha}`);
+  const parentCommit = await ghApi(`git/commits/${parentSha}`, null, '讀取上一次提交');
   const tree = [
     ...files.map(f => ({ path:f.path, mode:'100644', type:'blob', content:f.content })),
     ...deletes.map(p => ({ path:p, mode:'100644', type:'blob', sha:null }))
@@ -1148,16 +1165,30 @@ async function ghCommitFiles(files, deletes, message){
   const newTree = await ghApi('git/trees', {
     method:'POST',
     body: JSON.stringify({ base_tree: parentCommit.tree.sha, tree })
-  });
+  }, '建立檔案樹');
   const commit = await ghApi('git/commits', {
     method:'POST',
     body: JSON.stringify({ message, tree:newTree.sha, parents:[parentSha] })
-  });
+  }, '建立提交');
   await ghApi(`git/refs/heads/${c.branch}`, {
     method:'PATCH',
     body: JSON.stringify({ sha: commit.sha })
-  });
+  }, '更新分支（PATCH）');
   return commit.sha;
+}
+
+/* 備援：Git Data API 被擋時，改用原本逐檔上傳的 Contents API。
+   因為增量比對還在，通常只剩下少數幾個檔案，還是很快。 */
+async function ghPutFilesOneByOne(files, deletes, message, onStep){
+  let n = 0;
+  for(const f of files){
+    await ghPutFile(f.path, b64encode(f.content), message);
+    onStep && onStep(++n, files.length + deletes.length, f.path);
+  }
+  for(const p of deletes){
+    await ghDeleteFile(p, message);
+    onStep && onStep(++n, files.length + deletes.length, '刪除 ' + p);
+  }
 }
 
 document.getElementById('publish-btn').addEventListener('click',async()=>{
@@ -1225,16 +1256,34 @@ document.getElementById('publish-btn').addEventListener('click',async()=>{
     setStatus('publish-status', `上傳中… 共 ${payload.length} 個檔案${gone.length?`，並清除 ${gone.length} 個舊頁面`:''}\n${summary}`);
 
     const stamp = new Date().toLocaleString('zh-TW');
-    await ghCommitFiles(payload, gone, `更新網站 ${stamp}`);
+    let usedFallback = false;
+    try{
+      await ghCommitFiles(payload, gone, `更新網站 ${stamp}`);
+    }catch(fastErr){
+      // 快速路徑失敗 → 自動退回逐檔上傳（只傳有變的那幾個，仍然很快）
+      usedFallback = true;
+      console.warn('快速發布失敗，改用逐檔上傳：', fastErr);
+      setStatus('publish-status',
+        `快速發布無法使用（${fastErr.message}）\n已自動改用逐檔上傳，請稍候…`);
+      await ghPutFilesOneByOne(payload, gone, `更新網站 ${stamp}`,
+        (n, total, label) => setStatus('publish-status',
+          `逐檔上傳中… (${n}/${total}) ${label}`));
+    }
 
     setStatus('publish-status',
       `✅ 已發布！這次只上傳了 ${payload.length} 個檔案（全站共 ${state.articles.length} 篇文章）。\n` +
       (gone.length ? `已清除 ${gone.length} 個不再使用的舊頁面。\n` : '') +
+      (usedFallback ? `（這次走的是備援的逐檔上傳，稍慢但結果一樣）\n` : '') +
       `更新內容：\n${summary}\n約 1–2 分鐘後生效。`);
     document.getElementById('publish-force').checked = false;
   }catch(e){
-    setStatus('publish-status',
-      `發布失敗：${e.message}\n請確認 token 權限包含 Contents 的 Read and write。\n（若持續失敗，可勾選「強制重新產生全部檔案」再試一次）`, true);
+    const hint = e.isNetwork
+      ? '這是網路層的錯誤，通常不是 token 的問題。可以試試：\n'
+        + '・暫時關閉廣告／隱私阻擋類的瀏覽器擴充功能\n'
+        + '・取消勾選「強制重新產生全部檔案」（整包資料太大時容易被中斷）\n'
+        + '・換一個網路環境（醫院網路可能擋掉部分請求）'
+      : '若是 401／403，請確認 token 權限包含 Contents 的 Read and write，且 token 尚未過期。';
+    setStatus('publish-status', `發布失敗：${e.message}\n\n${hint}`, true);
   }finally{
     btn.disabled = false;
   }
