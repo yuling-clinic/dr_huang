@@ -358,6 +358,7 @@
     </label>
     <div class="btn-row">
       <button class="btn" id="publish-btn">🚀 發布到網站</button>
+      <button class="btn secondary" id="check-images-btn">🔎 檢查圖片是否都上傳成功</button>
       <button class="btn secondary" id="export-btn">改用下載檔案</button>
       <input type="file" id="import-file" accept="application/json" style="display:none">
       <button class="btn secondary" onclick="document.getElementById('import-file').click()">從檔案匯入</button>
@@ -418,9 +419,30 @@ function b64decode(b64){
   const bin=atob(b64.replace(/\n/g,''));
   return new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)));
 }
+/* 網路不穩時（換 Wi-Fi、VPN、訊號中斷）自動重試，避免整個動作前功盡棄 */
+async function fetchRetry(url, opt, label, tries){
+  tries = tries || 3;
+  let lastErr;
+  for(let i=1;i<=tries;i++){
+    try{
+      return await fetch(url, opt);
+    }catch(e){
+      lastErr = e;
+      if(i < tries){
+        const wait = 800 * i;
+        const el = document.getElementById('publish-status');
+        if(el) el.textContent = `網路不穩，${wait/1000} 秒後重試（第 ${i}/${tries-1} 次）… ${label||''}`;
+        await new Promise(r => setTimeout(r, wait));
+      }
+    }
+  }
+  const err = new Error(`網路連線中斷（${label||url}）：${lastErr.message}`);
+  err.isNetwork = true;
+  throw err;
+}
 async function ghGetFile(path){
   const bust = `&_=${Date.now()}`;
-  const res=await fetch(`${ghUrl(path)}?ref=${ghConfig().branch}${bust}`,{headers:ghHeaders(),cache:'no-store'});
+  const res=await fetchRetry(`${ghUrl(path)}?ref=${ghConfig().branch}${bust}`,{headers:ghHeaders(),cache:'no-store'},'讀取 '+path);
   if(res.status===404) return null;
   if(!res.ok) throw new Error(`讀取 ${path} 失敗（${res.status}）`);
   return res.json();
@@ -429,7 +451,7 @@ async function ghPutFile(path,b64,msg,_retried){
   const cur=await ghGetFile(path);
   const body={message:msg,content:b64,branch:ghConfig().branch};
   if(cur&&cur.sha) body.sha=cur.sha;
-  const res=await fetch(ghUrl(path),{method:'PUT',headers:{...ghHeaders(),'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const res=await fetchRetry(ghUrl(path),{method:'PUT',headers:{...ghHeaders(),'Content-Type':'application/json'},body:JSON.stringify(body)},'寫入 '+path);
   if(!res.ok){
     if(res.status===409 && !_retried){
       // 版本衝突：重新抓最新版再寫一次，通常會自動解決
@@ -1125,19 +1147,11 @@ function quickHash(str){
 /* Git Data API：不管幾個檔案，都只打包成「一次 commit」 */
 async function ghApi(path, opt, label){
   const c = ghConfig();
-  let res;
-  try{
-    res = await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/${path}`, {
-      ...(opt||{}),
-      headers:{ ...ghHeaders(), 'Content-Type':'application/json', ...((opt&&opt.headers)||{}) },
-      cache:'no-store'
-    });
-  }catch(e){
-    // fetch 直接拋錯＝請求沒送出或沒收到回應（被擴充功能/proxy 擋、離線、body 過大）
-    const err = new Error(`網路層失敗（步驟：${label||path}）：${e.message}`);
-    err.isNetwork = true;
-    throw err;
-  }
+  const res = await fetchRetry(`https://api.github.com/repos/${c.owner}/${c.repo}/${path}`, {
+    ...(opt||{}),
+    headers:{ ...ghHeaders(), 'Content-Type':'application/json', ...((opt&&opt.headers)||{}) },
+    cache:'no-store'
+  }, label||path);
   if(!res.ok){
     const d = await res.json().catch(()=>({}));
     throw new Error(`${label||path}（HTTP ${res.status}）${d.message||''}`);
@@ -1191,6 +1205,74 @@ async function ghPutFilesOneByOne(files, deletes, message, onStep){
   }
 }
 
+/* 掃描所有文章引用到的站內圖片，確認 repo 裡真的存在
+   （網路中斷時圖片上傳可能失敗，但路徑已經寫進內文了） */
+document.getElementById('check-images-btn').addEventListener('click', async () => {
+  if(!ghReady()){ setStatus('publish-status','請先設定 GitHub 連線。',true); return; }
+  const btn = document.getElementById('check-images-btn');
+  btn.disabled = true;
+  try{
+    // 收集每篇文章用到的站內圖片路徑
+    const uses = new Map();   // 路徑 → [文章標題]
+    const collect = (path, title) => {
+      if(!path || /^https?:|^data:|^blob:/.test(path)) return;
+      const p = path.replace(/^\.?\//,'').split('?')[0];
+      if(!p.startsWith('images/')) return;
+      if(!uses.has(p)) uses.set(p, []);
+      if(!uses.get(p).includes(title)) uses.get(p).push(title);
+    };
+    for(const a of state.articles){
+      collect(a.cover, a.title);
+      const box = document.createElement('div');
+      box.innerHTML = a.contentHtml || '';
+      box.querySelectorAll('img').forEach(img => collect(img.getAttribute('src'), a.title));
+    }
+    collect(state.site.avatar, '（網站大頭照）');
+
+    const paths = [...uses.keys()];
+    if(!paths.length){ setStatus('publish-status','沒有找到任何站內圖片。'); return; }
+
+    const missing = [];
+    let i = 0;
+    for(const p of paths){
+      setStatus('publish-status', `檢查中… (${++i}/${paths.length}) ${p}`);
+      const f = await ghGetFile(p);
+      if(!f) missing.push(p);
+    }
+
+    if(!missing.length){
+      setStatus('publish-status', `✅ 全部 ${paths.length} 張圖片都存在，沒有問題。`);
+    }else{
+      const detail = missing.map(p => `・${p}\n　　出現在：${uses.get(p).join('、')}`).join('\n');
+      setStatus('publish-status',
+        `⚠️ 有 ${missing.length} 張圖片在 repo 裡找不到（多半是上傳當下網路中斷）：\n${detail}\n\n` +
+        `處理方式：打開上面列出的文章，把顯示破圖的那張刪掉，重新插入一次即可。`, true);
+    }
+  }catch(e){
+    setStatus('publish-status', `檢查失敗：${e.message}`, true);
+  }finally{
+    btn.disabled = false;
+  }
+});
+
+/* 確保 js/generator.js 已經載入（偶爾會因為快取或網路問題沒載到，
+   造成 buildPostHTML is not defined。這裡自動補載一次。） */
+async function ensureGenerator(){
+  const ok = () => typeof buildPostHTML === 'function'
+              && typeof buildSitemap === 'function'
+              && typeof buildRobots === 'function'
+              && typeof buildRedirectPage === 'function';
+  if(ok()) return;
+  await new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'js/generator.js?_=' + Date.now();
+    s.onload = res;
+    s.onerror = () => rej(new Error('讀不到 js/generator.js（請確認這個檔案存在於網站上）'));
+    document.head.appendChild(s);
+  });
+  if(!ok()) throw new Error('js/generator.js 已載入，但裡面找不到產生文章頁的函式');
+}
+
 document.getElementById('publish-btn').addEventListener('click',async()=>{
   readSiteForm();
   if(!ghReady()){ setStatus('publish-status','請先設定 GitHub 連線，或改用下載檔案。',true); return; }
@@ -1205,6 +1287,7 @@ document.getElementById('publish-btn').addEventListener('click',async()=>{
   btn.disabled = true;
 
   try{
+    await ensureGenerator();
     setStatus('publish-status','正在比對哪些檔案有變更…');
 
     /* 1. 先在本機把「這次網站應該長成什麼樣」全部產生出來（不上傳） */
@@ -1282,7 +1365,13 @@ document.getElementById('publish-btn').addEventListener('click',async()=>{
         + '・暫時關閉廣告／隱私阻擋類的瀏覽器擴充功能\n'
         + '・取消勾選「強制重新產生全部檔案」（整包資料太大時容易被中斷）\n'
         + '・換一個網路環境（醫院網路可能擋掉部分請求）'
-      : '若是 401／403，請確認 token 權限包含 Contents 的 Read and write，且 token 尚未過期。';
+      : /is not defined|generator\.js|找不到.*函式/.test(e.message)
+      ? '這是網頁程式檔沒載入完整造成的，跟 token 無關。\n'
+        + '請按 Ctrl/⌘ + Shift + R 強制重新整理後再試一次。\n'
+        + '若仍然發生，請確認 repo 裡的 js/generator.js 檔案存在且沒有損毀。'
+      : /HTTP 40[13]/.test(e.message)
+      ? '請確認 token 權限包含 Contents 的 Read and write，且 token 尚未過期。'
+      : '請把上面這行錯誤訊息記下來，並開啟開發者工具（F12）的 Console 查看詳細資訊。';
     setStatus('publish-status', `發布失敗：${e.message}\n\n${hint}`, true);
   }finally{
     btn.disabled = false;
