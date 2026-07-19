@@ -3,44 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ★ 這一頁的存在目的：讓 Google 在「網域層級」找得到 favicon 與網站名稱。
-     檔名請維持 index.html，放在名為 yuling-clinic.github.io 的 repository 根目錄。 -->
-
-<!-- 圖示直接沿用 dr_huang 裡既有的檔案（同一個主機名稱，Google 可以正常抓取），
-     所以這個 repo 只需要放這一支 index.html 就好。 -->
-<link rel="icon" type="image/png" sizes="96x96" href="/dr_huang/images/favicon-96.png">
-<link rel="icon" type="image/png" sizes="48x48" href="/dr_huang/images/favicon-48.png">
-<link rel="icon" type="image/svg+xml" href="/dr_huang/images/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="/dr_huang/images/favicon-180.png">
-
-<title>黃玉齡醫師｜小兒內分泌暨遺傳科</title>
-<meta name="description" content="小兒內分泌暨遺傳科醫師的門診資訊、衛教文章與生活紀錄。">
-<link rel="canonical" href="https://yuling-clinic.github.io/dr_huang/">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "黃玉齡醫師",
-  "url": "https://yuling-clinic.github.io/"
-}
-</script>
-
-<style>
-  body{
-    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-    background:#F3EADA; color:#6B4A2E; text-align:center;
-    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
-  }
-  a{color:#A97E54;}
-</style>
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96.png">
+<link rel="icon" type="image/png" sizes="48x48" href="images/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
+<title>個人網站</title>
+<meta name="description" id="meta-desc" content="小兒內分泌暨遺傳科醫師的門診資訊、衛教文章與生活紀錄。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="" id="og-title">
+<meta property="og:description" content="" id="og-desc">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div>
-    <p>轉跳中…</p>
-    <p><a href="/dr_huang/">若沒有自動跳轉，請點這裡前往網站</a></p>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="seal">醫</span>
+      <span id="brand-name"></span>
+    </a>
+    <button class="nav-toggle" aria-label="開啟選單" aria-expanded="false">☰</button>
+    <nav class="site-nav">
+      <a href="index.html" class="active">首頁</a>
+      <a href="articles.html?cat=衛教">衛教</a>
+      <a href="articles.html?cat=新聞稿">新聞稿</a>
+      <a href="articles.html?cat=life">診間之外</a>
+      <a href="index.html#about">關於</a>
+      <a href="index.html#clinic" class="nav-cta">線上掛號</a>
+    </nav>
   </div>
-  <script>location.replace('/dr_huang/');</script>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-photo">
+      <img id="hero-avatar" src="images/avatar.jpg" alt="醫師照片"
+           onerror="this.onerror=null;this.src='images/avatar-placeholder.svg'">
+    </div>
+    <div class="hero-copy">
+      <span class="eyebrow" id="hero-eyebrow">小兒內分泌暨遺傳科</span>
+      <h1 id="hero-title">在孩子成長的路上，多一雙留心的眼睛</h1>
+      <p class="role" id="hero-role"></p>
+      <p class="intro" id="hero-intro"></p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="section" id="clinic">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow">CLINIC HOURS</span>
+      <h2><span class="dot"></span>看診資訊</h2>
+    </div>
+    <div class="institution-list" id="institution-list"></div>
+    <p class="clinic-note" id="clinic-note"></p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="section" id="latest">
+  <div class="wrap">
+    <div class="section-head">
+      <a class="see-all" href="articles.html">查看全部</a>
+      <span class="section-eyebrow">LATEST</span>
+      <h2><span class="dot"></span>最新文章</h2>
+    </div>
+    <div class="article-grid" id="latest-grid"></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="section" id="about">
+  <div class="wrap about-grid">
+    <div class="about-photo">
+      <img id="about-avatar" src="images/avatar.jpg" alt="醫師照片"
+           onerror="this.onerror=null;this.src='images/avatar-placeholder.svg'">
+    </div>
+    <div>
+      <span class="section-eyebrow">ABOUT</span>
+      <h2 id="about-title"><span class="dot"></span>關於我</h2>
+      <p id="about-text"></p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span id="year"></span> <span class="footer-name">黃醫師</span></span>
+    <span>內容僅供衛教參考，實際診療請以門診評估為準</span>
+  </div>
+</footer>
+
+<script src="js/render.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+loadSiteData().then(data => {
+  const { site, articles } = data;
+  document.getElementById('hero-avatar').src = site.avatar;
+  document.getElementById('about-avatar').src = site.avatar;
+  document.getElementById('brand-name').textContent = site.name;
+  document.querySelector('.footer-name').textContent = site.name;
+  document.getElementById('hero-title').textContent = site.introTitle;
+  document.getElementById('hero-role').textContent = `${site.name}・${site.hospital}`;
+  document.getElementById('hero-intro').textContent = site.intro;
+  document.getElementById('hero-eyebrow').textContent = site.role;
+  document.title = `${site.name}｜${site.role}`;
+  const desc = `${site.name}（${site.role}，${site.hospital}）的門診時段、衛教文章與生活紀錄。`;
+  document.getElementById('meta-desc').setAttribute('content', desc);
+  document.getElementById('og-title').setAttribute('content', `${site.name}｜${site.role}`);
+  document.getElementById('og-desc').setAttribute('content', desc);
+  // 結構化資料：讓 Google 認識這位醫師（醫療內容的 E-E-A-T 很重要）
+  const ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({
+    "@context":"https://schema.org","@type":"Person",
+    "name":site.name,"jobTitle":site.role,
+    "worksFor":{"@type":"Organization","name":site.hospital},
+    "description":site.aboutText,
+    "url":site.siteUrl||location.origin+location.pathname
+  });
+  document.head.appendChild(ld);
+  document.getElementById('about-title').innerHTML = '<span class="dot"></span>' + site.aboutTitle;
+  document.getElementById('about-text').textContent = site.aboutText;
+
+  const groups = site.registerGroups || [];
+  document.getElementById('institution-list').innerHTML = groups.map(g => `
+    <div class="institution-card">
+      ${g.label ? `<p class="institution-desc">${g.label}</p>` : ''}
+      <a class="institution-btn" href="${g.url}" target="_blank" rel="noopener">${g.target}</a>
+      ${(g.hours && g.hours.length) ? `
+      <div class="institution-hours">
+        <table>
+          <thead><tr><th>時間</th><th>診別</th><th>地點</th></tr></thead>
+          <tbody>
+            ${g.hours.map(r => `<tr><td><strong>${r.day}</strong> ${r.time}</td><td>${r.clinic}</td><td>${r.location}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>` : ''}
+    </div>`).join('');
+  document.getElementById('clinic-note').textContent = site.clinicNote || '';
+
+  const latest = sortByDateDesc(articles).slice(0,3);
+  document.getElementById('latest-grid').innerHTML = latest.length
+    ? latest.map(articleCardHTML).join('')
+    : '<div class="empty-state">尚未發布文章</div>';
+}).catch(err => console.error(err));
+</script>
+<script>
+// 網站分析（僅在後台設定了 token 時才載入）
+(async () => {
+  try{
+    const d = await (await fetch('data/articles.json',{cache:'no-store'})).json();
+    const token = (d.site.cfToken||'').trim();
+    if(token){
+      const s = document.createElement('script');
+      s.defer = true;
+      s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      s.setAttribute('data-cf-beacon', JSON.stringify({token}));
+      document.body.appendChild(s);
+    }
+    const v = (d.site.gscVerify||'').trim();
+    if(v && !document.querySelector('meta[name="google-site-verification"]')){
+      const m = document.createElement('meta');
+      m.name='google-site-verification'; m.content=v;
+      document.head.appendChild(m);
+    }
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
