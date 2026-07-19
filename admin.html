@@ -1121,7 +1121,7 @@ document.getElementById('save-article-btn').addEventListener('click',()=>{
     alert('有圖片還在上傳中（顯示為半透明），請稍等上傳完成再儲存。');
     return;
   }
-  const data={
+  const fields={
     id: editingId||slugify(title),
     title,
     category: document.getElementById('art-category').value,
@@ -1134,6 +1134,17 @@ document.getElementById('save-article-btn').addEventListener('click',()=>{
     externalUrl: document.getElementById('art-external-url').value.trim(),
     contentHtml: rawHtmlMode ? rawHtmlBox.value : cleanInlineStyles(editor.innerHTML)
   };
+  /* 以原本的文章物件為底，只覆蓋表單裡有的欄位。
+     這樣拖拉設定的 seriesOrder（以及日後新增的其他欄位）才不會被洗掉。 */
+  const original = editingId ? state.articles.find(a=>a.id===editingId) : null;
+  const data = Object.assign({}, original || {}, fields);
+  /* 若這篇已經不屬於某個系列了，順手清掉那個系列殘留的排序值 */
+  if(data.seriesOrder && typeof data.seriesOrder === 'object'){
+    Object.keys(data.seriesOrder).forEach(k => {
+      if(!data.series.includes(k)) delete data.seriesOrder[k];
+    });
+    if(!Object.keys(data.seriesOrder).length) delete data.seriesOrder;
+  }
   if(editingId){
     state.articles[state.articles.findIndex(a=>a.id===editingId)]=data;
   } else {
