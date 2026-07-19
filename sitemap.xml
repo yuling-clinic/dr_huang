@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://yuling-clinic.github.io/dr_huang/</loc>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-07-19</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://yuling-clinic.github.io/dr_huang/articles.html</loc>
-    <lastmod>2026-07-18</lastmod>
+    <lastmod>2026-07-19</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -103,6 +103,21 @@
   <url>
     <loc>https://yuling-clinic.github.io/dr_huang/posts/seceda-刀背山-兔耳岩-pieralongia-多洛米蒂-day-9-4k48.html</loc>
     <lastmod>2026-07-15</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/多洛米蒂-day-10-富內斯山谷-傍晚休斯高原-南堤洛公車系統-s4uw.html</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/多洛米蒂-day-11-纜車巡遊-8-15-mont-s-ura-gardena-pass-9uz0.html</loc>
+    <lastmod>2026-07-18</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/多洛米蒂-day-12-resciesa-3-纜車-9-8-步道健行到-furnes-81qy.html</loc>
+    <lastmod>2026-07-18</lastmod>
     <priority>0.7</priority>
   </url>
 </urlset>
