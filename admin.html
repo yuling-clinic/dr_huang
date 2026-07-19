@@ -271,9 +271,6 @@
         貼上完整 HTML（可以包含 &lt;style&gt; 樣式、&lt;details&gt; 展開卡片等），會原封不動存起來，不會被編輯器過濾掉。適合從別的網站搬移內容。切回一般模式再重新編輯，複雜結構可能會被簡化，請斟酌使用。
       </p>
       <div class="toolbar" id="wysiwyg-toolbar">
-        <button type="button" id="tb-undo" title="復原上一步（Ctrl / ⌘ + Z）">↶ 復原</button>
-        <button type="button" id="tb-redo" title="重做（Ctrl / ⌘ + Shift + Z）">↷ 重做</button>
-        <span class="sep"></span>
         <button type="button" data-cmd="bold" title="粗體"><b>B</b></button>
         <button type="button" data-cmd="italic" title="斜體"><i>I</i></button>
         <button type="button" data-cmd="underline" title="底線"><u>U</u></button>
@@ -292,7 +289,6 @@
         <button type="button" id="tb-gallery">🖼🖼 多圖</button>
         <span class="sep"></span>
         <button type="button" data-cmd="removeFormat">清除格式</button>
-        <button type="button" id="tb-paste-mode" title="切換貼上時要不要保留來源格式">📋 純文字貼上：開</button>
       </div>
       <div id="editor" contenteditable="true"></div>
       <textarea id="art-raw-html" rows="16" style="display:none;font-family:monospace;font-size:.85rem;" placeholder="貼上完整 HTML..."></textarea>
@@ -352,14 +348,9 @@
   <!-- 發布 -->
   <div class="panel">
     <h2>發布到網站</h2>
-    <p class="hint">只會上傳「這次真的有改動」的檔案，而且全部打包成一次更新，所以速度很快。文章頁、sitemap、robots 都會自動處理，網站約 1–2 分鐘後生效。</p>
-    <label style="display:flex;align-items:center;gap:8px;margin:0 0 4px;">
-      <input type="checkbox" id="publish-force" style="width:auto;">
-      <span>強制重新產生全部檔案（改過網站樣式、或覺得哪裡沒更新到時再勾）</span>
-    </label>
+    <p class="hint">會把所有內容寫回 GitHub，並為每篇文章產生獨立的網頁檔（讓 Google 搜尋得到），同時更新 sitemap。網站約 1–2 分鐘後更新。</p>
     <div class="btn-row">
       <button class="btn" id="publish-btn">🚀 發布到網站</button>
-      <button class="btn secondary" id="check-images-btn">🔎 檢查圖片是否都上傳成功</button>
       <button class="btn secondary" id="export-btn">改用下載檔案</button>
       <input type="file" id="import-file" accept="application/json" style="display:none">
       <button class="btn secondary" onclick="document.getElementById('import-file').click()">從檔案匯入</button>
@@ -420,30 +411,9 @@ function b64decode(b64){
   const bin=atob(b64.replace(/\n/g,''));
   return new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)));
 }
-/* 網路不穩時（換 Wi-Fi、VPN、訊號中斷）自動重試，避免整個動作前功盡棄 */
-async function fetchRetry(url, opt, label, tries){
-  tries = tries || 3;
-  let lastErr;
-  for(let i=1;i<=tries;i++){
-    try{
-      return await fetch(url, opt);
-    }catch(e){
-      lastErr = e;
-      if(i < tries){
-        const wait = 800 * i;
-        const el = document.getElementById('publish-status');
-        if(el) el.textContent = `網路不穩，${wait/1000} 秒後重試（第 ${i}/${tries-1} 次）… ${label||''}`;
-        await new Promise(r => setTimeout(r, wait));
-      }
-    }
-  }
-  const err = new Error(`網路連線中斷（${label||url}）：${lastErr.message}`);
-  err.isNetwork = true;
-  throw err;
-}
 async function ghGetFile(path){
   const bust = `&_=${Date.now()}`;
-  const res=await fetchRetry(`${ghUrl(path)}?ref=${ghConfig().branch}${bust}`,{headers:ghHeaders(),cache:'no-store'},'讀取 '+path);
+  const res=await fetch(`${ghUrl(path)}?ref=${ghConfig().branch}${bust}`,{headers:ghHeaders(),cache:'no-store'});
   if(res.status===404) return null;
   if(!res.ok) throw new Error(`讀取 ${path} 失敗（${res.status}）`);
   return res.json();
@@ -452,7 +422,7 @@ async function ghPutFile(path,b64,msg,_retried){
   const cur=await ghGetFile(path);
   const body={message:msg,content:b64,branch:ghConfig().branch};
   if(cur&&cur.sha) body.sha=cur.sha;
-  const res=await fetchRetry(ghUrl(path),{method:'PUT',headers:{...ghHeaders(),'Content-Type':'application/json'},body:JSON.stringify(body)},'寫入 '+path);
+  const res=await fetch(ghUrl(path),{method:'PUT',headers:{...ghHeaders(),'Content-Type':'application/json'},body:JSON.stringify(body)});
   if(!res.ok){
     if(res.status===409 && !_retried){
       // 版本衝突：重新抓最新版再寫一次，通常會自動解決
@@ -658,87 +628,6 @@ function restoreSelection(){
 editor.addEventListener('keyup',rememberSelection);
 editor.addEventListener('mouseup',rememberSelection);
 
-/* ─── 編輯器：復原／重做 ───────────────────────────────
-   用快照的方式記錄內文狀態。不只打字，連插圖、改圖說、
-   相冊裁切等直接改 DOM 的動作也都記得到（瀏覽器內建的
-   Ctrl+Z 對這些操作是失效的）。 */
-const HIST_MAX = 80;          // 最多記住幾步
-const HIST_DELAY = 450;       // 連續打字停下多久才存一個快照(ms)
-let histStack = [], histIdx = -1, histLock = false, histTimer = null;
-
-function histReset(){
-  clearTimeout(histTimer);
-  histStack = [editor.innerHTML];
-  histIdx = 0;
-  histUpdateButtons();
-}
-function histPush(){
-  if(histLock) return;
-  const cur = editor.innerHTML;
-  if(histIdx >= 0 && histStack[histIdx] === cur) return;   // 沒變就不記
-  histStack = histStack.slice(0, histIdx + 1);             // 砍掉重做分支
-  histStack.push(cur);
-  if(histStack.length > HIST_MAX) histStack.shift();
-  histIdx = histStack.length - 1;
-  histUpdateButtons();
-}
-function histSchedule(){
-  if(histLock) return;
-  clearTimeout(histTimer);
-  histTimer = setTimeout(histPush, HIST_DELAY);
-}
-function histApply(i){
-  histLock = true;
-  histIdx = i;
-  editor.innerHTML = histStack[i];
-  histLock = false;
-  savedRange = null;
-  histCaretToEnd();
-  histUpdateButtons();
-}
-function histCaretToEnd(){
-  try{
-    editor.focus();
-    const r = document.createRange();
-    r.selectNodeContents(editor); r.collapse(false);
-    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-    rememberSelection();
-  }catch(e){}
-}
-function histUndo(){
-  clearTimeout(histTimer);
-  histPush();                       // 先把還沒存檔的最新狀態記下來
-  if(histIdx <= 0) return;
-  histApply(histIdx - 1);
-}
-function histRedo(){
-  clearTimeout(histTimer);
-  if(histIdx >= histStack.length - 1) return;
-  histApply(histIdx + 1);
-}
-function histUpdateButtons(){
-  const u = document.getElementById('tb-undo'), r = document.getElementById('tb-redo');
-  if(!u || !r) return;
-  const canUndo = histIdx > 0 || (histIdx === histStack.length - 1 && histStack[histIdx] !== editor.innerHTML);
-  u.disabled = !canUndo;  u.style.opacity = canUndo ? '1' : '.4';
-  const canRedo = histIdx < histStack.length - 1;
-  r.disabled = !canRedo;  r.style.opacity = canRedo ? '1' : '.4';
-}
-document.getElementById('tb-undo').addEventListener('click', histUndo);
-document.getElementById('tb-redo').addEventListener('click', histRedo);
-editor.addEventListener('keydown', e => {
-  const mod = e.ctrlKey || e.metaKey;
-  if(!mod) return;
-  const k = e.key.toLowerCase();
-  if(k === 'z'){ e.preventDefault(); e.shiftKey ? histRedo() : histUndo(); }
-  else if(k === 'y'){ e.preventDefault(); histRedo(); }
-});
-/* 監看編輯器裡的任何變動，自動排程快照 */
-new MutationObserver(histSchedule).observe(editor, {
-  childList:true, subtree:true, characterData:true, attributes:true
-});
-histReset();
-
 document.querySelectorAll('.toolbar [data-cmd]').forEach(b=>b.addEventListener('click',()=>{
   editor.focus(); restoreSelection();
   if(b.dataset.cmd==='removeFormat'){
@@ -851,21 +740,11 @@ document.getElementById('editor-gallery-upload').addEventListener('change',async
   saveDraft && saveDraft();
   setStatus('publish-status',`✅ 已插入 ${done} 張相片，記得最後按「發布到網站」。`);
 });
-/* 貼上：預設轉成純文字，套用網站自己的字體與顏色。
-   （從記事本、Word、網頁複製過來時，會夾帶原本的字型／顏色／字級） */
-let pastePlain = true;
 editor.addEventListener('paste',async e=>{
   const item=[...(e.clipboardData?.items||[])].find(i=>i.type.startsWith('image/'));
-  if(item){
-    e.preventDefault();
-    await insertImageLive(item.getAsFile());
-    return;
-  }
-  if(!pastePlain) return;                      // 關掉時走瀏覽器預設（保留原格式）
-  const text = e.clipboardData?.getData('text/plain');
-  if(text == null || text === '') return;
+  if(!item) return;
   e.preventDefault();
-  document.execCommand('insertText', false, text);
+  await insertImageLive(item.getAsFile());
 });
 /* 點編輯器裡的圖片 → 新增或修改圖說 */
 editor.addEventListener('click',e=>{
@@ -1082,7 +961,6 @@ function openEditor(id){
   editor.innerHTML=a?articleHTML(a):'';
   setRawHtmlMode(false, true);
   savedRange=null;
-  histReset();   // 換一篇文章＝重新開始一段編輯歷程
   box.scrollIntoView({behavior:'smooth',block:'start'});
 }
 document.getElementById('new-article-btn').addEventListener('click',()=>openEditor(null));
@@ -1121,7 +999,7 @@ document.getElementById('save-article-btn').addEventListener('click',()=>{
     alert('有圖片還在上傳中（顯示為半透明），請稍等上傳完成再儲存。');
     return;
   }
-  const fields={
+  const data={
     id: editingId||slugify(title),
     title,
     category: document.getElementById('art-category').value,
@@ -1134,19 +1012,11 @@ document.getElementById('save-article-btn').addEventListener('click',()=>{
     externalUrl: document.getElementById('art-external-url').value.trim(),
     contentHtml: rawHtmlMode ? rawHtmlBox.value : cleanInlineStyles(editor.innerHTML)
   };
-  /* 以原本的文章物件為底，只覆蓋表單裡有的欄位。
-     這樣拖拉設定的 seriesOrder（以及日後新增的其他欄位）才不會被洗掉。 */
-  const original = editingId ? state.articles.find(a=>a.id===editingId) : null;
-  const data = Object.assign({}, original || {}, fields);
-  /* 若這篇已經不屬於某個系列了，順手清掉那個系列殘留的排序值 */
-  if(data.seriesOrder && typeof data.seriesOrder === 'object'){
-    Object.keys(data.seriesOrder).forEach(k => {
-      if(!data.series.includes(k)) delete data.seriesOrder[k];
-    });
-    if(!Object.keys(data.seriesOrder).length) delete data.seriesOrder;
-  }
   if(editingId){
-    state.articles[state.articles.findIndex(a=>a.id===editingId)]=data;
+    const i=state.articles.findIndex(a=>a.id===editingId);
+    const old=state.articles[i]||{};
+    // 保留不在編輯畫面上的欄位（例如系列排序 seriesOrder），避免被覆蓋掉
+    state.articles[i]={...old, ...data};
   } else {
     state.articles.push(data);
   }
@@ -1156,175 +1026,6 @@ document.getElementById('save-article-btn').addEventListener('click',()=>{
 });
 
 /* ─── 發布 ─── */
-/* 指紋表：記錄上次發布時每個檔案的內容特徵，用來判斷這次哪些真的要重傳 */
-const HASH_PATH = 'data/build-hashes.json';
-
-/* 輕量雜湊（FNV-1a），只是用來比對「內容有沒有變」，不需要密碼學強度 */
-function quickHash(str){
-  let h = 0x811c9dc5;
-  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193); }
-  return (h>>>0).toString(16) + '-' + str.length;
-}
-
-/* Git Data API：不管幾個檔案，都只打包成「一次 commit」 */
-async function ghApi(path, opt, label){
-  const c = ghConfig();
-  const res = await fetchRetry(`https://api.github.com/repos/${c.owner}/${c.repo}/${path}`, {
-    ...(opt||{}),
-    headers:{ ...ghHeaders(), 'Content-Type':'application/json', ...((opt&&opt.headers)||{}) },
-    cache:'no-store'
-  }, label||path);
-  if(!res.ok){
-    const d = await res.json().catch(()=>({}));
-    throw new Error(`${label||path}（HTTP ${res.status}）${d.message||''}`);
-  }
-  return res.json();
-}
-async function ghDeleteFile(path, msg){
-  const cur = await ghGetFile(path);
-  if(!cur || !cur.sha) return;
-  await fetch(ghUrl(path), {
-    method:'DELETE',
-    headers:{ ...ghHeaders(), 'Content-Type':'application/json' },
-    body: JSON.stringify({ message: msg, sha: cur.sha, branch: ghConfig().branch })
-  });
-}
-async function ghCommitFiles(files, deletes, message){
-  const c = ghConfig();
-  const ref = await ghApi(`git/ref/heads/${c.branch}?_=${Date.now()}`, null, '讀取分支位置');
-  const parentSha = ref.object.sha;
-  const parentCommit = await ghApi(`git/commits/${parentSha}`, null, '讀取上一次提交');
-  const tree = [
-    ...files.map(f => ({ path:f.path, mode:'100644', type:'blob', content:f.content })),
-    ...deletes.map(p => ({ path:p, mode:'100644', type:'blob', sha:null }))
-  ];
-  const newTree = await ghApi('git/trees', {
-    method:'POST',
-    body: JSON.stringify({ base_tree: parentCommit.tree.sha, tree })
-  }, '建立檔案樹');
-  const commit = await ghApi('git/commits', {
-    method:'POST',
-    body: JSON.stringify({ message, tree:newTree.sha, parents:[parentSha] })
-  }, '建立提交');
-  await ghApi(`git/refs/heads/${c.branch}`, {
-    method:'PATCH',
-    body: JSON.stringify({ sha: commit.sha })
-  }, '更新分支（PATCH）');
-  return commit.sha;
-}
-
-/* 備援：Git Data API 被擋時，改用原本逐檔上傳的 Contents API。
-   因為增量比對還在，通常只剩下少數幾個檔案，還是很快。 */
-async function ghPutFilesOneByOne(files, deletes, message, onStep){
-  let n = 0;
-  for(const f of files){
-    await ghPutFile(f.path, b64encode(f.content), message);
-    onStep && onStep(++n, files.length + deletes.length, f.path);
-  }
-  for(const p of deletes){
-    await ghDeleteFile(p, message);
-    onStep && onStep(++n, files.length + deletes.length, '刪除 ' + p);
-  }
-}
-
-document.getElementById('tb-paste-mode').addEventListener('click', () => {
-  pastePlain = !pastePlain;
-  const b = document.getElementById('tb-paste-mode');
-  b.textContent = pastePlain ? '📋 純文字貼上：開' : '📋 純文字貼上：關';
-  b.style.opacity = pastePlain ? '1' : '.55';
-});
-
-/* 掃描所有文章引用到的站內圖片，確認 repo 裡真的存在
-   （網路中斷時圖片上傳可能失敗，但路徑已經寫進內文了） */
-document.getElementById('check-images-btn').addEventListener('click', async () => {
-  if(!ghReady()){ setStatus('publish-status','請先設定 GitHub 連線。',true); return; }
-  const btn = document.getElementById('check-images-btn');
-  btn.disabled = true;
-  try{
-    // 收集每篇文章用到的站內圖片路徑
-    const uses = new Map();   // 路徑 → [文章標題]
-    const collect = (path, title) => {
-      if(!path || /^https?:|^data:|^blob:/.test(path)) return;
-      const p = path.replace(/^\.?\//,'').split('?')[0];
-      if(!p.startsWith('images/')) return;
-      if(!uses.has(p)) uses.set(p, []);
-      if(!uses.get(p).includes(title)) uses.get(p).push(title);
-    };
-    for(const a of state.articles){
-      collect(a.cover, a.title);
-      const box = document.createElement('div');
-      box.innerHTML = a.contentHtml || '';
-      box.querySelectorAll('img').forEach(img => collect(img.getAttribute('src'), a.title));
-    }
-    collect(state.site.avatar, '（網站大頭照）');
-
-    const paths = [...uses.keys()];
-    if(!paths.length){ setStatus('publish-status','沒有找到任何站內圖片。'); return; }
-
-    const missing = [];
-    let i = 0;
-    for(const p of paths){
-      setStatus('publish-status', `檢查中… (${++i}/${paths.length}) ${p}`);
-      const f = await ghGetFile(p);
-      if(!f) missing.push(p);
-    }
-
-    if(!missing.length){
-      setStatus('publish-status', `✅ 全部 ${paths.length} 張圖片都存在，沒有問題。`);
-    }else{
-      const detail = missing.map(p => `・${p}\n　　出現在：${uses.get(p).join('、')}`).join('\n');
-      setStatus('publish-status',
-        `⚠️ 有 ${missing.length} 張圖片在 repo 裡找不到（多半是上傳當下網路中斷）：\n${detail}\n\n` +
-        `處理方式：打開上面列出的文章，把顯示破圖的那張刪掉，重新插入一次即可。`, true);
-    }
-  }catch(e){
-    setStatus('publish-status', `檢查失敗：${e.message}`, true);
-  }finally{
-    btn.disabled = false;
-  }
-});
-
-/* 確保 js/generator.js 已經載入（偶爾會因為快取或網路問題沒載到，
-   造成 buildPostHTML is not defined。這裡自動補載一次。） */
-async function ensureGenerator(){
-  const ok = () => typeof buildPostHTML === 'function'
-              && typeof buildSitemap === 'function'
-              && typeof buildRobots === 'function'
-              && typeof buildRedirectPage === 'function';
-  if(ok()) return;
-  await new Promise((res, rej) => {
-    const s = document.createElement('script');
-    s.src = 'js/generator.js?_=' + Date.now();
-    s.onload = res;
-    s.onerror = () => rej(new Error('讀不到 js/generator.js（請確認這個檔案存在於網站上）'));
-    document.head.appendChild(s);
-  });
-  if(!ok()) throw new Error('js/generator.js 已載入，但裡面找不到產生文章頁的函式');
-}
-
-/* 編輯器裡有還沒按「儲存這篇文章」的改動嗎？
-   （常見狀況：改完文字直接按發布，結果什麼都沒更新） */
-function editorDirty(){
-  const box = document.getElementById('article-editor');
-  if(!box.classList.contains('open')) return false;
-  const v = id => document.getElementById(id).value;
-  const title = v('art-title').trim();
-  const html = rawHtmlMode ? rawHtmlBox.value : cleanInlineStyles(editor.innerHTML);
-  if(!editingId) return !!(title || html.replace(/<[^>]*>/g,'').trim());
-  const a = state.articles.find(x => x.id === editingId);
-  if(!a) return true;
-  const norm = s => (s||'').replace(/\s+/g,' ').trim();
-  return norm(title) !== norm(a.title)
-      || norm(html) !== norm(a.contentHtml)
-      || v('art-category') !== a.category
-      || v('art-date') !== a.date
-      || norm(v('art-excerpt')) !== norm(a.excerpt)
-      || norm(v('art-cover')) !== norm(a.cover)
-      || norm(v('art-external-url')) !== norm(a.externalUrl)
-      || v('art-series').split(',').map(s=>s.trim()).filter(Boolean).join(',') !== seriesArr(a).join(',')
-      || v('art-tags').split(',').map(s=>s.trim()).filter(Boolean).join(',') !== (a.tags||[]).join(',');
-}
-
 document.getElementById('publish-btn').addEventListener('click',async()=>{
   readSiteForm();
   if(!ghReady()){ setStatus('publish-status','請先設定 GitHub 連線，或改用下載檔案。',true); return; }
@@ -1334,110 +1035,43 @@ document.getElementById('publish-btn').addEventListener('click',async()=>{
     setStatus('publish-status','請先在「網站基本資訊」填寫網站網址，Google 才能正確收錄你的文章。',true);
     return;
   }
-  const force = !!document.getElementById('publish-force')?.checked;
 
-  if(editorDirty()){
-    const go = confirm('文章編輯器裡有還沒儲存的改動。\n\n按「確定」＝先儲存這篇文章，再繼續發布。\n按「取消」＝停下來，這次不發布。');
-    if(!go) return;
-    document.getElementById('save-article-btn').click();
-    if(editorDirty()){                 // 儲存被擋下（例如沒填標題、圖片還在上傳）
-      setStatus('publish-status','文章尚未儲存成功，請看上方提示處理後再發布。',true);
-      return;
-    }
-  }
-
-  const btn = document.getElementById('publish-btn');
-  btn.disabled = true;
+  const stamp = new Date().toLocaleString('zh-TW');
+  const total = state.articles.length + 4;
+  let done = 0;
+  const step = (label) => { done++; setStatus('publish-status', `發布中… (${done}/${total}) ${label}`); };
 
   try{
-    await ensureGenerator();
-    setStatus('publish-status','正在比對哪些檔案有變更…');
+    // 1. 資料檔
+    await ghPutFile('data/articles.json', b64encode(JSON.stringify(state,null,2)), `更新網站內容 ${stamp}`);
+    step('網站內容');
 
-    /* 1. 先在本機把「這次網站應該長成什麼樣」全部產生出來（不上傳） */
-    const files = [];
-    files.push({ path:'data/articles.json', content: JSON.stringify(state,null,2) });
-    const titleOf = {};
+    // 2. 每篇文章 → 產生真實的靜態 HTML（Google 直接讀得到，不需要跑 JS）
+    //    外部連結文章（如新聞稿）不需要內部頁面，直接跳過
     for(const a of state.articles){
-      if(a.externalUrl) continue;              // 外部連結文章不需要站內頁面
-      const p = `posts/${a.id}.html`;
-      titleOf[p] = a.title;
-      files.push({ path:p, content: buildPostHTML(state.site, state.articles, a, baseUrl) });
-    }
-    files.push({ path:'sitemap.xml',  content: buildSitemap(state.site, state.articles, baseUrl) });
-    files.push({ path:'robots.txt',   content: buildRobots(baseUrl) });
-    files.push({ path:'article.html', content: buildRedirectPage() });
-
-    /* 2. 讀上次發布留下的指紋表 */
-    let prev = {};
-    if(!force){
-      const f = await ghGetFile(HASH_PATH);
-      if(f && f.content){ try{ prev = JSON.parse(b64decode(f.content)); }catch(e){ prev = {}; } }
+      if(a.externalUrl){ continue; }
+      const html = buildPostHTML(state.site, state.articles, a, baseUrl);
+      await ghPutFile(`posts/${a.id}.html`, b64encode(html), `更新文章：${a.title}`);
+      step(a.title);
     }
 
-    /* 3. 只留下內容真的不一樣的檔案
-          （改一篇文章時，同系列鄰居的目錄／上下篇導覽也會跟著變，
-            指紋比對會自動把受影響的那幾篇一起挑出來，不會漏） */
-    const next = {};
-    files.forEach(f => { next[f.path] = quickHash(f.content); });
-    const changed = files.filter(f => prev[f.path] !== next[f.path]);
+    // 3. sitemap（告訴 Google 有哪些頁面）
+    await ghPutFile('sitemap.xml', b64encode(buildSitemap(state.site, state.articles, baseUrl)), `更新 sitemap ${stamp}`);
+    step('sitemap.xml');
 
-    /* 4. 已刪除或改過標題(網址)的舊文章頁，從 repo 一併清掉 */
-    const gone = Object.keys(prev).filter(p => p.startsWith('posts/') && !next[p]);
+    // 4. robots（允許搜尋引擎爬，但擋掉後台）
+    await ghPutFile('robots.txt', b64encode(buildRobots(baseUrl)), `更新 robots.txt`);
+    step('robots.txt');
 
-    if(!changed.length && !gone.length){
-      setStatus('publish-status','✅ 沒有偵測到任何變更，網站已是最新狀態。\n（如果你剛改過文章卻看到這個訊息，請確認有按過「儲存這篇文章」——編輯器裡的內容要儲存後才算數。）');
-      btn.disabled = false;
-      return;
-    }
-
-    const changedPosts = changed.filter(f => f.path.startsWith('posts/'));
-    const summary = changedPosts.length
-      ? changedPosts.slice(0,6).map(f => '・' + (titleOf[f.path]||f.path)).join('\n')
-        + (changedPosts.length>6 ? `\n・…等共 ${changedPosts.length} 篇` : '')
-      : '（這次沒有文章內容變動）';
-
-    /* 指紋表本身也放進同一個 commit */
-    const payload = changed.concat([{ path:HASH_PATH, content: JSON.stringify(next,null,2) }]);
-
-    setStatus('publish-status', `上傳中… 共 ${payload.length} 個檔案${gone.length?`，並清除 ${gone.length} 個舊頁面`:''}\n${summary}`);
-
-    const stamp = new Date().toLocaleString('zh-TW');
-    let usedFallback = false;
-    try{
-      await ghCommitFiles(payload, gone, `更新網站 ${stamp}`);
-    }catch(fastErr){
-      // 快速路徑失敗 → 自動退回逐檔上傳（只傳有變的那幾個，仍然很快）
-      usedFallback = true;
-      console.warn('快速發布失敗，改用逐檔上傳：', fastErr);
-      setStatus('publish-status',
-        `快速發布無法使用（${fastErr.message}）\n已自動改用逐檔上傳，請稍候…`);
-      await ghPutFilesOneByOne(payload, gone, `更新網站 ${stamp}`,
-        (n, total, label) => setStatus('publish-status',
-          `逐檔上傳中… (${n}/${total}) ${label}`));
-    }
+    // 5. 舊網址轉址頁
+    await ghPutFile('article.html', b64encode(buildRedirectPage()), `更新轉址頁`);
+    step('轉址頁');
 
     setStatus('publish-status',
-      `✅ 已發布！這次只上傳了 ${payload.length} 個檔案（全站共 ${state.articles.length} 篇文章）。\n` +
-      (gone.length ? `已清除 ${gone.length} 個不再使用的舊頁面。\n` : '') +
-      (usedFallback ? `（這次走的是備援的逐檔上傳，稍慢但結果一樣）\n` : '') +
-      `更新內容：\n${summary}\n約 1–2 分鐘後生效。`);
-    document.getElementById('publish-force').checked = false;
+      `✅ 已發布！共 ${state.articles.length} 篇文章。\n約 1–2 分鐘後生效。\n` +
+      `每篇文章都已產生獨立網頁，Google 可以直接讀取內容。`);
   }catch(e){
-    const hint = e.isNetwork
-      ? '這是網路層的錯誤，通常不是 token 的問題。可以試試：\n'
-        + '・暫時關閉廣告／隱私阻擋類的瀏覽器擴充功能\n'
-        + '・取消勾選「強制重新產生全部檔案」（整包資料太大時容易被中斷）\n'
-        + '・換一個網路環境（醫院網路可能擋掉部分請求）'
-      : /is not defined|generator\.js|找不到.*函式/.test(e.message)
-      ? '這是網頁程式檔沒載入完整造成的，跟 token 無關。\n'
-        + '請按 Ctrl/⌘ + Shift + R 強制重新整理後再試一次。\n'
-        + '若仍然發生，請確認 repo 裡的 js/generator.js 檔案存在且沒有損毀。'
-      : /HTTP 40[13]/.test(e.message)
-      ? '請確認 token 權限包含 Contents 的 Read and write，且 token 尚未過期。'
-      : '請把上面這行錯誤訊息記下來，並開啟開發者工具（F12）的 Console 查看詳細資訊。';
-    setStatus('publish-status', `發布失敗：${e.message}\n\n${hint}`, true);
-  }finally{
-    btn.disabled = false;
+    setStatus('publish-status',`發布失敗：${e.message}\n請確認 token 權限包含 Contents 的 Read and write。`,true);
   }
 });
 document.getElementById('export-btn').addEventListener('click',()=>{
