@@ -308,6 +308,13 @@ p{margin:0 0 1em;}
 }
 @media(max-width:560px){
   .article-grid{grid-template-columns:1fr;}
+  /* 手機：左右至少空出約一個字的距離，並避開瀏海機的圓角／挖孔 */
+  .wrap{
+    padding-left:calc(1.6em + env(safe-area-inset-left, 0px));
+    padding-right:calc(1.6em + env(safe-area-inset-right, 0px));
+  }
+  .article-body{line-height:1.9;}
+  .post-grid h1{font-size:1.42rem;}
 }
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important;scroll-behavior:auto!important;}
