@@ -14,6 +14,11 @@ data.articles.forEach(a => {
   fs.writeFileSync(path.join(__dirname,'posts',a.id+'.html'),
     buildPostHTML(data.site, data.articles, a, baseUrl));
   console.log('✓ posts/'+a.id+'.html');
+  (a.oldIds||[]).forEach(oldId => {
+    fs.writeFileSync(path.join(__dirname,'posts',oldId+'.html'),
+      buildOldIdRedirect(a.id, baseUrl));
+    console.log('  ↳ posts/'+oldId+'.html（轉址到 '+a.id+'）');
+  });
 });
 fs.writeFileSync(path.join(__dirname,'sitemap.xml'), buildSitemap(data.site, data.articles, baseUrl));
 fs.writeFileSync(path.join(__dirname,'robots.txt'), buildRobots(baseUrl));
