@@ -16,8 +16,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<style>
+  /* 資料載入前先隱藏會被 JS 換字的區塊，避免使用者先看到寫死在 HTML 裡的舊文字閃一下。
+     資料回來後 render.js 會移除 body 上的 loading class，這裡才淡入顯示。 */
+  body.loading [data-fill]{opacity:0;}
+  [data-fill]{transition:opacity .25s ease;}
+</style>
 </head>
-<body>
+<body class="loading">
 
 <header class="site-header">
   <div class="wrap">
@@ -44,10 +50,10 @@
            onerror="this.onerror=null;this.src='images/avatar-placeholder.svg'">
     </div>
     <div class="hero-copy">
-      <span class="eyebrow" id="hero-eyebrow">小兒內分泌暨遺傳科</span>
-      <h1 id="hero-title">在孩子成長的路上，多一雙留心的眼睛</h1>
-      <p class="role" id="hero-role"></p>
-      <p class="intro" id="hero-intro"></p>
+      <span class="eyebrow" id="hero-eyebrow" data-fill>小兒內分泌科</span>
+      <h1 id="hero-title" data-fill>孩子每一公分的成長都值得用心守護</h1>
+      <p class="role" id="hero-role" data-fill></p>
+      <p class="intro" id="hero-intro" data-fill></p>
     </div>
   </div>
 </section>
@@ -60,7 +66,7 @@
       <span class="section-eyebrow">CLINIC HOURS</span>
       <h2><span class="dot"></span>看診資訊</h2>
     </div>
-    <div class="institution-list" id="institution-list"></div>
+    <div class="institution-list" id="institution-list" data-fill></div>
     <p class="clinic-note" id="clinic-note"></p>
   </div>
 </section>
@@ -74,7 +80,7 @@
       <span class="section-eyebrow">LATEST</span>
       <h2><span class="dot"></span>最新文章</h2>
     </div>
-    <div class="article-grid" id="latest-grid"></div>
+    <div class="article-grid" id="latest-grid" data-fill></div>
   </div>
 </section>
 
@@ -88,8 +94,8 @@
     </div>
     <div>
       <span class="section-eyebrow">ABOUT</span>
-      <h2 id="about-title"><span class="dot"></span>關於我</h2>
-      <p id="about-text"></p>
+      <h2 id="about-title" data-fill><span class="dot"></span>關於我</h2>
+      <p id="about-text" data-fill></p>
     </div>
   </div>
 </section>
@@ -154,7 +160,11 @@ loadSiteData().then(data => {
   document.getElementById('latest-grid').innerHTML = latest.length
     ? latest.map(articleCardHTML).join('')
     : '<div class="empty-state">尚未發布文章</div>';
-}).catch(err => console.error(err));
+  document.body.classList.remove('loading');   // 資料都填好了，淡入顯示
+}).catch(err => {
+  console.error(err);
+  document.body.classList.remove('loading');   // 失敗也要把畫面顯示出來，不能一直空白
+});
 </script>
 <script>
 // 網站分析（僅在後台設定了 token 時才載入）
