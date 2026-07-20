@@ -101,7 +101,7 @@
       "series": [
         "兒童生長發育"
       ],
-      "id": "看懂孩子的生長曲線-百分位不是成績單-qyqq",
+      "id": "看懂孩子的生-g78q",
       "title": "看懂孩子的生長曲線：百分位不是成績單",
       "category": "衛教",
       "font": "round",
@@ -113,13 +113,16 @@
       "contentHtml": "<p data-path-to-node=\"9\"><b data-path-to-node=\"9\" data-index-in-node=\"0\">「醫生，我們家妹妹的生長曲線只有 15%，是不是我養得不夠好？他的好朋友有 90% 耶……」</b></p><p data-path-to-node=\"10\">在兒科門診，生長曲線圖就像是家長們的「發育成績單」，常常牽動著爸爸媽媽的焦慮神經。只要看到百分位數字偏低，家長就會充滿挫折感。</p><p data-path-to-node=\"11\">但其實，<b data-path-to-node=\"11\" data-index-in-node=\"4\">生長曲線的百分位，真的不是成績單！</b></p><h2><b>什麼是百分位？</b></h2><p data-path-to-node=\"13\">生長曲線圖上的「百分位（Percentile）」，代表的是「<b>排隊的順序</b>」。\n如果我們隨機找 100 個同年齡、同性別的孩子，從矮到高排成一列：</p><ul data-path-to-node=\"14\"><li><p data-path-to-node=\"14,0,0\">排在最前面的（最矮）是第 <b data-path-to-node=\"14,0,0\" data-index-in-node=\"13\">3 百分位</b>。</p></li><li><p data-path-to-node=\"14,1,0\">排在最中間的是第 <b data-path-to-node=\"14,1,0\" data-index-in-node=\"9\">50 百分位</b>。</p></li><li><p data-path-to-node=\"14,2,0\">排在最後面的（最高）是第 <b data-path-to-node=\"14,2,0\" data-index-in-node=\"13\">97 百分位</b>。</p></li></ul><p data-path-to-node=\"15\">只要孩子的身高、體重落在 <b data-path-to-node=\"15\" data-index-in-node=\"13\">3% 到 97%</b> 之間，在醫學上都屬於<b data-path-to-node=\"15\" data-index-in-node=\"32\">完全正常</b>的範疇。落在 3% 的孩子不代表他「不及格」，落在 97% 的孩子也不代表他「比較優秀」，這純粹是個體基因與體質的差異。</p><h2><b>真正重要的關鍵：沿著自己的曲線長</b></h2><p data-path-to-node=\"17\">比起「現在是幾 %」，兒科醫師更看重的是「長期的趨勢」。</p><ul data-path-to-node=\"18\"><li><p data-path-to-node=\"18,0,0\"><b data-path-to-node=\"18,0,0\" data-index-in-node=\"0\">健康的成長：</b> 如果孩子從小到大都穩定維持在 15%，雖然看起來偏瘦小，但只要他<b data-path-to-node=\"18,0,0\" data-index-in-node=\"39\">沿著自己的曲線穩定爬升</b>，精神好、活力佳，這就是最健康的成長狀態。</p></li><li><p data-path-to-node=\"18,1,0\"><b data-path-to-node=\"18,1,0\" data-index-in-node=\"0\">需要警惕的訊號：</b> 相反地，如果一個孩子原本落在 85%，卻在短短半年或一年內，突然下滑到 15%，甚至跌破 3%。即使他目前的數值看起來還在「正常範圍」內，但這種<b data-path-to-node=\"18,1,0\" data-index-in-node=\"81\">跨越兩個區間的大幅下滑</b>，就是身體在發出警訊，需要盡快就醫評估。</p></li></ul><blockquote data-path-to-node=\"19\"><p data-path-to-node=\"19,0\"><b data-path-to-node=\"19,0\" data-index-in-node=\"0\">玉齡醫師真心話&nbsp;</b>每個孩子都有自己獨特的生長時鐘。我們不需要把孩子塞進「97%」的模具裡，只要他們規律地沿著自己的軌道前進，就是最棒、最健康的成長！</p></blockquote>",
       "seriesOrder": {
         "兒童生長發育": 7
-      }
+      },
+      "oldIds": [
+        "看懂孩子的生長曲線-百分位不是成績單-qyqq"
+      ]
     },
     {
       "series": [
         "兒童生長發育"
       ],
-      "id": "身高矮小-一定要打生長激素嗎-常見迷思一次釐清-t9sy",
+      "id": "身高矮小-一-oc82",
       "title": "身高矮小，一定要打生長激素嗎？常見迷思一次釐清",
       "category": "衛教",
       "font": "round",
@@ -131,13 +134,16 @@
       "contentHtml": "<p data-path-to-node=\"22\"><b data-path-to-node=\"22\" data-index-in-node=\"0\">「醫生，我們家孩子在班上都坐第一排，是不是要趕快來打生長激素？」</b></p><p data-path-to-node=\"23\">在門診，這幾乎是家長最常問的問題之一。許多人把生長激素當成「長高神藥」，以為只要不夠高，打下去就對了。其實，這是一個很大的誤區！</p><p data-path-to-node=\"23\"><span>迷思一：身高矮，就一定要打生長激素？</span></p><p data-path-to-node=\"25\"><b data-path-to-node=\"25\" data-index-in-node=\"0\">答案是：不一定，而且大部分其實不需要。</b>\n生長激素是一種荷爾蒙治療，醫學上有非常嚴格的適應症。只有當孩子體內<b data-path-to-node=\"25\" data-index-in-node=\"53\">真的缺乏生長激素</b>、或是患有特定基因疾病（如透納氏症、小胖威利症）、或是属于足月產但出生體重不足（SGA）且後續追趕生長不良的孩子，使用生長激素才會有顯著且安全的療效。</p><p data-path-to-node=\"26\">如果孩子只是偏食、睡眠不足、或是純粹遺傳體質偏矮（但生長速度正常），打生長激素不僅效果有限，還必須承受不必要的針劑負擔。</p><h2><b>迷思二：只要骨齡還沒閉合，打了就一定有效？</b></h2><p data-path-to-node=\"28\">骨齡沒閉合確實是治療的前提，但並不代表「只要打了就會像大樹一樣高」。影響身高的因素非常多，如果基本的飲食、睡眠和運動沒有調整好，單靠外來荷爾蒙，效果往往會大打折扣。</p><blockquote data-path-to-node=\"29\"><p data-path-to-node=\"29,0\"><b data-path-to-node=\"29,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n身高矮小的第一步，絕對不是「考慮打針」，而是<b data-path-to-node=\"29,0\" data-index-in-node=\"32\">釐清原因</b>。我們會透過詳細的病史詢問、生長曲線評估，必要時進行抽血或 X 光檢查（骨齡），甚至近一步安排進階檢查（例如基因、核磁共振），找出孩子長不高的根本原因，對症下藥才是最安全、也最省錢的做法。</p></blockquote>",
       "seriesOrder": {
         "兒童生長發育": 9
-      }
+      },
+      "oldIds": [
+        "身高矮小-一定要打生長激素嗎-常見迷思一次釐清-t9sy"
+      ]
     },
     {
       "series": [
         "兒童生長發育"
       ],
-      "id": "性早熟的觀察重點-家長可以先做什麼-xn9c",
+      "id": "性早熟的觀察-mlsj",
       "title": "性早熟的觀察重點：家長可以先做什麼？",
       "category": "衛教",
       "font": "round",
@@ -149,13 +155,16 @@
       "contentHtml": "<p data-path-to-node=\"32\">隨著飲食習慣改變與環境荷爾蒙的影響，「性早熟」成了許多現代家長的心頭大患。到底幾歲發育算太早？在日常生活中，家長又該如何幫孩子把關？</p><h2><b>幾歲算性早熟？關鍵的「年齡分水嶺」</b></h2><p data-path-to-node=\"34\">醫學上對於性早熟的定義，是指孩子過早出現第二性徵：</p><ul data-path-to-node=\"35\"><li><p data-path-to-node=\"35,0,0\"><b data-path-to-node=\"35,0,0\" data-index-in-node=\"0\">女生： 8 歲以前</b> 出現乳房發育（摸到硬塊、觸痛）、長陰毛或腋毛，甚至初經來潮。</p></li><li><p data-path-to-node=\"35,1,0\"><b data-path-to-node=\"35,1,0\" data-index-in-node=\"0\">男生： 9 歲以前</b> 出現睪丸變大（大於 4 毫升）、陰莖變長、長大、長出陰毛或變聲。</p></li></ul><h2><b>家長在家的三大觀察重點</b></h2><p data-path-to-node=\"37\">由於男生的發育特徵（睪丸變大）非常隱蔽，女生有時因為體型豐滿容易將脂肪誤認為乳腺發育，家長可以用以下方式觀察：</p><ol start=\"1\" data-path-to-node=\"38\"><li><p data-path-to-node=\"38,0,0\"><b data-path-to-node=\"38,0,0\" data-index-in-node=\"0\">洗澡或擦乳液時的觸覺：</b> 幫年幼的女兒洗澡或擦乳液時，可以輕輕按壓乳暈下方，看是否有<b data-path-to-node=\"38,0,0\" data-index-in-node=\"41\">像小扁豆或硬幣般的硬塊</b>。如果孩子抱怨碰觸到胸部會痛，就要特別注意。</p></li><li><p data-path-to-node=\"38,1,0\"><b data-path-to-node=\"38,1,0\" data-index-in-node=\"0\">觀察男生的睪丸（常被忽略）：</b> 爸爸可以利用幫兒子洗澡時，留意睪丸的大小。如果看起來已經不再是幼兒時期的大小，而是明顯變大，甚至顏色變深，就需要提高警覺。</p></li><li><p data-path-to-node=\"38,2,0\"><b data-path-to-node=\"38,2,0\" data-index-in-node=\"0\">生長速度突然暴增：</b> 如果孩子在國小一、二年級，突然在一年內抽高 8 到 10 公分，這不一定是「長得好」，反而可能是性荷爾蒙刺激生長板的短暫現象。</p></li></ol><h2><b>在去診所前，家長可以先做這三件事</b></h2><p data-path-to-node=\"40\">如果你懷疑孩子有提早發育的跡象，在預約骨齡與內分泌檢查的這段期間，可以先從日常生活進行調整：</p><ul data-path-to-node=\"41\"><li><p data-path-to-node=\"41,0,0\"><b data-path-to-node=\"41,0,0\" data-index-in-node=\"0\">避開環境荷爾蒙（塑化劑）：</b>盡量減少使用塑膠袋、塑膠容器盛裝熱食。</p><ul data-path-to-node=\"41,0,1\"><li><p data-path-to-node=\"41,0,1,0,0\">少讓孩子接觸香精過重的沐浴乳、乳液。</p></li><li><p data-path-to-node=\"41,0,1,1,0\">勤洗手，減少吃進手上殘留的防腐劑與塑化劑。</p></li></ul></li><li><p data-path-to-node=\"41,1,0\"><b data-path-to-node=\"41,1,0\" data-index-in-node=\"0\">調整飲食習慣：</b>避免讓孩子吃過多雞皮、肥肉等容易囤積荷爾蒙的脂肪部位。</p><ul data-path-to-node=\"41,1,1\"><li><p data-path-to-node=\"41,1,1,0,0\">少吃油炸物與高糖甜點。<b data-path-to-node=\"41,1,1,0,0\" data-index-in-node=\"11\">肥胖是誘發性早熟的強力催化劑</b>，控制體重是預防性早熟最有效的方法之一。</p></li></ul></li><li><p data-path-to-node=\"41,2,0\"><b data-path-to-node=\"41,2,0\" data-index-in-node=\"0\">規律運動與早睡：</b> 每天進行 30 分鐘以上的縱向運動（如跳繩、打球），並在晚上 10 點前上床睡覺，這能幫助調節體內的內分泌平衡。</p></li></ul><blockquote data-path-to-node=\"42\"><p data-path-to-node=\"42,0\"><b data-path-to-node=\"42,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n發現孩子提早發育先別慌張，這不代表一定需要打針治療。及早尋求專業兒童內分泌科醫師評估，透過骨齡檢查與追蹤，跟醫師一起找出最適合孩子的溫和應對方式！</p></blockquote>",
       "seriesOrder": {
         "兒童生長發育": 8
-      }
+      },
+      "oldIds": [
+        "性早熟的觀察重點-家長可以先做什麼-xn9c"
+      ]
     },
     {
       "series": [
         "兒童生長發育"
       ],
-      "id": "骨齡是什麼-為什麼醫師要看孩子的骨齡-z06h",
+      "id": "骨齡是什麼-jg5z",
       "title": "骨齡是什麼？為什麼醫師要看孩子的骨齡？",
       "category": "衛教",
       "font": "round",
@@ -167,13 +176,16 @@
       "contentHtml": "<p data-path-to-node=\"45\">去兒童內分泌科看診時，醫師常會說：「我們先去照張手部的 X 光看骨齡喔！」許多家長心裡會犯嘀咕：明明是看身高，為什麼要照手？難道腳的骨頭不會長嗎？</p><h2><b>什麼是「骨齡」？</b></h2><p data-path-to-node=\"47\">簡單來說，<b data-path-to-node=\"47\" data-index-in-node=\"5\">骨齡（Bone Age）就是骨頭的生理年齡</b>。\n我們身分證上的年齡代表我們活了多久；而骨齡則代表<b data-path-to-node=\"47\" data-index-in-node=\"52\">骨骼成熟的進度</b>。</p><p data-path-to-node=\"48\">醫師通常會幫孩子拍攝<b data-path-to-node=\"48\" data-index-in-node=\"10\">非慣用手（通常是左手）的 X 光片</b>。左手掌與手腕處有許多小骨頭（生長板與腕骨），它們會隨著年紀增長，依據固定的順序與形狀慢慢成形、鈣化並融合。藉由觀察這些骨頭的發育狀況，我們就能推估出孩子目前的骨骼進度。</p><h2><b>為什麼醫師一定要看骨齡？</b></h2><p data-path-to-node=\"50\">照骨齡主要有以下三個關鍵原因：</p><ul data-path-to-node=\"51\"><li><p data-path-to-node=\"51,0,0\"><b data-path-to-node=\"51,0,0\" data-index-in-node=\"0\">評估「長高空間」：</b> 決定一個人能不能繼續長高的關鍵是「生長板」是否閉合，而不是看實際年齡。骨齡能告訴我們，孩子離生長板閉合還有多少時間。</p></li><li><p data-path-to-node=\"51,1,0\"><b data-path-to-node=\"51,1,0\" data-index-in-node=\"0\">診斷發育異常：</b> * 如果骨齡<b data-path-to-node=\"51,1,0\" data-index-in-node=\"14\">明顯超越</b>實際年齡（例如 8 歲的孩子骨齡已經 11 歲），要高度懷疑是否有性早熟。</p><ul data-path-to-node=\"51,1,1\"><li><p data-path-to-node=\"51,1,1,0,0\">如果骨齡<b data-path-to-node=\"51,1,1,0,0\" data-index-in-node=\"4\">明顯落後</b>（例如 10 歲的孩子骨齡只有 7 歲），則可能與甲狀腺低下、生長激素缺乏或慢性疾病有關。</p></li></ul></li><li><p data-path-to-node=\"51,2,0\"><b data-path-to-node=\"51,2,0\" data-index-in-node=\"0\">預測成人身高：</b> 結合目前的實際身高與骨骼成熟度，醫師可以更準確地推估孩子未來的成人身高。</p></li></ul><blockquote data-path-to-node=\"52\"><p data-path-to-node=\"52,0\"><b data-path-to-node=\"52,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n手部 X 光的輻射劑量非常非常低（微乎其微，大約相當於坐一次短途飛機所接受的宇宙輻射），家長們不需要擔心輻射對孩子的身體造成傷害喔！</p></blockquote>",
       "seriesOrder": {
         "兒童生長發育": 1
-      }
+      },
+      "oldIds": [
+        "骨齡是什麼-為什麼醫師要看孩子的骨齡-z06h"
+      ]
     },
     {
       "series": [
         "兒童生長發育"
       ],
-      "id": "孩子突然抽高又突然停滯-正常嗎-談生長速度的意義-0z53",
+      "id": "孩子突然抽高-95rt",
       "title": "孩子突然抽高又突然停滯，正常嗎？——談生長速度的意義",
       "category": "衛教",
       "font": "round",
@@ -185,13 +197,16 @@
       "contentHtml": "<p data-path-to-node=\"55\">在評估孩子成長時，很多家長會陷入「單點焦慮」——這個月沒長高就緊張，或是跟同齡孩子比身高。但其實，對兒科醫師來說，比「絕對高度」更重要的指標，是<b data-path-to-node=\"55\" data-index-in-node=\"72\">生長速度（Growth Velocity）</b>。</p><h2><b>什麼是正常的生長速度？</b></h2><p data-path-to-node=\"57\">人在一生中有兩個「快速抽高」的黃金期：</p><ol start=\"1\" data-path-to-node=\"58\"><li><p data-path-to-node=\"58,0,0\"><b data-path-to-node=\"58,0,0\" data-index-in-node=\"0\">嬰幼兒期（0-3歲）：</b> 一生中長最快的時候，第一年就可以長 25 公分！</p></li><li><p data-path-to-node=\"58,1,0\"><b data-path-to-node=\"58,1,0\" data-index-in-node=\"0\">青春期：</b> 女生平均每年長 6-10 公分，男生平均每年長 8-12 公分。</p></li></ol><p data-path-to-node=\"59\">而在這兩個黃金期之間的<b data-path-to-node=\"59\" data-index-in-node=\"11\">兒童期（約 4 歲到青春期前）</b>，孩子的生長應該是穩定且持續的，<b data-path-to-node=\"59\" data-index-in-node=\"42\">平均每年要長高 4 到 6 公分</b>。</p><h2><b>突然抽高又突然停滯，為什麼要小心？</b></h2><p data-path-to-node=\"61\">如果孩子在國小中低年級，突然在一年內「暴風式抽高」長了 8-10 公分，先別急著高興！這可能是發育提早（性早熟）的警訊。</p><ul data-path-to-node=\"62\"><li><p data-path-to-node=\"62,0,0\"><b data-path-to-node=\"62,0,0\" data-index-in-node=\"0\">提早抽高的代價：</b> 性荷爾蒙會刺激骨骼快速生長，但也同時會加速生長板閉合。這就像短跑選手把力氣在前半段用光了，雖然暫時領先，但很快就會面臨生長板提早關閉、身高提早停滯的窘境，導致最終成人身高反而不如預期。</p></li><li><p data-path-to-node=\"62,1,0\"><b data-path-to-node=\"62,1,0\" data-index-in-node=\"0\">生長停滯的警訊：</b> 如果孩子在青春期前，<b data-path-to-node=\"62,1,0\" data-index-in-node=\"19\">一年長不到 4 公分</b>，或者在生長曲線上連續下滑（例如從 50% 掉到 15%），這通常代表身體在發出求救訊號，可能是營養、睡眠、荷爾蒙、甚至是心理壓力出了狀況。</p></li></ul><blockquote data-path-to-node=\"63\"><p data-path-to-node=\"63,0\"><b data-path-to-node=\"63,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n建議家長<b data-path-to-node=\"63,0\" data-index-in-node=\"9\">每 3-6 個月</b>在家幫孩子量一次身高並記錄下來。我們不怕孩子慢慢長，最怕的是生長曲線像坐雲霄飛車一樣劇烈起伏。只要發現年長高度小於 4 公分，或突然莫名抽高，都建議帶給專業醫師評估。</p></blockquote>",
       "seriesOrder": {
         "兒童生長發育": 6
-      }
+      },
+      "oldIds": [
+        "孩子突然抽高又突然停滯-正常嗎-談生長速度的意義-0z53"
+      ]
     },
     {
       "series": [
         "兒童生長發育"
       ],
-      "id": "甲狀腺功能異常對孩子生長的影響-容易被忽略的線索-33h8",
+      "id": "甲狀腺功能異-w683",
       "title": "甲狀腺功能異常對孩子生長的影響：容易被忽略的線索",
       "category": "衛教",
       "font": "round",
@@ -203,13 +218,16 @@
       "contentHtml": "<p data-path-to-node=\"66\">講到長不高，大家第一直覺都是想到生長激素。但你知道嗎？人體內還有另一個默默支配全身代謝與生長的關鍵齒輪——<b data-path-to-node=\"66\" data-index-in-node=\"53\">甲狀腺素</b>。</p><p data-path-to-node=\"67\">甲狀腺素就像是身體的「發動機控制器」，當它分泌異常時，孩子的生長與日常表現都會受到直接打擊，而且症狀常常容易被誤認為「只是功課退步」或「小孩子比較文靜」。</p><h2><b>容易被忽略的「甲狀腺功能低下」</b></h2><p data-path-to-node=\"69\">當甲狀腺素分泌不足時，身體運作會慢半拍。常見的症狀包括：</p><ul data-path-to-node=\"70\"><li><p data-path-to-node=\"70,0,0\"><b data-path-to-node=\"70,0,0\" data-index-in-node=\"0\">生長遲緩：</b> 這是最典型的表現。孩子可能好幾年身高幾乎沒有變動。</p></li><li><p data-path-to-node=\"70,1,0\"><b data-path-to-node=\"70,1,0\" data-index-in-node=\"0\">活力不足：</b> 變得容易疲倦、整天昏昏欲睡、體力變差。</p></li><li><p data-path-to-node=\"70,2,0\"><b data-path-to-node=\"70,2,0\" data-index-in-node=\"0\">體重莫名增加：</b> 明明吃得不多，甚至胃口變差，體重卻一直往上升。</p></li><li><p data-path-to-node=\"70,3,0\"><b data-path-to-node=\"70,3,0\" data-index-in-node=\"0\">注意力不集中：</b> 學習效率變差，常被老師或家長誤以為是變懶惰。</p></li><li><p data-path-to-node=\"70,4,0\"><b data-path-to-node=\"70,4,0\" data-index-in-node=\"0\">其他生理表現：</b> 容易怕冷、便秘、皮膚乾燥、聲音沙啞。</p></li></ul><h2><b>剛好相反的「甲狀腺功能亢進」</b></h2><p data-path-to-node=\"72\">相反地，如果甲狀腺素分泌過多，身體就像開了超載的引擎。孩子可能會：</p><ul data-path-to-node=\"73\"><li><p data-path-to-node=\"73,0,0\">雖然吃很多卻一直變瘦、心跳加快、手抖、脾氣變得焦躁易怒。</p></li><li><p data-path-to-node=\"73,1,0\">雖然這時骨齡可能會短暫加速成熟，但若不治療，長期下來同樣會損害最終的生長潛力。</p></li></ul><blockquote data-path-to-node=\"74\"><p data-path-to-node=\"74,0\"><b data-path-to-node=\"74,0\" data-index-in-node=\"0\">玉齡醫師真心話</b>\n只要透過簡單的<b>病史詢問</b>、<b>醫師觸診</b>與<b data-path-to-node=\"74,0\" data-index-in-node=\"12\">抽血檢查</b><span data-path-to-node=\"74,0\" data-index-in-node=\"12\">，甚至是進一步的</span><b data-path-to-node=\"74,0\" data-index-in-node=\"12\">甲狀腺超音波檢查</b>，就能快速釐清甲狀腺功能。如果確診是甲狀腺功能低下，在醫師指導下規律補充甲狀腺素，孩子的生長速度通常能迎頭趕上，迅速找回原有的活力！</p></blockquote>",
       "seriesOrder": {
         "兒童生長發育": 5
-      }
+      },
+      "oldIds": [
+        "甲狀腺功能異常對孩子生長的影響-容易被忽略的線索-33h8"
+      ]
     },
     {
       "series": [
         "兒童生長發育"
       ],
-      "id": "父母都不高-孩子還有機會長高嗎-談遺傳身高與可調整因素-8k4x",
+      "id": "父母都不高-ilrr",
       "title": "父母都不高，孩子還有機會長高嗎？——談遺傳身高與可調整因素",
       "category": "衛教",
       "font": "round",
@@ -221,13 +239,16 @@
       "contentHtml": "<p data-path-to-node=\"77\">「醫生，我和我先生都不高，我們的小孩是不是注定矮人一截了？」</p><p data-path-to-node=\"77\">這也是門診中常聽到的焦慮。遺傳確實決定了孩子大約 60% 至 70% 的身高潛力，但絕對不是 100% 的宿命！剩下的 30% 到 40% 後天因素，就是我們可以努力爭取的空間。</p><h2></h2><h2><b>如何計算孩子的「遺傳身高目標」？</b></h2><p data-path-to-node=\"77\">在醫學上，我們有一個簡單的公式來推估孩子的標的身高（Target Height）：</p><p data-path-to-node=\"77\">公式一（男孩子）： (父親身高 + 母親身高 + 13) ÷ 2&nbsp; ± 8.5 公分</p><p data-path-to-node=\"77\">公式二（女孩子）： (父親身高 + 母親身高 - 13) ÷ 2&nbsp; ± 8.5 公分</p><p data-path-to-node=\"77\">請注意公式後面的 範圍（正負 8.5 公分）。這代表即使是同一個父母生下來的孩子，因為後天調控的不同，最終身高可能會有高達 12 到 15 公分的差距！這就是後天努力的價值所在。</p><h2><b>如何幫孩子爭取後天的「最大值」？</b></h2><p data-path-to-node=\"77\">要讓孩子的身高落在遺傳公式的「上限」甚至突破遺傳，關鍵在於維持良好的內分泌環境，不讓外在因素打折：</p><p data-path-to-node=\"77\"></p><p></p><p></p><ul><li>不讓生長板提早閉合： 避免過度攝取含糖飲料、高油炸食物，預防肥胖，因為肥胖會誘發性早熟，縮短長高的黃金時間。</li></ul><ul><li>確保充足的生長燃料： 優質蛋白質（蛋、奶、豆腐、瘦肉）與鈣質是骨骼生長的基石。</li></ul><ul><li>優化生活作息： 把握生長激素分泌的黃金時段，充足的睡眠與適度的縱向運動（跳繩、籃球），能給予骨骼最好的生長刺激。</li></ul><p></p><p></p><p></p><blockquote>玉齡醫師真心話：遺傳決定了「起跑線」與「天花板」，但後天的習慣決定了孩子能站得多高。與其為基因焦慮，不如從今天起，陪孩子建立健康的生活型態！</blockquote>",
       "seriesOrder": {
         "兒童生長發育": 4
-      }
+      },
+      "oldIds": [
+        "父母都不高-孩子還有機會長高嗎-談遺傳身高與可調整因素-8k4x"
+      ]
     },
     {
       "series": [
         "兒童生長發育"
       ],
-      "id": "飲食-睡眠-運動-哪個對長高影響最大-破解常見排行迷思-arw6",
+      "id": "飲食-睡眠-l59k",
       "title": "飲食、睡眠、運動，哪個對長高影響最大？破解常見排行迷思",
       "category": "衛教",
       "font": "round",
@@ -239,13 +260,16 @@
       "contentHtml": "<p data-path-to-node=\"90\">家長為了幫孩子長高，往往買了各式各樣的營養品，或是逼孩子每天跳繩上百下。到底「飲食、睡眠、運動」這三劍客，哪一個才是真正的長高關鍵？有沒有所謂的「第一名」？</p><h2><b>答案是：它們不是競爭關係，而是「連鎖反應」！</b></h2><p data-path-to-node=\"92\">這三者在科學上是環環相扣的，缺了任何一角，其他兩項的效果都會被打對折。我們來看看它們是如何協同運作的：</p><response-element class=\"\" ng-version=\"0.0.0-PLACEHOLDER\"><!----><!----><!----><!----><!----><!----><code-block _nghost-ng-c3224023702=\"\" class=\"ng-tns-c3224023702-25 enable-luminous-code-block ng-star-inserted\"><!----><!----><div _ngcontent-ng-c3224023702=\"\" class=\"code-block ng-tns-c3224023702-25 ng-animate-disabled ng-trigger ng-trigger-codeBlockRevealAnimation\" jslog=\"223238;track:impression,attention;BardVeMetadataKey:[[&quot;r_dbb429bce25d2538&quot;,&quot;c_09687eb0f9c60f99&quot;,null,&quot;rc_9bde130b376f1264&quot;,null,null,&quot;zh-Hant&quot;,null,1,null,null,1,1]]\" data-hveid=\"0\" decode-data-ved=\"1\" data-ved=\"0CAAQhtANahcKEwjMzJvD5tCVAxUAAAAAHQAAAAAQFA\"><!----><div _ngcontent-ng-c3224023702=\"\" class=\"formatted-code-block-internal-container ng-tns-c3224023702-25\"><div _ngcontent-ng-c3224023702=\"\" class=\"animated-opacity ng-tns-c3224023702-25\"><!----><pre _ngcontent-ng-c3224023702=\"\" class=\"ng-tns-c3224023702-25\"><code _ngcontent-ng-c3224023702=\"\" role=\"text\" data-test-id=\"code-content\" class=\"code-container formatted ng-tns-c3224023702-25 no-decoration-radius\">【優質飲食】 ──提供原料──&gt; 【骨骼肌肉生長】\n     │                             ▲\n  促進運動表現                 提供生長激素\n     ▼                             │\n【縱向運動】 ──加深睡眠──&gt; 【深度睡眠 (分泌生長激素)】\n</code></pre><!----></div></div></div><!----><!----><!----></code-block><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></response-element><h2><b>1. 睡眠：生長激素的「製造工廠」</b></h2><p data-path-to-node=\"95\">生長激素在人體內是呈脈衝式分泌的。一天之中分泌量最高的時候，是在<b data-path-to-node=\"95\" data-index-in-node=\"32\">晚上 10 點到凌晨 2 點</b>，且必須在<b data-path-to-node=\"95\" data-index-in-node=\"51\">深度睡眠</b>狀態下。</p><ul data-path-to-node=\"96\"><li><p data-path-to-node=\"96,0,0\"><b data-path-to-node=\"96,0,0\" data-index-in-node=\"0\">迷思：</b> 「睡飽 8 小時就好，幾點睡沒關係？」</p></li><li><p data-path-to-node=\"96,1,0\"><b data-path-to-node=\"96,1,0\" data-index-in-node=\"0\">事實：</b> 熬夜會錯過生長激素分泌的最高峰，即使事後睡再久，效果也無法完全彌補。</p></li></ul><h2><b>2. 飲食：長高所需的「建築材料」</b></h2><p data-path-to-node=\"98\">生長激素再多，如果沒有足夠的建材，骨頭也無法延伸。</p><ul data-path-to-node=\"99\"><li><p data-path-to-node=\"99,0,0\"><b data-path-to-node=\"99,0,0\" data-index-in-node=\"0\">重點：</b> 補鈣（提供骨骼硬度）和補蛋白質（提供骨骼延展與肌肉原料）同樣重要。</p></li><li><p data-path-to-node=\"99,1,0\"><b data-path-to-node=\"99,1,0\" data-index-in-node=\"0\">地雷：</b> <b data-path-to-node=\"99,1,0\" data-index-in-node=\"4\">糖分是生長激素的隱形殺手。</b> 喝下一杯含糖飲料，會讓血糖飆升，進而抑制生長激素分泌長達 2-3 小時。</p></li></ul><h2><b>3. 運動：拉長骨骼的「重力刺激」</b></h2><p data-path-to-node=\"101\">適度的運動能刺激生長板的軟骨細胞分裂。</p><ul data-path-to-node=\"102\"><li><p data-path-to-node=\"102,0,0\"><b data-path-to-node=\"102,0,0\" data-index-in-node=\"0\">推薦：</b> 具有「縱向跳躍」與「抗重力」性質的運動，如跳繩、籃球、羽球，或是跑步。</p></li><li><p data-path-to-node=\"102,1,0\"><b data-path-to-node=\"102,1,0\" data-index-in-node=\"0\">額外好處：</b> 運動能增加食慾，並幫助孩子晚上更快進入「深度睡眠」，形成完美的正向循環。</p></li></ul><div>終極排行榜：<span>如果硬要排順序，「飲食（控糖/補蛋白） ＝ 睡眠（規律深睡）」</span><span>是地基，地基穩了，加上</span><span>「運動（縱向刺激）」這台加速器，孩子的身高才能發揮到極致。</span></div>",
       "seriesOrder": {
         "兒童生長發育": 3
-      }
+      },
+      "oldIds": [
+        "飲食-睡眠-運動-哪個對長高影響最大-破解常見排行迷思-arw6"
+      ]
     },
     {
       "series": [
         "兒童生長發育"
       ],
-      "id": "轉大人前的最後衝刺-青春期生長板閉合前該注意什麼-ci84",
+      "id": "轉大人前的最-w68b",
       "title": "轉大人前的最後衝刺：青春期生長板閉合前該注意什麼",
       "category": "衛教",
       "font": "round",
@@ -257,7 +281,10 @@
       "contentHtml": "<p data-path-to-node=\"106\">當孩子進入青春期（女生乳房發育、男生睪丸變大），代表身高進入了「最後的衝刺期」。這個階段就像是跑馬拉松的最後一圈，一旦生長板完全閉合，長高的機會就正式宣告結束。在這個關鍵時刻，家長需要掌握哪些守則？</p><h2><b>1. 密切監測發育進度</b></h2><p data-path-to-node=\"108\">青春期的發育有其固定的黃金時間表，女生與男生的衝刺點有些許不同：</p><ul data-path-to-node=\"109\"><li><p data-path-to-node=\"109,0,0\"><b data-path-to-node=\"109,0,0\" data-index-in-node=\"0\">女生：</b> 通常在<b data-path-to-node=\"109,0,0\" data-index-in-node=\"7\">乳房發育後的 1-2 年</b>（約初經來臨前）是長最快的時期。一旦初經來潮，生長板便會加速閉合，後續長高的空間平均只剩下 5-7 公分左右。</p></li><li><p data-path-to-node=\"109,1,0\"><b data-path-to-node=\"109,1,0\" data-index-in-node=\"0\">男生：</b> 通常在<b data-path-to-node=\"109,1,0\" data-index-in-node=\"7\">變聲期、長出陰毛/腋毛</b>時是長最快的衝刺期。</p></li></ul><h2><b>2. 避開「加速閉合」的地雷</b></h2><p data-path-to-node=\"111\">在最後衝刺階段，我們要避免任何讓生長板提早「拉鐵門」的因素：</p><ul data-path-to-node=\"112\"><li><p data-path-to-node=\"112,0,0\"><b data-path-to-node=\"112,0,0\" data-index-in-node=\"0\">避免塑化劑與環境荷爾蒙：</b> 減少使用塑膠容器裝熱食、少用香精過重的沐浴乳，避免環境荷爾蒙干擾內分泌。</p></li><li><p data-path-to-node=\"112,1,0\"><b data-path-to-node=\"112,1,0\" data-index-in-node=\"0\">控制體重：</b> 脂肪細胞會分泌雌激素，體脂過高會加速骨齡老化。</p></li></ul><h2><b>3. 最後衝刺的行動指南</b></h2><ul data-path-to-node=\"114\"><li><p data-path-to-node=\"114,0,0\"><b data-path-to-node=\"114,0,0\" data-index-in-node=\"0\">飲食不要亂補：</b> 許多家長會急著給孩子吃「轉骨方」或未經醫師評估的補品。要注意，部分中藥材或補品可能含有類似雌激素的成分，反而可能導致生長板加速閉合。</p></li><li><p data-path-to-node=\"114,1,0\"><b data-path-to-node=\"114,1,0\" data-index-in-node=\"0\">運動：</b> 此時每天跳繩 500-1000 下，或維持規律的運動，能給生長板最後的物理刺激。</p></li><li><p data-path-to-node=\"114,2,0\"><b data-path-to-node=\"114,2,0\" data-index-in-node=\"0\">及時諮詢專業：</b> 如果發現孩子在青春期生長速度突然慢下來（一年長不到 4 公分），或是懷疑發育進度過快，應盡快帶給兒童內分泌科醫師評估骨齡，把握最後的黃金治療期。</p></li></ul><blockquote data-path-to-node=\"115\"><p data-path-to-node=\"115,0\"><b>玉齡醫師真心話</b> 青春期是長高的最後一班列車。保持平常心、不盲目跟風進補，用科學、健康的方式陪伴孩子，就是最棒的轉大人禮物。</p></blockquote>",
       "seriesOrder": {
         "兒童生長發育": 2
-      }
+      },
+      "oldIds": [
+        "轉大人前的最後衝刺-青春期生長板閉合前該注意什麼-ci84"
+      ]
     },
     {
       "series": [
@@ -281,7 +308,7 @@
       "series": [
         "多洛米蒂"
       ],
-      "id": "多洛米蒂大眾交通健行-行前規劃-東西邊怎麼玩-住哪最方便-wuo0",
+      "id": "多洛米蒂-行-jtx2",
       "title": "多洛米蒂 行前規劃｜東西邊怎麼玩、住哪最方便、非自駕交通如何規劃",
       "category": "旅遊",
       "font": "round",
@@ -293,13 +320,16 @@
       "contentHtml": "<div>多洛米蒂地區大致上分成東邊和西邊，東邊有很多漂亮的大石頭山例如最有名的就是三尖峰（Tre Cime di Lavaredo）、五塔山（Cinque Torri）和高山湖泊如布萊埃斯湖 (Lago di Braies)、索拉皮斯湖（Lago di Sorapis）。西邊則是有非常多的特色纜車可以搭，最有名的是刀鋒山/刀背山（Seceda）。我們這次以大眾交通工具為主，全程靠公車與纜車，不用開車省下許多體力，銜接也都非常順暢喔！</div><div><br></div><div>住宿地點前六天在東邊，後六天在西邊，挑選上以交通方便為主。</div><div><br></div><div>西邊以 Ortisei 作為據點；東邊原先考慮住在舉辦 2026 冬季奧運的 Cortina d'Ampezzo，但後來考量房價真的比較高，因此將住宿地點調整到北邊的 Dobbiaco 與南邊的 San Candido 各三個晚上，實際走起來甚至比 Cortina 還要方便許多，完全不遜色於 Cortina。</div><div><br></div><div>東邊往西邊的移動方式可以透過公車的銜接翻山越嶺，中途經過 Passo Sella（塞拉山口）；也可以從北邊經過繞一大圈，經過 Dobbiaco 透過火車的銜接前往西邊。最後我們選擇使用公車銜接去西邊，中間停留一晚在 Passo Sella 的山屋（Rifugio Salei）當作西邊6晚的第一站。</div><div><br></div><div>所以住宿的安排就是：<br>Dobbiaco 3 晚 （東），San Vito 3 晚（東），Passo Sella 1 晚（西），Ortisei 5晚（西）</div><div><br></div><div>先玩東邊再玩西邊，飛機的選擇是威尼斯進、米蘭出。從威尼斯機場進到東邊的大城例如 Cortina 和 Dobbiaco，只需要搭乘大巴（Cortina Express / ATVO）大約花費兩到三個小時，非常方便。若從威尼斯要去到西邊的大城鎮，其實就和從米蘭過去差不多，所以可以安排威尼斯進、米蘭出（前往東邊再去西邊），或是米蘭進、威尼斯出（先玩西邊再去東邊）。當然如果進出都從威尼斯也很不錯，不過機票的選擇會比較少。</div><div><br></div><div>慕尼黑與維也納也是進出多洛米蒂（尤其是東多洛米蒂）可以選擇的城市，只是路程會稍遠，從慕尼黑的話還會需要經過德鐵轉乘，但沿路風景也會很美，如果是自駕的話，距離和米蘭不會差太多。</div><div><br></div><div>總結來說最快的是威尼斯機場（尤其是公車進出東多洛米蒂），其次是米蘭機場，再來說慕尼黑（進出東邊甚至比米蘭快），最後是維也納機場。另外，我們選擇維也納進米蘭出，因為義大利有給臺灣快速通關，所以出入境都非常快速喔！</div>",
       "seriesOrder": {
         "多洛米蒂": 1
-      }
+      },
+      "oldIds": [
+        "多洛米蒂大眾交通健行-行前規劃-東西邊怎麼玩-住哪最方便-wuo0"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "威尼斯半日遊-入住-dobbiaco-多洛米蒂-day-1-ydt5",
+      "id": "day-1-dobbiaco-m2a4",
       "title": "多洛米蒂 Day 1｜威尼斯半日遊 → 入住 Dobbiaco",
       "category": "旅遊",
       "font": "round",
@@ -311,13 +341,16 @@
       "contentHtml": "<div>第一天早上抵達威尼斯之後，當天就計畫入住 Dobbiaco。如果是去 Cortina 的班次，會多一班早上的公車（Cortina Express）可以選擇；如果想去 Dobbiaco 的話，比較好的是下午的班次（Cortina Express / Fly Bus），另外除了從威尼斯機場的班次，也有從威尼斯市區出發的班次，如果有在威尼斯過夜的話也是很方便的選擇。<span>（</span><a href=\"https://www.cortinaexpress.it/en/\">Cortina Express 官網班次查詢</a><span>）</span></div><div><br></div><div>我們大約有五個小時的時間可以進威尼斯看一看這座水都。很適合先搭 ATVO 巴士去到威尼斯鎮上的羅馬廣場 (Piazzale Roma)，接著去逛逛步行可以抵達的景點，先去聖馬可廣場 (Piazza San Marco)，然後回頭搭小船貢多拉 (Gondola)，最後再去里阿爾托橋 (Rialto Bridge) 附近，Rialto 橋附近有很多餐廳，再慢慢走回羅馬廣場搭 ATVO 巴士回程。</div><div><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrrqmjq4-IMG_4205.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrqmjq4-IMG_4205.jpg\"><img src=\"images/uploads/mrrqmlpb-5470CD7C-E286-4114-B236-401997221A30.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrqmlpb-5470CD7C-E286-4114-B236-401997221A30.jpg\"><img src=\"images/uploads/mrrqmoax-B818AE8E-5C97-47AF-8F83-A52BB87AC4C2.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrqmoax-B818AE8E-5C97-47AF-8F83-A52BB87AC4C2.jpg\"></div><figcaption>順遊威尼斯水都</figcaption></figure></div><div>行李寄放選機場最保險，一次 6 小時內是 9 歐，或者是後來發現，ATVO 巴士下車處（羅馬廣場）旁邊的雜貨店其實就可以寄放行李，而且還比較便宜只要 5 歐。</div><div><br></div><div>搭 Cortina Express 前往多洛米蒂山區<span>的沿路風景很漂亮，一下子就抵達了。這班車會在 Cortina 稍微休息 30 分鐘，可以下車和奧運五環拍拍照或吃個 gelato，再換另外一班巴士前往 Dobbiaco。如果是只有到 Cortina 的班次，也可以在這裡換市區巴士 445 號前往 Dobbiaco，不過上車處距離 Cortina Express 下車處大約步程 5 分鐘。</span></div><div><br></div><div>夏天的日照很長，五點多抵達 Dobbiaco 時，天色還非常明亮。我們就在住宿旁邊的 Hans Pizzeria 吃晚餐後準備休息，隔天要早起。Dobbiaco 是一個長型的城鎮，北邊是公車總站，南邊是火車站。我們選擇住在中間，有一些公車的小停靠站，而且旁邊就有好吃的 Hans 披薩店，地理位置算是非常優秀，附近也有超市。但 Dobbiaco 真的算是一個小鎮，所以超市相對於其他城鎮來得比較小一點。</div><div><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrrqq5pw-IMG_4379.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrqq5pw-IMG_4379.jpg\"><img src=\"images/uploads/mrrqq7y0-IMG_4381.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrqq7y0-IMG_4381.jpg\"><img src=\"images/uploads/mrrqqa05-IMG_4378.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrqqa05-IMG_4378.jpg\"></div><figcaption>Dobbiaco 入住 Guesthouse Rosengarten，不論是地理位置、早餐、服務都非常推薦唷，也有附南堤洛公車的 Guest Pass</figcaption></figure></div>",
       "seriesOrder": {
         "多洛米蒂": 2
-      }
+      },
+      "oldIds": [
+        "威尼斯半日遊-入住-dobbiaco-多洛米蒂-day-1-ydt5"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "三尖峰大環線-tre-cime-di-lavaredo-多洛米蒂-day-2-z592",
+      "id": "day-2-tre-cime-di-c4v6",
       "title": "多洛米蒂 Day 2｜三尖峰大環線 Tre Cime di Lavaredo 、魔戒尖塔與 Dobbiaco 湖",
       "category": "旅遊",
       "font": "round",
@@ -329,13 +362,16 @@
       "contentHtml": "第二天，我們搭上大約一週前在臺灣預約好的 444 號公車前往三尖峰。三尖峰的交通可以從 Dobbiaco 出發，也可以從 Cortina 或 Misurina 出發。從 Dobbiaco 出發還是最順的，直接搭一班預約好的公車即可，而且因為是預定的，所以會有位置可以坐。如果從 Cortina 出發，那就得先搭 445 號地區公車到 Dobbiaco 換 444 號公車，或者是去 Misurina 湖再換接駁車。三尖峰與 Misurina 湖之間的接駁巴士一天 10 歐元可以無限搭乘，不過缺點就是總是有非常多的排隊人潮。總結來說，還是最推薦和我們一樣從 Dobbiaco 出發。Dobbiaco 是一個前往三尖峰與布萊埃斯湖都很棒的小鎮。<div><br><div>444 號公車的下車處就是 Rifugio Auronzo（奧倫佐山屋）。山屋往左接著就是 101 號步道的三尖峰大環線，逆時針繞三尖峰一圈，沿途會經過三個主要山屋；或是山屋往右走則是 117 號步道去看魔戒尖塔 (Cadini di Misurina)。我們在山屋先吃了民宿幫我們準備的早餐盒之後，就出發走 117 號步道一圈，沿路還遇到山羊一家，大約花費一個半小時，再回到 Rifugio Auronzo，接著去 101 號步道走三尖峰大環線。這時候大約九點多遊客已經很多了，也有很多小狗也來爬山，但空間很空曠，所以不會擁擠，整體還是很舒服。</div><div><br></div><div><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrqdl5hi-IMG_4617.jpg\" alt=\"\" data-final-src=\"images/uploads/mrqdl5hi-IMG_4617.jpg\"><img src=\"images/uploads/mrqdl7qw-IMG_4438.jpg\" alt=\"\" data-final-src=\"images/uploads/mrqdl7qw-IMG_4438.jpg\"><img src=\"images/uploads/mrqdl9th-IMG_4444.jpg\" alt=\"\" data-final-src=\"images/uploads/mrqdl9th-IMG_4444.jpg\"></div><figcaption>就在眼前的 Cadini di Misurina 魔戒尖塔與路上的山羊一家</figcaption></figure></div><div>大環線沿途有三座山屋。從南面的公車站與 Rifugio Auronzo 逆時針方向出發之後，第一個是東面的 Rifugio Lavaredo，第二個是北面的 Rifugio Locatelli，第三個是西面的 Rifugio Langalm。</div><div><br></div><div>走到第一間山屋（Rifugio Lavaredo）的路大致都非常好走，相當平緩，不過因為是在三尖峰的背面與側面，所以看不到最經典的三尖峰畫面。接著要去第二間山屋（Rifugio Locatelli）需要先上一個坡，上完坡就抵達三尖峰最震撼的位置了！如果沒有要走大環線，可以考慮在這邊拍完照就準備回頭，或者是像我們一樣，繼續往前走去第二間山屋 Rifugio Locatelli 吃午餐。Rifugio Locatelli 的地理位置非常好，吃飯的時候就是正對著三尖峰。三尖峰的經典畫面——從山洞拍攝出去的位置——就在山屋的後方，附近還有兩個漂亮的湖泊，也可以自己準備午餐來這裡野餐，非常愜意舒服。</div><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrrxvth2-IMG_4657.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrxvth2-IMG_4657.jpg\"><img src=\"images/uploads/mrrxvvvf-IMG_4640.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrxvvvf-IMG_4640.jpg\"><img src=\"images/uploads/mrrxvy8s-IMG_4674.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrxvy8s-IMG_4674.jpg\"><img src=\"images/uploads/mrrxw0i8-IMG_4648.jpg\" alt=\"\" data-final-src=\"images/uploads/mrrxw0i8-IMG_4648.jpg\"></div><figcaption>第一間山屋 Rifugio Lavaredo 以及這一側看到的三尖峰, 路上許多小狗一起健行很熱鬧</figcaption></figure><div><figure class=\"article-figure\"></figure><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrry0m3m-IMG_4790.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry0m3m-IMG_4790.jpg\"><img src=\"images/uploads/mrry0ocp-IMG_4927.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry0ocp-IMG_4927.jpg\"><img src=\"images/uploads/mrry0qc7-IMG_4965.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry0qc7-IMG_4965.jpg\"><img src=\"images/uploads/mrry0st3-IMG_4957.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry0st3-IMG_4957.jpg\"></div><figcaption>第二間山屋 Rifugio Locatelli，正面著三尖峰吃午餐，經典的拍攝畫面就在山屋後方</figcaption></figure><p><span>吃完午餐後可以考慮原路折返，沿路順時針折返回去搭公車處；或者是繼續逆時針接上 102 號再接 105 號步道前往第三個山屋（Rifugio Langalm）。這段路的景色和剛才截然不同，從原本的巨石與岩石路段，變成是草原路段，也非常漂亮喔！但是需要先下切山谷再往上爬，所以會消耗比原路折返還要來得多的體力。不過沿途的景色非常值得，可以在不同的角度欣賞三尖峰。但也因為有積雪與雨水的沖刷，所以在三尖峰的西面有一些像土石流一般的小碎石特殊地貌。</span></p></div><div><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrry1ruw-IMG_5218.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry1ruw-IMG_5218.jpg\"><img src=\"images/uploads/mrry1u6i-IMG_5226.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry1u6i-IMG_5226.jpg\"><img src=\"images/uploads/mrry1wj0-IMG_5229.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry1wj0-IMG_5229.jpg\"><img src=\"images/uploads/mrry1ypg-IMG_5235.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry1ypg-IMG_5235.jpg\"></div><figcaption>走 105 步道環線回去會經過的第三間山屋 Rifugio Langalm，雖然是比較像咖啡廳的小山屋，但菜單也有素食唷！</figcaption></figure><p><span>回到公車站與停車場（Rifugio Auronzo）之後，我們提早在 Lago di Dobbiaco（多比亞科湖）公車站下車，這裡已經非常接近 Dobbiaco 城鎮了。在 Lago di Dobbiaco 走了半圈環湖步道，之後再搭 445 號公車回鎮上。445 號公車不需要像 444 號一樣事先預約。目前南提洛地區（</span>south tyrol<span>）的 Südtirolmobil Guest Pass 有包含當地的公車，唯獨不包含去三尖峰的 444 號與去布萊埃斯湖的 442 號公車（這兩條線在旺季需額外預約付費）。</span></p></div><div><div><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrry3xwn-IMG_5322.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry3xwn-IMG_5322.jpg\"><img src=\"images/uploads/mrry40b9-IMG_5293.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry40b9-IMG_5293.jpg\"><img src=\"images/uploads/mrry426j-IMG_5268.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry426j-IMG_5268.jpg\"><img src=\"images/uploads/mrry44h0-IMG_5272.jpg\" alt=\"\" data-final-src=\"images/uploads/mrry44h0-IMG_5272.jpg\"></div><figcaption>恬靜的 Lago di Dobbiaco</figcaption></figure><p><span>在 Lago di Dobbiaco 看到許多可愛的天鵝與鴨子，這裡也可以划船，但遊客比熱門景點少非常多。</span></p></div></div></div>",
       "seriesOrder": {
         "多洛米蒂": 3
-      }
+      },
+      "oldIds": [
+        "三尖峰大環線-tre-cime-di-lavaredo-多洛米蒂-day-2-z592"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "布萊埃斯湖-lago-di-braies-misurina-湖-多洛米蒂-day-3-0d50",
+      "id": "day-3-lago-di-brai-12hl",
       "title": "多洛米蒂 Day 3｜布萊埃斯湖 Lago di Braies ＋ Misurina 湖",
       "category": "旅遊",
       "font": "round",
@@ -347,13 +383,16 @@
       "contentHtml": "<div>也是一早<span>帶著民宿早餐盒</span><span>出發的一天，搭 7:02 的公車從 Dobbiaco 出發</span><span>的 442 號公車，不到八點就抵達</span><span>&nbsp;Lago di Braies（布萊埃斯湖）了。正好可以看到獨木舟還沒開始營業的布萊埃斯湖，水面平靜得像一面鏡子一般，非常漂亮。我們在湖邊享用民宿準備的早餐盒，接著去排隊搭乘 8:30 開始營業的獨木舟。這時候排隊的人還很少，而且因為是第一批遊客，所以很快就排到船了，從湖面上欣賞整個環山的湖景，1-5人一艘船，包船 55 歐元，</span><span>大約可以划</span><span>一個小時的獨木舟，還會依人數贈送布萊埃斯湖的磁鐵唷。</span></div><div><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrryoail-IMG_5406.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryoail-IMG_5406.jpg\"><img src=\"images/uploads/mrryoct8-IMG_5407.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryoct8-IMG_5407.jpg\"><img src=\"images/uploads/mrryof7d-IMG_5417.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryof7d-IMG_5417.jpg\"><img src=\"images/uploads/mrryoh9b-IMG_5458.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryoh9b-IMG_5458.jpg\"></div><figcaption>早上的 Lago di Braies，非常推薦在湖上划獨木舟喔</figcaption></figure><p><span>划完船之後時間還很充裕，我們去走了一圈環湖步道，沿途的布萊埃斯湖真的好美喔！傳說中，布萊埃斯湖對面的山，底下是「法內斯地下王國 (Kingdom of Fanes)」的所在地。以前法內斯王國是多洛米蒂地區一個非常興盛的王國，後來公主嫁給了一個邪惡的國王。這位國王打破了原先法內斯王國與土撥鼠之間的盟約，最後導致了整個王國的滅亡。而倖存的法內斯國民與公主就住在這座山的底下，等待有一天復活與復興的機會。在每個滿月的日子，他們會出來，土撥鼠也會與這個地下王國保持聯繫，這是一個寫在湖邊告示牌的當地奇幻傳說。</span></p></div><div>整個環湖步道有非常多的休息點，景色都很美。我們就在對岸的沙灘上坐了好一陣子，看著鴨子划水，非常愜意，也有許多小狗在附近跑跳。逆時針環湖的後半圈有一些高低落差，不過整體步道都還是非常的舒適、好走且安全，慢慢走大約一小時可以完成。</div><div><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrryq7fw-IMG_5954.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryq7fw-IMG_5954.jpg\"><img src=\"images/uploads/mrryq9lh-IMG_5860.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryq9lh-IMG_5860.jpg\"><img src=\"images/uploads/mrryqbn2-IMG_6001.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryqbn2-IMG_6001.jpg\"></div><figcaption>環湖步道的景色</figcaption></figure><p><span>原本我們預約的回程公車是下午 1:30，但是完成環湖步道的時間還非常早，所以我們到旁邊的餐廳吃了一份薯條之後，看到 12:30 發車的回程公車，詢問司機能不能改搭這班。司機說 OK，所以我們就提早離開了。下午則是回到 Dobbiaco 之後，換乘前往 Misurina 湖的 445 號公車，在 Misurina 湖附近的餐廳吃午餐，也走了 Misurina 湖的環湖步道一圈，遇到鴨媽媽一次帶著九隻小鴨非常厲害，湖水相當清澈還看到有人直接下水游泳。</span></p><figure class=\"gallery-scroll\"><div class=\"gallery-track\"><img src=\"images/uploads/mrryvo0s-IMG_6058.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryvo0s-IMG_6058.jpg\"><img src=\"images/uploads/mrryvqgc-IMG_6069.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryvqgc-IMG_6069.jpg\"><br><img src=\"images/uploads/mrryvuux-IMG_6081.jpg\" alt=\"\" data-final-src=\"images/uploads/mrryvuux-IMG_6081.jpg\"></div><figcaption>Lago di Misurina，附近有許多餐廳、露營地、公車站可以前往三尖峰、往返 Dobbiaco 或 Cortina</figcaption></figure><p><span>下午還有時間，所以我們就用 Guest Pass 搭乘公車去了 San Candido、再搭火車回來，車程都不到 10分鐘。原本也有考慮住在 San Candido 小鎮，但後來覺得去那裡還需要多搭一小段火車或公車的路程，才能到 Dobbiaco 搭乘 444 號與 442 號公車，所以最後決定直接住在 Dobbiaco 了。但整個小鎮的繁榮程度與街景，還是 San Candido 略勝一籌！這裡商店比較多、超市也比較好逛，小鎮區非常集中，房子也很漂亮，還有一個小鎮中心的教堂。如果時間充裕，其實來這裡住應該會更有度假感喔，或者像我們一樣如果有一兩個小時的時間直接當天來回去散步也推薦。</span></p></div>",
       "seriesOrder": {
         "多洛米蒂": 4
-      }
+      },
+      "oldIds": [
+        "布萊埃斯湖-lago-di-braies-misurina-湖-多洛米蒂-day-3-0d50"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "東部小移動日-dobbiaco-san-vito-di-cadore-cortina-漫遊-多洛米蒂-day-4-19cr",
+      "id": "day-4-dobbiaco-san-f4qq",
       "title": "多洛米蒂 Day 4｜東部小移動日：Dobbiaco → San Vito di Cadore ＋ Cortina 漫遊",
       "category": "旅遊",
       "font": "round",
@@ -365,13 +404,16 @@
       "contentHtml": "<div>第四天這一天是輕鬆的小移動日，也是我們的休息日。早上在 Dobbiaco 的民宿悠閒地吃超好吃的早餐 Buffet，接著就準備前往圓環邊的遊客中心公車站，搭乘公車前往 Cortina d'Ampezzo。下車後原地轉 30 號公車去 San Vito di Cadore 入住，安頓好後再搭 30 號公車回頭到 Cortina 小鎮漫遊。</div><div><br></div><div>簡單解釋一下 Cortina 會搭到的幾種公車：</div><div>1. 30號 🚌—往返 Cortina 以南的小鎮，常常是當地人通勤用的車，班次算多，約半小時一班，也還算準時誤點沒有超過 10 分鐘。Cortina 住宿太貴的話可以考慮 30 號會經過的小鎮，San Vito就是這條路線上距離最近機能又好的小鎮。這條路線由 DolomitiBus 營運。</div><div>2. 51/52/53 號 🚌—往返東邊大景點的山路公車，一樣是<span>由 DolomitiBus 營運：</span></div><div>51｜往返 Misurina（可轉車去三尖峰），中途經過 Passo Tri Croci（去 Sorapis 牛奶藍湖的登山口）</div><div>52｜往返 Passo Falzarego（有一戰歷史遺跡，也是往西多洛米蒂轉車的地方），中途經過 Cinque Torri（五塔山纜車站）</div><div>53｜會經過 Passo Giau（可以從這站走去五塔山）</div><div>3. 445 號 🚌—往返 Dobbiaco。445 號公車有兩種，以 Dobbiaco 為起點，一種班次是往返 Cortina，一種是 Misurina，如果是從 Dobbiaco 出發的話要特別注意喔，那如果是從 Cortina 就只會遇到 Dobbiaco-Cortina 這一種。445是由南堤洛公車營運，所以民宿給的 Guest pass 可以使用。</div><div><br></div><div>以上這些公車的上下車站都是同一個地方，距離從威尼斯來的 Cortina Express 下車站大約需要步行 5 分鐘。</div><div><br></div><div>也可以考慮先在 Cortina 找地方寄放行李、在鎮上玩一玩之後，再去 San Vito 入住。但是 30 號公車班次算多，而且路程只有 10 到 15 分鐘，我們就沒有多做折騰。原本我們有在 Cortina 找一個行李寄存處，寄放處的格子都蠻小，而且 3 小時一個行李就要 10 歐元，相比之下，搭公車一個人來回只要 4.6 歐元，划算得多，而且比較不會有時間壓力。再加上從公車總站到寄放處的路程是一個石頭路的上坡，所以強烈不建議在這邊拖著大行李寄物，直接搭公車去 San Vito 飯店放行李會好得多。Cortina 的街景很漂亮，但也是人潮眾多，整體來說還是覺得住在附近的小鎮（如 San Vito）比這裡還要舒服、安靜許多。</div><div><br></div><div>Cortina 是舉辦 2026 冬季奧運的城市之一，鎮上有漂亮的彩色房子、地磚、教堂。有許多餐廳、百貨公司、超市、Gelato 店、和許多精品店。</div><div><br></div><div>今天晚上是在山谷旁的餐廳（Baita Donarie）吃晚餐，座位旁邊就是能看見 Antelao 山的地方，風景非常漂亮喔！</div>",
       "seriesOrder": {
         "多洛米蒂": 5
-      }
+      },
+      "oldIds": [
+        "東部小移動日-dobbiaco-san-vito-di-cadore-cortina-漫遊-多洛米蒂-day-4-19cr"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "多洛米蒂-day-5-五塔山-cinque-torri-健行-一戰露天博物館-1tl1",
+      "id": "day-5-cinque-torri-s6eo",
       "title": "多洛米蒂 Day 5｜五塔山 Cinque Torri 健行 ＋ 一戰露天博物館",
       "category": "旅遊",
       "font": "round",
@@ -383,13 +425,16 @@
       "contentHtml": "<div>這一天是去五塔山 (Cinque Torri) 健行的日子。我們一樣先搭 30 號公車去 Cortina，換 53 號公車前往 Passo Giau，接著就開始沿著 443 號步道健行，慢慢從遠到近接近五塔山。沿途的景色非常漂亮，有非常多雄偉的遠山包圍著。路上是大小石頭跟草原交錯的步道，爬升不多，走起來蠻輕鬆的，而且穿梭在巨石之間很有趣。只有最後一段要上 Rifugio Scoiattoli（松鼠山屋）的路有一個比較陡峭的爬坡，但慢慢走其實不會花很多力氣。</div><div><br></div><div>爬上去之後發現還有時間，就往右邊逆時針方向去 Rifugio Cinque Torri（五塔山山屋）逛逛，再接回松鼠山屋吃午餐。下午去參觀一戰的露天博物館（一戰遺跡），看壕溝、砲台和防空洞，還能近距離接觸五塔山，這裡真的好好玩喔！希望下次來還有多一點的時間可以環五塔山一圈，走在巨石中間的體驗真的太特別了。</div><div><br></div><div>因為下山的 Cinque Torri 吊椅纜車最晚一班是五點，所以我們大約四點就搭纜車下去到 Bai de Dones，接著搭乘 16:30 左右經過公車站的 52 號公車返程。</div>",
       "seriesOrder": {
         "多洛米蒂": 6
-      }
+      },
+      "oldIds": [
+        "多洛米蒂-day-5-五塔山-cinque-torri-健行-一戰露天博物館-1tl1"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "tiffany-藍索拉皮斯湖-lago-di-sorapis-多洛米蒂-day-6-2h06",
+      "id": "day-6-tiffany-lago-xqa5",
       "title": "多洛米蒂 Day 6｜Tiffany 藍索拉皮斯湖 Lago di Sorapis",
       "category": "生活",
       "font": "round",
@@ -401,13 +446,16 @@
       "contentHtml": "<div>前往索拉皮斯湖 (Lago di Sorapis) 的健行日。早上在民宿吃完早餐 Buffet 之後，搭 8:16 的 30 號公車去 Cortina，接上 51 號公車（往 Misurina方向），在中途的 Passo Tre Croci（登山口）下車。</div><div><br></div><div>步道口距離公車站約 3 分鐘，沿途走 215 號步道前往索拉皮斯湖。整段路的爬升並不算非常多，不過有一些懸崖峭壁的景色，其中有一段很像台灣的錐麓古道，在比較陡峭的峭壁處都有安裝鋼索與鐵梯輔助。</div><div><br></div><div>有一些人覺得索拉皮斯湖有點被過譽了，人潮眾多且路程危險；不過我們實際走下來，覺得還是非常值得來一趟，因為索拉皮斯湖的 Tiffany 藍顏色真的太漂亮了！這是冰河融化之後夾帶著白雲石（也就是 Dolomites 這個名字所代表的白雲石礦物），這些白雲石的細微粉末跟著冰川水一起流下來，在湖中呈現出獨特的牛奶藍色。而且這是一個堰塞湖，隨著夏季烈日的曝曬水分會慢慢蒸發，到了夏末秋初可能就沒有像現在初夏這麼漂亮了。</div><div><br></div><div>我們順時針走了環湖步道一圈，環湖步道反而比前來的路程還要再稍微困難一點點，因為有非常多條錯綜複雜的獸徑，要小心迷路。但只要將離線地圖下載好、方向抓對，其實都可以順利環湖。只是有一些小路會接到峭壁上，那並不是真正的健行步道，要小心，如果覺得很難走就千萬不要強行過去。整體來說，Sorapis 湖還是相當的漂亮，好天氣的初夏非常值得來喔！但如果是下雨天、地面濕滑會讓地形變得危險，就可以考慮不要前往。</div><div><br></div><div>環湖完之後，我們到旁邊的 Rifugio Vandelli 山屋吃現烤的三明治當午餐。山屋的人真的非常多，不過大家都能找到舒服的位置和風景。我們大約兩點多開始下山，希望能趕上 4:20 左右的 51 號公車。沿途也相當漂亮，下山時有更多悠閒的心情可以欣賞風景了。整體來說也是相當喜歡 Sorapis 湖。</div><div><br></div><div>搭公車回到 Cortina 時我們還有點時間，所以又慢慢走去鎮上買了一支檸檬冰淇淋來吃，好好吃喔！但是天氣太熱了，融化得很快。接著回到公車站搭 30 號公車回 San Vito。今天的晚餐也是找了家義大利餐廳，義大利的食物有很多的原型食物，很接近地中海飲食，我們很喜歡喔！</div>",
       "seriesOrder": {
         "多洛米蒂": 7
-      }
+      },
+      "oldIds": [
+        "tiffany-藍索拉皮斯湖-lago-di-sorapis-多洛米蒂-day-6-2h06"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "跨區大移動-入住-passo-sella-山屋-rifugio-salei-多洛米蒂-day-7-37au",
+      "id": "day-7-passo-sella-kkiu",
       "title": "多洛米蒂 Day 7｜跨區大移動 ＋ 入住 Passo Sella 山屋 Rifugio Salei",
       "category": "旅遊",
       "font": "round",
@@ -419,13 +467,16 @@
       "contentHtml": "<div>第七天是要從東邊山區前往西邊小鎮的大移動日。我們會在中途的 Passo Sella 做停留，入住一間非常漂亮的山屋 Rifugio Salei，也是我們這趟行程中成本最高的住宿點，但真的很推薦&nbsp;<span>Rifugio Salei</span><span>。</span></div><div><br></div><div>原先有點焦慮，因為這天要換很多班公車，稍微有點複雜；不過後來發現其實只需要搭乘四班公車就可以抵達，而且每一班公車的時間銜接都算是非常順暢。九點多從 San Vito 出發，順利在下午一點之前就抵達了 Passo Sella，再聯絡山屋幫我們到公車站做行李與人員接駁，不然要拖著行李走 10 幾分鐘的碎石路上坡。</div><div><br></div><div>這段公車路線是：</div><div>先搭我們最熟悉的 30 號到 Cortina，之後搭原本從五塔山纜車站回程時搭過的 52 號公車反方向去到 Passo Falzarego，接著轉搭 465 號公車前往 Corvara，再接 472 號公車前往 Passo Sella。</div><div><br></div><div>前兩段公車是 Dolomiti Bus (Veneto 系統)，我們都直接從 App 上買票，價格最便宜，它是按照里程級距來計算票價的（ 5 公里、12 公里、20 公里分別是 __/2.3/2.9 歐元）。像我們之前去索拉皮斯湖就是計 12 公里的級距，去五塔山則是 20 公里。上車之後掃描司機旁邊的 QR Code 就能讓車票啟用並扣款成功。</div><div>後面的 465 號與 472 號都是南提洛（Südtirolmobil）的公車，計價方式昂貴許多，它是計算每公里票價，所以我們 465 號公車花了 9.5 歐元，472 號花了 12.5 歐元。不過，如果前後兩天有住在 Val Gardena 地區（例如 Dobbiaco, Ortisei）的合作旅宿，通常會給予 Val Gardena Mobil Card (Guest Pass)，搭乘南提洛公車與火車就完全免費了。例如我們之前在 Dobbiaco 住的民宿就有拿到這張 Südtirolmobil Pass。只不過我們這次住的山屋（Rifugio Salei）雖然在 Passo Sella，但他距離南提洛的免費區域界線大概差了 200 公尺，所以很可惜這一天不能使用免費交通卡。</div><div><br></div><div><span>抵達山屋安頓好之後還有時間，我們大約兩點半從山屋出發，去搭乘非常有特色的 #18 號纜車（也就是大家俗稱的「棺材纜車」）。這是一個直立式的站立纜車，上下纜車的過程都很刺激，要用小跑步的方式跑進去，但工作人員都會在旁邊熱情協助，並跟我們口頭確認「Ready?」再加擊個掌之後協助我們跳上纜車。纜車沿路的風景也超級美，前段是有乳牛在放牧的綠色草原，再來會經過石頭城，最後是一段陡峭的岩石山體往上攀升，接著就到了 Sassolungo 山口 (Forcella del Sassolungo)。這裡地勢很高，風很大也有一點冷，需要穿上防風保暖外套。我們在鞍部（山口）附近走走、坐下來畫畫，大概待了一個半小時之後，再搭乘 #18 號纜車下山，重新體驗一次很好玩的直立式站立纜車。整個纜車單程大約15 分鐘。</span><br></div><div><span><br></span></div><div>回到山屋，準備吃晚餐。這間山屋（Rifugio Salei）真的超級漂亮！精緻的木造小屋建築。我們的住宿是一泊二食，除了酒水以外，合作餐廳晚餐隨便點都不用再多付錢，這家餐廳不論是前菜、湯、主菜都非常好吃！去餐廳的路上剛好會經過一小個山坡，那裡就是土撥鼠的家，所以我們在傍晚的時候看到了很多隻可愛的土撥鼠，牠們都很膽小、不能太接近，只能遠遠地拍照。山屋還有室內外相通的溫水游泳池設施，超級享受，可以面對著漂亮的山景一邊游泳。另外，早餐則是山屋的 Buffet，也非常豐盛喔！<span><br></span></div>",
       "seriesOrder": {
         "多洛米蒂": 8
-      }
+      },
+      "oldIds": [
+        "跨區大移動-入住-passo-sella-山屋-rifugio-salei-多洛米蒂-day-7-37au"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "sassolungo-短環線-石頭城-16-17-纜車-多洛米蒂-day-8-3xrn",
+      "id": "day-8-sassolungo-1-69wl",
       "title": "多洛米蒂 Day 8｜Sassolungo 短環線 ＋ 石頭城 ＋ #16/#17 纜車",
       "category": "旅遊",
       "font": "round",
@@ -437,13 +488,16 @@
       "contentHtml": "<div><span>這天因為我們就住在 Passo Sella 區，所以可以很方便規劃來走 Sassolungo（薩索倫戈峰）的短環線（結合 525 號與 526 號步道），途中再用 Gardena card 去體驗搭乘 #16 和 #17 號纜車。</span></div><div><br></div><div>早餐在飯店吃了非常豐盛且開心的 Buffet 之後，我們在 10 點準時辦理退房，並向山屋借用了登山杖啟程。一樣先搭乘 #18 號纜車上到 Sassolungo 山心（鞍部），接著從鞍部一路下切到山谷。這段往下走的是 525 號步道，一路下切到 Rifugio Vicenza（維琴察山屋），再下到山谷接著接上 526 號步道準備繞著 Sassolungo 山體順時針走一圈。</div><div><br></div><div>526 號步道在途中又分成了 526A 和 526/526B：526A 是距離山體絕壁比較近、稍微有些起伏的岩石路段；526/526B 則是比較偏外圍、相對平緩許多的路段。如果走 526A 可以更震撼地貼著山壁前進。我們最後選擇走 526A 一路去到了 Rifugio Comici（科米奇山屋）。這裡可以稍作休息、上洗手間，有一件超漂亮的洗手間！</div><div><br></div><div>繼續走 526 號步道主線，繼續順時針往 Passo Sella 的方向前進。途中會經過 #17 號纜車 (Gran Paradiso) 的搭乘處，我們就沿著 #17 號纜車往山下搭，再接 #16 號纜車 (Piz Setëur) 去到下方，然後原路搭纜車回程上山，繼續沿著 526 號步道走回去。當然，如果是想下山的人，也可以在 #17 和 #16 號纜車往下搭到 Plan de Gralba 之後轉公車或走公路回去 Passo Sella。不過我們回到了原本的 #17 號上站，從那裡沿著 526 號步道走回 Passo Sella 的路程很短，只有約 20 分鐘，而且是穿梭在石頭城 (Città dei Sassi) 中間，景色非常特別且漂亮。</div><div><br></div><div>大約下午四點左右回到 Passo Sella 拿行李，接著準備搭乘 4:22 發車的 471 號公車，前往西邊的 Ortisei（奧爾蒂塞伊）小鎮。西邊的 Ortisei 小鎮感覺明顯比東邊的 Dobbiaco 熱很多，不知道是不是因為海拔與盆地地形的關係？</div><div><br></div><div>因為抵達時正好是禮拜天的傍晚，所以鎮上只有一家當地的超市（Despar）有開，裡面採買的人超擠得水洩不通！我們趕緊採買了一點點補給品就趕快出來了，後來幾天去逛 Conad 超市的購物體驗就好非常多。接著在鎮上的 Gelateria 吃了義式冰淇淋降降溫，再回到預訂好的公寓煮晚餐、休息。</div><div><br></div>",
       "seriesOrder": {
         "多洛米蒂": 9
-      }
+      },
+      "oldIds": [
+        "sassolungo-短環線-石頭城-16-17-纜車-多洛米蒂-day-8-3xrn"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "seceda-刀背山-兔耳岩-pieralongia-多洛米蒂-day-9-4k48",
+      "id": "day-9-seceda-piera-tnig",
       "title": "多洛米蒂 Day 9｜Seceda 刀背山 ＋ 兔耳岩 Pieralongia ＋ #4/#5/#6/#7 纜車",
       "category": "旅遊",
       "font": "round",
@@ -455,13 +509,16 @@
       "contentHtml": "<div>在 Ortisei 的公寓住宿就沒有民宿 Buffet 早餐可以吃了，我們簡單做個早餐後就直奔三天前預約好的 8:30 的 Seceda（刀背山）纜車。雖然住在只距離纜車站 15 分鐘步程的地方，但清晨的市區公車班次很密集，出公寓門口就有公車站，這時候再次感受到房東給的 Guest pass 真的好方便。</div><div><br></div><div>雖然說預約了 8:30 的 Seceda 纜車，但現場也還是需要跟所有人一起排隊，不太確定這個時段預約是不是必要，可能直接去現場排也是可以上得去。早上我們先搭乘 #4 號纜車（Ortisei-Furnes）到Furnes，馬上跳上 #5 號纜車（Furnes-Secesa）一路上到 Seceda（刀背山）山頂。走一小段路就可以抵達至高點，那裡有一個圓形的金屬地理標示和耶穌雕像。</div><div><br></div><div>再往前經過 #6 號纜車（Fermeda-Seceda）車站之後，繼續往前走就是 6 號步道。這條步道幾乎就是沿著 Seceda 的山脊一路走到山腳下。不過需要注意的是，在最後一段接近刀鋒山山體下方的路程，有一些需要付費 5 歐元的地方，而且整體景色看起來其實都差不多。因此我們中途右轉接上 4A 號步道準備前往 Malga Pieralongia（兔耳岩山屋）。</div><div><br></div><div>抵達兔耳岩 (Pieralongia) 之後，可以沿著 2B 步道繞著壯觀的巨型兔耳岩走一圈，再回到 4A 步道繼續前往 Col Raiser 纜車站。快到 Col Raiser 的時候，會往右切 4B 步道。沿路上的標示都非常清楚，而且一路上遇到了很多放牧的牛、驢子還有馬。這裡的驢子非常親人且可愛，看到人和小朋友就會主動湊過來擠一擠、撒嬌。</div><div><br></div><div>其實這條經過兔耳岩之後一路往下的4A/4B 步道，大致上和 6 號纜車平行，都是從 Seceda 下降到接近 Col Raiser （7# 纜車的上站），所以這段路不想用走的話也可以直接搭 #6纜車，或是走到兔耳岩之後直接折返回去搭 6# 纜車。但不得不說不論是 4A/4B 遇到許多放牧動物的步道，還是 #6 纜車都美得不可思議！所以我們當然有回頭再搭了一次 #6 纜車，因為是原路折返，所以也看到了下午光線更美的 Seceda！光線的差別，讓 Seceda 有不一樣的氛圍，就像是兩座不一樣的山，早上雲霧氤氳圍繞，下午更顯雄偉壯麗。</div><div><br></div><div>午餐是在搭完 #7 纜車 （S. Cristina - &nbsp;Col Raiser）之後在下站附近的餐廳用餐，沒有進到 S. Cristina 鎮上，如果沒有要回頭再搭一次纜車上山的話，也可以在這邊準備搭公車離開。</div><div><br></div><div>這天的午餐榮登我們整趟行程最喜歡的餐廳！</div>",
       "seriesOrder": {
         "多洛米蒂": 10
-      }
+      },
+      "oldIds": [
+        "seceda-刀背山-兔耳岩-pieralongia-多洛米蒂-day-9-4k48"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "多洛米蒂-day-10-富內斯山谷-傍晚休斯高原-南堤洛公車系統-s4uw",
+      "id": "day-10-south-tyrol-g9rc",
       "title": "多洛米蒂 Day 10｜富內斯山谷＋ 傍晚休斯高原｜解析西多洛米蒂南堤洛（South Tyrol ）公車系統",
       "category": "旅遊",
       "font": "round",
@@ -473,13 +530,16 @@
       "contentHtml": "<p class=\"p1\"><span class=\"s1\">這一天是來多洛米蒂一個多禮拜以來，第一次遇到的陰雨天，所以我們選擇拜訪最不用擔心天氣的富內斯山谷以及休斯高原。</span></p><p class=\"p1\"><span class=\"s1\">原本預計搭 9:30 的 350 路公車轉 330 前往富內斯山谷，結果因為 350 車上滿滿的人所以司機表示載不下了不能再停靠載客（司機會隔著車窗比畫圈圈的手勢），所以我們改搭差沒幾分鐘的&nbsp;351 → 331 → 330&nbsp;路公車前往，總車程差不多都是一個半小時，但因為 351 轉 331 路公車走的是山路所以顛簸許多。在&nbsp;St. Magdalena (Villnöss), Filler&nbsp;下車，前往第一個&nbsp;Santa Maddalena：走上 Panorama 觀景步道，看「教堂＋Odle 巨壁」經典構圖，接著再 回公車站繼續搭 2 站到 St. Magdalena (Villnöss), Ranui&nbsp;，抵達谷底草地上的洋蔥頭小教堂（San Giovanni in Ranui）&nbsp;，也就是孤獨教堂！這兩個景點都非常容易抵達，穿上洋裝+涼鞋都沒問題的程度！（第一個 Santa Magdalena 教堂最好的景色要走一段上坡到高處看，穿好走路的鞋子會更好）！</span></p><p class=\"p1\"><span class=\"s1\">原本預計繼續搭公車進到山谷更深處走&nbsp;Adolf Munkel &nbsp;步道，但因為已經開始小飄雨所以我們就回頭前往 Ortisei，改成去陰天也很美的休斯高原！</span></p><p class=\"p1\"><span class=\"s1\">回程的公車因為班次上沒有剛好的 330 可以接 350 公車，又不想再轉乘一次 331 去繞山路（南堤洛 app建議選項），所以我們改成搭&nbsp;330 → 170 → 350&nbsp;公車，用 170 去追上 350，一路回到 Ortisei，總車程一樣大約一個半小時。</span></p><p class=\"p1\"><span class=\"s1\">南堤洛的公車如果遇到需要轉車，也就是兩班公車準備分別往不同方向，可能有乘客須要轉乘的站，兩班公車都會停下來互相等一下，所以不用擔心會有銜接不上的問題。我們在今天早上以及大移動日那天都看到兩班公車互相等對面乘客順利轉乘才關車門。</span></p><p class=\"p1\"><span class=\"s1\"><br></span></p><p class=\"p1\"><span class=\"s1\">這邊來以Ortisei 為中心簡單解釋一下 South Tyrol 南堤洛公車系統：</span></p><p class=\"p1\"><b>連接山區隘口的 471/472 路🚌：</b></p><p class=\"p1\"></p><ol><li><b>471</b><span>｜從山谷深處往山上出發（Plan de Gralba）連接 Passo Sella、Passo Pordoi。有些班次甚至從 Ortisei 出發更方便，不然要搭 350 去轉乘。（像我們的 Day 8 從 Passo Sella 就是搭 472 一班公車抵達 Ortisei：</span><a href=\"article.html?id=sassolungo-%E7%9F%AD%E7%92%B0%E7%B7%9A-%E7%9F%B3%E9%A0%AD%E5%9F%8E-16-17-%E7%BA%9C%E8%BB%8A-%E5%A4%9A%E6%B4%9B%E7%B1%B3%E8%92%82-day-8-3xrn\">多洛米蒂 Day 8｜Sassolungo 短環線 ＋ 石頭城 ＋ #16/#17 纜車</a><span>）</span></li><li><b>472</b><span>｜471 路的「超級延伸版」，東邊延伸到 Corvara (Alta Badia)，也是從東多洛米蒂來西邊山谷的重要路線。一樣會經過 Passo Sella、Passo Pordoi。部分班次有連接到 Ortisei。（</span><a href=\"article.html?id=%E8%B7%A8%E5%8D%80%E5%A4%A7%E7%A7%BB%E5%8B%95-%E5%85%A5%E4%BD%8F-passo-sella-%E5%B1%B1%E5%B1%8B-rifugio-salei-%E5%A4%9A%E6%B4%9B%E7%B1%B3%E8%92%82-day-7-37au\">多洛米蒂 Day 7｜跨區大移動 ＋ 入住 Passo Sella 山屋 Rifugio Salei</a><span>）</span></li></ol><p></p><p class=\"p1\"><b>連接市區移動的 350/360 路🚌：</b></p><p class=\"p1\"></p><ol><li><b>350</b><span>｜山谷的大動脈，往</span><b>西出山谷</b><span>連接 Bolzano 以及 Waidbruck 火車站，是進出多洛米蒂的門戶；往</span><b>東進山谷</b><span>串聯 Val Gardena 重要的小鎮 Ortisei、S. Cristina、Selva Gardena</span></li><li><b>360</b><span>｜類似 350，但往西出山谷是去北邊的 Brixen，往東和 350 大多重疊，開往 Val Gardena 深處的 Plan。</span></li><li><b>170</b><span>｜不會進 Val Gardena 山谷，但是在山谷西邊穿接南北的 Bolzano、Brixen。</span></li></ol><p></p><p class=\"p1\"><span class=\"s1\"><b>地區巴士 🚌：</b>351、352、354 等等，</span><span>這個班次很多，以 app 為主即可</span></p><p></p><p></p><p class=\"p1\"><span><br></span></p><p class=\"p1\"><span class=\"s1\">回到 Ortisei 大約下午三點，搭 #1 纜車（Ortisei-Alpe di Siusi）上到休斯高原，一上去就正對著雄偉的 Sassolungo！這時候可以選擇：</span></p><p class=\"p1\"><span class=\"s1\">1. 纜車站附近晃晃，建議出站後往右走 10 分鐘看休斯高原全景。</span></p><p class=\"p1\"><span class=\"s1\">2. 接著搭乘 #2 纜車 （Sole）下到休斯高原，在原路搭纜車回頭，可以在纜車上欣賞整片高原。</span></p><p class=\"p1\"><span class=\"s1\">3. 走一個 Panorama Trail 環線，纜車站出站後向右，走一圈到 #2 纜車的下站再搭纜車上來，這段路程大約費時 70 分鐘，也可以看到最完整的風景！</span></p>",
       "seriesOrder": {
         "多洛米蒂": 11
-      }
+      },
+      "oldIds": [
+        "多洛米蒂-day-10-富內斯山谷-傍晚休斯高原-南堤洛公車系統-s4uw"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "多洛米蒂-day-11-纜車巡遊-8-15-mont-s-ura-gardena-pass-9uz0",
+      "id": "day-11-8-15-mont-s-21wa",
       "title": "多洛米蒂 Day 11｜纜車巡遊 #8–15 · Mont Sëura、Gardena Pass｜解析 Gardena Card #1-18 纜車",
       "category": "旅遊",
       "font": "round",
@@ -491,13 +551,16 @@
       "contentHtml": "買了 Gardena card 就好想把 1#-18# 纜車都體驗過一遍！<div>在 Sassolungo 短環線完成 #16-#18</div><div>在 Seceda 完成 #4-#7（#3 是明天的行程）</div><div>在 Alpe di Suisi 完成 #1-#2</div><div>今天要來走 #8-#15 纜車！</div><div><br></div><div>一早先搭公車從 S. Cristina 出發，#8 纜車（S. Cristina - Monte Pana）抵達&nbsp;<span>Monte Pana 之後走路一分鐘可以到 #9 纜車（Monte Pana - Mont Seura）抵達正面對著 Sassolungo 的大草原！其實這一面就是我們 Day 12 在走 Sassolungo 短環線 526A 步道時，看得到的大草原以及 526B 步道！</span></div><div><span><br></span></div><div>原本想要藉由 #10 纜車 （Tramans）銜接去 #11-#12 號纜車，結果走到纜車站時才發現今年（2026）#10 纜車沒有營運！因此改由 526B 步道走到 #12纜車（Piza Pranseies），</div><table cellspacing=\"0\" cellpadding=\"0\"><tbody><tr><td valign=\"top\"></td><td valign=\"top\"><p><span>搭上去之後的了 Ciampinoi 再走路 1分鐘銜接 #11 纜車（Selva Gardena - Ciampinoi）。#11 纜車下山後就是 Selva Gardena，和 Ortisei, S. Cristina 一樣都是 Val Gardena 裡面的重要城鎮！</span></p><p><span>下到 Selva Gardena 過馬路可以走到 #15 纜車（Costabella），搭上山後往下走可以到 #13 纜車（Selva Gardena - Denrercepies）纜車下站，在一路往上搭到 Cir，這裡的景色也非常壯觀！走路 1 分鐘可以抵達 #14 纜車（Passo Gardena - Cir），往下搭到 Passo Gardena。這裡其實就是連接東西多洛米蒂的山路會經過的一個埡口，可以看到整面 Groopo山！原路搭回來可以回到 Selva Gardena 搭公車，或是 #13 纜車的下站也可以走路下山到大馬路。</span></p><p>這樣就完成 #8-15纜車的巡禮囉！除了 #9 要銜接到 #11-12 中間因為少了 #10 的關係需要走一段 526B 的<span>上坡路，其他的路程幾乎都不累體力，輕鬆看風景。若想要避開 526B，想要完全輕鬆的話，也可以原路折返 #8-9 回到 S. Cristina，搭公車去 Selva，再一次完成大馬路南邊的 #11-12 和北邊的 #13-15！</span></p><p><span>沿路上每一個纜車的終點景色都非常美麗，欣賞著西多洛米蒂的山脈，也漸漸串起整個 Val Gardena 四周山脈的相對關係，非常有趣！</span></p></td></tr></tbody></table>",
       "seriesOrder": {
         "多洛米蒂": 12
-      }
+      },
+      "oldIds": [
+        "多洛米蒂-day-11-纜車巡遊-8-15-mont-s-ura-gardena-pass-9uz0"
+      ]
     },
     {
       "series": [
         "多洛米蒂"
       ],
-      "id": "多洛米蒂-day-12-resciesa-3-纜車-9-8-步道健行到-furnes-81qy",
+      "id": "day-12-resciesa-3-ra0j",
       "title": "多洛米蒂 Day 12｜Resciesa #3 纜車 ＋ 9/8 步道健行到 Furnes",
       "category": "旅遊",
       "font": "round",
@@ -509,7 +572,10 @@
       "contentHtml": "這是待在多洛米蒂最後一個完整的一天，想要愜意的好好感受多洛米蒂山區，只有安排一個 Resciesa 纜車的行程，準備去完成唯一還沒搭到的 #3 纜車（Resciesa），這是一臺用纜繩在車廂下面拉，中間也有高架橋路段的登山纜車！<div><br></div><div>下纜車後抵達小木屋山屋（Chalet Resciesa），這裡是&nbsp;Resciesa 高原可以遠望 Seceda 與 Odle 山壁，我們選擇<span>走簡單的小步道去 Furnes纜車站。這條路人很少，要先走一段比較多遊客以及放牧牛群的 35 號步道，大約 3 分鐘後轉入 9 號步道接著再銜接去 8號步道。沿途是我們這兩週第一次走的森林步道，地貌也相當豐富，但一路上都沒有遇到其他人，要記得先準備好離線地圖，步道不難而且是緩下坡，風景也很漂亮喔！</span></div><div><br></div><div>到了 Furnes 之後我們選擇再搭一次 #5 纜車上 Seceda，這裡真的是非常美麗壯闊，再看一次 Val Gardena 的群山，真的好感謝多洛米蒂這兩週的款待🫶🏻<br><div><br></div><div>隔天一早，我們就搭著 350 巴士前往 Bolzano，換 FlixBus 直達米蘭機場。要特別注意的是 350 的下車處與 FlixBus 的上車處還有一個火車站的距離，這段火車也可以用 Guest pass 搭乘，不過要預留好足夠的轉車時間唷！</div></div>",
       "seriesOrder": {
         "多洛米蒂": 13
-      }
+      },
+      "oldIds": [
+        "多洛米蒂-day-12-resciesa-3-纜車-9-8-步道健行到-furnes-81qy"
+      ]
     },
     {
       "series": [],
