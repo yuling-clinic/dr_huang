@@ -222,6 +222,24 @@ ${analyticsSnippet(site)}
   }
 }
 
+/* ── 舊網址代碼轉址頁：文章改過網址代碼後，舊網址仍要能打開並跳到新網址，
+   分享出去的舊連結才不會失效。跟 buildRedirectPage 不同，這裡是 posts/ 資料夾
+   內部同層的轉跳，不需要再往上一層。 ── */
+function buildOldIdRedirect(newId, baseUrl){
+  const canonical = `${baseUrl.replace(/\/$/,'')}/posts/${newId}.html`;
+  return `<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>轉跳中…</title>
+<link rel="canonical" href="${esc(canonical)}">
+<meta name="robots" content="noindex">
+<script>location.replace('${esc(newId)}.html');</script>
+</head>
+<body><p>這篇文章的網址已經更新，轉跳中… <a href="${esc(newId)}.html">若沒有自動跳轉請點這裡</a></p></body>
+</html>`;
+}
+
 /* ── sitemap.xml ── */
 function buildSitemap(site, articles, baseUrl){
   const base = baseUrl.replace(/\/$/,'');
