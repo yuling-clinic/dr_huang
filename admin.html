@@ -11,6 +11,10 @@
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <style>
+  /* token 欄位用 CSS 遮蔽而不是 type=password：
+     瀏覽器只要看到 password 欄位就會誤判成登入表單，
+     跳出「要儲存密碼嗎？」並把 token 存進密碼管理員。 */
+  input.masked{ -webkit-text-security: disc; text-security: disc; }
   .admin-shell{ max-width: 880px; margin: 0 auto; padding: 36px 22px 100px; }
   .admin-header p{ color: var(--ink-soft); font-size:.92rem; }
   .panel{
@@ -143,7 +147,9 @@
       <div><label>分支</label><input type="text" id="gh-branch" value="main"></div>
     </div>
     <label>Personal Access Token（只存在這台裝置，請勿分享給他人）</label>
-    <input type="password" id="gh-token" placeholder="github_pat_...">
+    <input type="text" id="gh-token" class="masked" placeholder="github_pat_..."
+           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+           data-lpignore="true" data-1p-ignore data-bwignore>
     <details class="gh-setup">
       <summary>如何取得 Token？</summary>
       <ol>
@@ -245,7 +251,9 @@
       <div id="id-edit-row" style="display:none;">
         <label>網址代碼（決定分享連結長短，只有現有文章能改；改了之後舊連結還是能打開，會自動轉址到新網址）</label>
         <div class="btn-row" style="margin-top:4px;align-items:stretch;">
-          <input type="text" id="art-id" style="font-family:monospace;flex:1;">
+          <input type="text" id="art-id" style="font-family:monospace;flex:1;"
+                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                 data-lpignore="true" data-1p-ignore>
           <button type="button" class="btn secondary" id="suggest-id-btn">💡 幫我建議一個</button>
         </div>
       </div>
