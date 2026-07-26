@@ -192,6 +192,16 @@
 
   <!-- 文章 -->
   <div class="panel">
+    <h2>首頁精選文章</h2>
+    <p class="hint">首頁那一區要放哪幾篇由你決定。沒有勾選任何文章時，會自動顯示最新的 3 篇（跟以前一樣）。</p>
+    <div id="featured-picked" style="margin:10px 0;"></div>
+    <div id="featured-pool" style="max-height:280px;overflow:auto;border:1px solid var(--hairline);border-radius:10px;padding:10px;margin-top:10px;"></div>
+    <div class="btn-row" style="margin-top:10px;">
+      <button class="btn secondary" id="featured-clear">清空，改回自動顯示最新文章</button>
+    </div>
+  </div>
+
+  <div class="panel">
     <h2>系列文章排序</h2>
     <p class="hint">選一個系列，直接拖動下面的文章調整先後順序。排好後記得按「發布到網站」。</p>
     <select id="series-order-select"><option value="">— 選擇系列 —</option></select>
@@ -270,10 +280,23 @@
       <div class="btn-row" style="margin-top:4px">
         <input type="file" id="art-cover-upload" accept="image/*" style="display:none">
         <button class="btn secondary" onclick="document.getElementById('art-cover-upload').click()">選擇封面上傳</button>
+        <button class="btn secondary" id="gen-cover-btn" type="button">🎨 自動產生封面</button>
         <div class="status-msg" id="art-cover-status" style="margin-top:8px;"></div>
         <img class="cover-preview" id="art-cover-preview" src="" alt="">
       </div>
       <input type="text" id="art-cover" placeholder="或填路徑" style="margin-top:10px">
+
+      <div id="gen-cover-box" style="display:none;margin-top:14px;padding:14px;border:1px solid var(--hairline);border-radius:12px;background:var(--cream);">
+        <p class="hint" style="margin:0 0 8px;">用文章標題自動排出來的封面（1200×630，正好是分享預覽的標準比例）。可以換配色、重新產生，滿意再套用。</p>
+        <canvas id="gen-cover-canvas" width="1200" height="630" style="width:100%;border-radius:8px;border:1px solid var(--hairline);"></canvas>
+        <div class="btn-row" style="margin-top:10px;">
+          <button class="btn secondary" id="gen-cover-restyle" type="button">🔄 換一種配色</button>
+          <button class="btn" id="gen-cover-apply" type="button">✅ 就用這張</button>
+          <button class="btn secondary" id="gen-cover-cancel" type="button">取消</button>
+        </div>
+        <div class="status-msg" id="gen-cover-status" style="margin-top:8px;"></div>
+      </div>
+
 
       <label>摘要（顯示在卡片上，約 40–60 字）</label>
       <textarea id="art-excerpt" rows="2"></textarea>
@@ -999,6 +1022,7 @@ function renderArticleList(){
   refreshSeriesList();
   if(typeof refreshSeriesOrderSelect === 'function') refreshSeriesOrderSelect();
   if(typeof renderLongIdCheck === 'function') renderLongIdCheck();
+  if(typeof renderFeatured === 'function') renderFeatured();
 }
 
 /* ─── 系列文章排序（拖拉） ─── */
@@ -1129,6 +1153,199 @@ document.getElementById('art-cover-upload').addEventListener('change',async e=>{
   }
   e.target.value='';
 });
+/* ─── 自動產生封面 ───────────────────────────────
+   用文章標題在 canvas 上排版出一張 1200×630 的圖（分享預覽的標準比例）。
+   走的是網站既有的奶油／咖啡配色，不需要另外找圖。 */
+const COVER_PALETTES = [
+  { bg:'#F3EADA', panel:'#FBF5EA', text:'#6B4A2E', sub:'#A97E54', line:'#D3BFA3' },
+  { bg:'#E8D8C0', panel:'#F3EADA', text:'#5A4632', sub:'#8E6539', line:'#C9A87E' },
+  { bg:'#6B4A2E', panel:'#5A4632', text:'#F3EADA', sub:'#C9A87E', line:'#A97E54' },
+  { bg:'#C9A87E', panel:'#E8D8C0', text:'#5A4632', sub:'#8E6539', line:'#A97E54' },
+];
+let coverPaletteIdx = 0;
+
+/* 中文沒有空格可以斷行，要自己一個字一個字量寬度來折行。
+   遇到英文單字時退回上一個空白處再斷，避免把單字從中間切開。 */
+function wrapCJK(ctx, text, maxWidth){
+  const lines = [];
+  let line = '';
+  const isLatin = c => /[A-Za-z0-9'’\-]/.test(c);
+  for(const ch of text.replace(/\s+/g,' ').trim()){
+    const test = line + ch;
+    if(ctx.measureText(test).width > maxWidth && line){
+      let head = line, carry = ch;
+      // 正在切一個英文單字的中間 → 往回找最後一個空白，整個單字移到下一行
+      if(isLatin(ch) && isLatin(line[line.length-1])){
+        const sp = line.lastIndexOf(' ');
+        if(sp > 0){ head = line.slice(0, sp); carry = line.slice(sp+1) + ch; }
+      }
+      lines.push(head.trim());
+      line = (carry === ' ') ? '' : carry;
+    }else{
+      line = test;
+    }
+  }
+  if(line.trim()) lines.push(line.trim());
+  return lines;
+}
+
+async function drawGeneratedCover(){
+  const canvas = document.getElementById('gen-cover-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const p = COVER_PALETTES[coverPaletteIdx % COVER_PALETTES.length];
+  const title = (document.getElementById('art-title').value || '').trim() || '未命名文章';
+  const category = document.getElementById('art-category').value || '';
+  const siteName = state.site.name || '';
+
+  // 字型要先載入完成，canvas 才畫得出正確字體
+  try{ await document.fonts.load('400 64px "LXGW WenKai TC"'); await document.fonts.ready; }catch(e){}
+
+  ctx.fillStyle = p.bg; ctx.fillRect(0,0,W,H);
+
+  // 內層留白框，做出信紙感
+  const M = 48;
+  ctx.fillStyle = p.panel;
+  ctx.fillRect(M, M, W-M*2, H-M*2);
+  ctx.strokeStyle = p.line; ctx.lineWidth = 2;
+  ctx.strokeRect(M+14, M+14, W-(M+14)*2, H-(M+14)*2);
+
+  const padX = M + 70;
+  const maxTextW = W - padX*2;
+
+  // 分類標籤
+  if(category){
+    ctx.font = '500 30px "Noto Sans TC", sans-serif';
+    ctx.fillStyle = p.sub;
+    ctx.textBaseline = 'top';
+    ctx.fillText(category, padX, M + 78);
+  }
+
+  // 標題：字太多就自動縮小字級，最多排 4 行
+  let fontSize = 78;
+  let lines = [];
+  while(fontSize >= 40){
+    ctx.font = `400 ${fontSize}px "LXGW WenKai TC", serif`;
+    lines = wrapCJK(ctx, title, maxTextW);
+    if(lines.length <= 4) break;
+    fontSize -= 6;
+  }
+  if(lines.length > 4){ lines = lines.slice(0,4); lines[3] = lines[3].slice(0,-1) + '…'; }
+
+  const lineH = fontSize * 1.45;
+  const blockH = lines.length * lineH;
+  let y = (H - blockH)/2 + 10;
+  ctx.fillStyle = p.text;
+  ctx.textBaseline = 'top';
+  lines.forEach(l => { ctx.fillText(l, padX, y); y += lineH; });
+
+  // 底部：短線 + 網站名稱
+  ctx.strokeStyle = p.line; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(padX, H - M - 96); ctx.lineTo(padX + 90, H - M - 96);
+  ctx.stroke();
+  if(siteName){
+    ctx.font = '500 32px "Noto Sans TC", sans-serif';
+    ctx.fillStyle = p.sub;
+    ctx.fillText(siteName, padX, H - M - 76);
+  }
+}
+
+document.getElementById('gen-cover-btn').addEventListener('click', async () => {
+  document.getElementById('gen-cover-box').style.display = 'block';
+  setStatus('gen-cover-status','');
+  await drawGeneratedCover();
+});
+document.getElementById('gen-cover-restyle').addEventListener('click', async () => {
+  coverPaletteIdx++;
+  await drawGeneratedCover();
+});
+document.getElementById('gen-cover-cancel').addEventListener('click', () => {
+  document.getElementById('gen-cover-box').style.display = 'none';
+});
+document.getElementById('gen-cover-apply').addEventListener('click', async () => {
+  const btn = document.getElementById('gen-cover-apply');
+  btn.disabled = true;
+  try{
+    setStatus('gen-cover-status','封面上傳中…');
+    const canvas = document.getElementById('gen-cover-canvas');
+    const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+    if(!blob) throw new Error('無法產生圖片檔');
+    const base = (document.getElementById('art-title').value||'cover')
+      .trim().replace(/[^\w\u4e00-\u9fa5]+/g,'-').replace(/^-|-$/g,'').slice(0,20) || 'cover';
+    const file = new File([blob], `${base}-cover.png`, { type:'image/png' });
+    const src = await handleImageFile(file, null);
+    document.getElementById('art-cover').value = src;
+    document.getElementById('art-cover-preview').src = canvas.toDataURL('image/png');
+    setStatus('gen-cover-status','✅ 已套用為封面，記得按「儲存這篇文章」再「發布到網站」。');
+    document.getElementById('art-cover-status').textContent = '✅ 封面已產生並上傳。';
+  }catch(e){
+    setStatus('gen-cover-status','❌ 失敗：'+e.message, true);
+  }finally{
+    btn.disabled = false;
+  }
+});
+
+/* ─── 首頁精選文章 ───────────────────────────────
+   state.site.featured 存成文章 id 的陣列，順序就是首頁顯示的順序。
+   空陣列或未設定時，首頁會自動退回「最新 3 篇」。 */
+function featuredIds(){
+  const f = state.site.featured;
+  return Array.isArray(f) ? f.filter(id => state.articles.some(a => a.id === id)) : [];
+}
+function setFeatured(ids){
+  state.site.featured = ids;
+  saveDraft();
+  renderFeatured();
+}
+function renderFeatured(){
+  const pickedBox = document.getElementById('featured-picked');
+  const poolBox = document.getElementById('featured-pool');
+  if(!pickedBox || !poolBox) return;
+  const ids = featuredIds();
+
+  pickedBox.innerHTML = ids.length
+    ? '<p class="hint" style="margin:0 0 6px;">目前精選（由上而下就是首頁顯示順序）：</p>' + ids.map((id,i) => {
+        const a = state.articles.find(x => x.id === id);
+        return `<div class="article-row">
+          <div class="info"><strong>${i+1}. ${a.title||'（未命名）'}</strong>
+            <span>${a.category||''} · ${a.date||''}</span></div>
+          <button class="icon-btn" data-fup="${id}" ${i===0?'disabled':''}>↑</button>
+          <button class="icon-btn" data-fdown="${id}" ${i===ids.length-1?'disabled':''}>↓</button>
+          <button class="icon-btn" data-fremove="${id}">移除</button>
+        </div>`;
+      }).join('')
+    : '<p class="hint" style="margin:0;">目前沒有選任何文章 → 首頁會自動顯示最新的 3 篇。</p>';
+
+  const sorted = [...state.articles].sort((a,b) => new Date(b.date) - new Date(a.date));
+  poolBox.innerHTML = sorted.length
+    ? sorted.map(a => `<label style="display:flex;align-items:center;gap:8px;padding:4px 2px;cursor:pointer;">
+        <input type="checkbox" data-fpick="${a.id}" ${ids.includes(a.id)?'checked':''} style="width:auto;margin:0;">
+        <span style="flex:1;">${a.title||'（未命名）'}<span class="hint" style="margin-left:6px;">${a.category||''} · ${a.date||''}</span></span>
+      </label>`).join('')
+    : '<p class="hint" style="margin:0;">還沒有文章。</p>';
+
+  poolBox.querySelectorAll('[data-fpick]').forEach(cb => cb.addEventListener('change', () => {
+    const id = cb.dataset.fpick;
+    const cur = featuredIds();
+    setFeatured(cb.checked ? [...cur.filter(x => x !== id), id] : cur.filter(x => x !== id));
+  }));
+  pickedBox.querySelectorAll('[data-fremove]').forEach(b => b.addEventListener('click', () =>
+    setFeatured(featuredIds().filter(x => x !== b.dataset.fremove))));
+  pickedBox.querySelectorAll('[data-fup]').forEach(b => b.addEventListener('click', () => {
+    const cur = featuredIds(), i = cur.indexOf(b.dataset.fup);
+    if(i > 0){ [cur[i-1], cur[i]] = [cur[i], cur[i-1]]; setFeatured(cur); }
+  }));
+  pickedBox.querySelectorAll('[data-fdown]').forEach(b => b.addEventListener('click', () => {
+    const cur = featuredIds(), i = cur.indexOf(b.dataset.fdown);
+    if(i > -1 && i < cur.length-1){ [cur[i+1], cur[i]] = [cur[i], cur[i+1]]; setFeatured(cur); }
+  }));
+}
+document.getElementById('featured-clear').addEventListener('click', () => {
+  if(featuredIds().length && !confirm('確定清空精選文章、改回自動顯示最新 3 篇嗎？')) return;
+  setFeatured([]);
+});
+
 function slugify(t){
   const b=t.trim().toLowerCase().replace(/[^\w\u4e00-\u9fa5]+/g,'-').replace(/(^-|-$)/g,'');
   /* 網址長度控制在約 24 個字元內：中文字經過網址編碼後長度會變 9 倍

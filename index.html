@@ -12,6 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="" id="og-title">
 <meta property="og:description" content="" id="og-desc">
+<meta property="og:site_name" content="" id="og-site-name">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -77,8 +78,8 @@
   <div class="wrap">
     <div class="section-head">
       <a class="see-all" href="articles.html">查看全部</a>
-      <span class="section-eyebrow">LATEST</span>
-      <h2><span class="dot"></span>最新文章</h2>
+      <span class="section-eyebrow" id="latest-eyebrow">LATEST</span>
+      <h2 id="latest-heading" data-fill><span class="dot"></span>最新文章</h2>
     </div>
     <div class="article-grid" id="latest-grid" data-fill></div>
   </div>
@@ -125,6 +126,7 @@ loadSiteData().then(data => {
   document.getElementById('meta-desc').setAttribute('content', desc);
   document.getElementById('og-title').setAttribute('content', `${site.name}｜${site.role}`);
   document.getElementById('og-desc').setAttribute('content', desc);
+  document.getElementById('og-site-name').setAttribute('content', site.name);
   // 結構化資料：讓 Google 認識這位醫師（醫療內容的 E-E-A-T 很重要）
   const ld = document.createElement('script');
   ld.type = 'application/ld+json';
@@ -156,9 +158,18 @@ loadSiteData().then(data => {
     </div>`).join('');
   document.getElementById('clinic-note').textContent = site.clinicNote || '';
 
-  const latest = sortByDateDesc(articles).slice(0,3);
-  document.getElementById('latest-grid').innerHTML = latest.length
-    ? latest.map(articleCardHTML).join('')
+  /* 首頁這一區：後台有指定精選文章就照那個順序顯示，
+     沒有指定才自動退回「最新 3 篇」。 */
+  const picked = (site.featured || [])
+    .map(id => articles.find(a => a.id === id))
+    .filter(Boolean);
+  const isFeatured = picked.length > 0;
+  const shown = isFeatured ? picked : sortByDateDesc(articles).slice(0,3);
+  document.getElementById('latest-eyebrow').textContent = isFeatured ? 'FEATURED' : 'LATEST';
+  document.getElementById('latest-heading').innerHTML =
+    '<span class="dot"></span>' + (isFeatured ? '精選文章' : '最新文章');
+  document.getElementById('latest-grid').innerHTML = shown.length
+    ? shown.map(articleCardHTML).join('')
     : '<div class="empty-state">尚未發布文章</div>';
   document.body.classList.remove('loading');   // 資料都填好了，淡入顯示
 }).catch(err => {
