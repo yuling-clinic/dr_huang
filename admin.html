@@ -1375,22 +1375,26 @@ document.getElementById('suggest-id-btn').addEventListener('click', () => {
   document.getElementById('art-id').value = uniqueSlug(suggestSlugBase(title), editingId);
 });
 /* ── 網址代碼健檢：找出過長的網址代碼，一鍵批次縮短 ── */
-const LONG_ID_THRESHOLD = 20;
+/* 真正決定分享連結長度的是「網址編碼後」的長度，不是字元數：
+   純英數代碼編碼後長度不變，中文每個字會變成 9 個字元（湖 → %E6%B9%96）。
+   所以用 encodeURIComponent 之後再量，才不會把已經很短的英數代碼誤判成過長。 */
+const LONG_ID_THRESHOLD = 60;
+function encodedIdLength(id){ return encodeURIComponent(id).length; }
 function renderLongIdCheck(){
   const box = document.getElementById('long-id-list');
   const btn = document.getElementById('fix-long-ids-btn');
   if(!box || !btn) return;
-  const offenders = state.articles.filter(a => !a.externalUrl && a.id.length > LONG_ID_THRESHOLD);
+  const offenders = state.articles.filter(a => !a.externalUrl && encodedIdLength(a.id) > LONG_ID_THRESHOLD);
   box.innerHTML = offenders.length
     ? '<ul style="margin:0;padding-left:1.2em;">' + offenders.map(a =>
-        `<li style="margin-bottom:4px;">${a.title}　<code style="font-size:.82em;color:var(--ink-faint,#888);">${a.id}</code></li>`
+        `<li style="margin-bottom:4px;">${a.title}　<code style="font-size:.82em;color:var(--ink-faint,#888);">${a.id}</code><span class="hint" style="margin-left:6px;">網址長度 ${encodedIdLength(a.id)}</span></li>`
       ).join('') + '</ul>'
-    : '<p class="hint">目前沒有偏長的網址代碼，狀況良好。</p>';
+    : '<p class="hint">所有文章的網址代碼長度都在合理範圍內，不需要處理。</p>';
   btn.disabled = !offenders.length;
   btn.style.opacity = offenders.length ? '1' : '.5';
 }
 document.getElementById('fix-long-ids-btn').addEventListener('click', () => {
-  const offenders = state.articles.filter(a => !a.externalUrl && a.id.length > LONG_ID_THRESHOLD);
+  const offenders = state.articles.filter(a => !a.externalUrl && encodedIdLength(a.id) > LONG_ID_THRESHOLD);
   if(!offenders.length) return;
   if(!confirm(`即將自動縮短 ${offenders.length} 篇文章的網址代碼。\n\n舊網址仍然打得開，會自動轉址到新網址，分享出去的舊連結不會失效。\n\n確定要繼續嗎？`)) return;
   offenders.forEach(a => {
