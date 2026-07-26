@@ -1210,31 +1210,44 @@ async function drawGeneratedCover(){
   ctx.strokeStyle = p.line; ctx.lineWidth = 2;
   ctx.strokeRect(M+14, M+14, W-(M+14)*2, H-(M+14)*2);
 
-  const padX = M + 70;
+  const padX = M + 62;
   const maxTextW = W - padX*2;
+
+  // 版面分成三段：上（分類）、中（標題）、下（短線＋網站名）
+  const catY     = M + 62;                 // 分類標籤的位置
+  const topLimit = catY + 52;              // 標題可用區域的上緣
+  const botLimit = H - M - 116;            // 標題可用區域的下緣（要留給下方短線與名字）
+  const availH   = botLimit - topLimit;    // 標題實際能用的高度
 
   // 分類標籤
   if(category){
     ctx.font = '500 30px "Noto Sans TC", sans-serif';
     ctx.fillStyle = p.sub;
     ctx.textBaseline = 'top';
-    ctx.fillText(category, padX, M + 78);
+    ctx.fillText(category, padX, catY);
   }
 
-  // 標題：字太多就自動縮小字級，最多排 4 行
-  let fontSize = 78;
-  let lines = [];
-  while(fontSize >= 40){
+  /* 標題自動配字級：從大往小試，直到「行數」與「整段高度」都塞得進可用區域為止。
+     只檢查行數是不夠的——4 行大字的高度一樣會擠爆版面、壓到上下的元素。 */
+  const MAX_LINES = 5;
+  let fontSize = 76, lines = [], lineH = 0, blockH = 0;
+  for(; fontSize >= 32; fontSize -= 3){
     ctx.font = `400 ${fontSize}px "LXGW WenKai TC", serif`;
-    lines = wrapCJK(ctx, title, maxTextW);
-    if(lines.length <= 4) break;
-    fontSize -= 6;
+    lines  = wrapCJK(ctx, title, maxTextW);
+    lineH  = fontSize * 1.4;
+    blockH = lines.length * lineH;
+    if(lines.length <= MAX_LINES && blockH <= availH) break;
   }
-  if(lines.length > 4){ lines = lines.slice(0,4); lines[3] = lines[3].slice(0,-1) + '…'; }
+  // 標題長到連最小字級都放不下 → 截到放得下的行數，最後一行收尾用刪節號
+  const maxFit = Math.max(1, Math.floor(availH / lineH));
+  if(lines.length > maxFit){
+    lines = lines.slice(0, maxFit);
+    lines[lines.length-1] = lines[lines.length-1].replace(/.$/,'') + '…';
+    blockH = lines.length * lineH;
+  }
 
-  const lineH = fontSize * 1.45;
-  const blockH = lines.length * lineH;
-  let y = (H - blockH)/2 + 10;
+  // 在可用區域內垂直置中，不再用整張畫布置中（那樣會壓到上下元素）
+  let y = topLimit + (availH - blockH)/2;
   ctx.fillStyle = p.text;
   ctx.textBaseline = 'top';
   lines.forEach(l => { ctx.fillText(l, padX, y); y += lineH; });
@@ -1242,12 +1255,13 @@ async function drawGeneratedCover(){
   // 底部：短線 + 網站名稱
   ctx.strokeStyle = p.line; ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(padX, H - M - 96); ctx.lineTo(padX + 90, H - M - 96);
+  ctx.moveTo(padX, botLimit + 30); ctx.lineTo(padX + 90, botLimit + 30);
   ctx.stroke();
   if(siteName){
     ctx.font = '500 32px "Noto Sans TC", sans-serif';
     ctx.fillStyle = p.sub;
-    ctx.fillText(siteName, padX, H - M - 76);
+    ctx.textBaseline = 'top';
+    ctx.fillText(siteName, padX, botLimit + 48);
   }
 }
 
