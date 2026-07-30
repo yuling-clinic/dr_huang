@@ -75,7 +75,9 @@ function matchesCategory(article, cat){
 
 function renderSubfilter(){
   const bar = document.getElementById('subfilter-bar');
-  if(currentCat === 'all'){ bar.innerHTML=''; bar.style.display='none'; return; }
+  /* 從文章頁的系列目錄點進來時只會帶 ?series=，沒有帶分類。
+     這種情況也要把系列篩選列顯示出來，否則使用者會看不出目前在篩什麼。 */
+  if(currentCat === 'all' && currentSeries === 'all'){ bar.innerHTML=''; bar.style.display='none'; return; }
   const inCat = allArticles.filter(a => matchesCategory(a, currentCat));
   const seriesNames = [...new Set(inCat.flatMap(a => getSeriesArray(a)))];
   if(!seriesNames.length){ bar.innerHTML=''; bar.style.display='none'; return; }
@@ -88,23 +90,28 @@ function renderSubfilter(){
 
 function renderGrid(){
   let filtered = allArticles.filter(a => matchesCategory(a, currentCat));
-  if(currentCat !== 'all' && currentSeries !== 'all') filtered = filtered.filter(a => getSeriesArray(a).includes(currentSeries));
+  if(currentSeries !== 'all') filtered = filtered.filter(a => getSeriesArray(a).includes(currentSeries));
   const sorted = sortByDateDesc(filtered);
   document.getElementById('article-grid').innerHTML = sorted.length
     ? sorted.map(articleCardHTML).join('')
     : '<div class="empty-state">這個分類目前還沒有文章</div>';
   document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === currentCat));
-  const label = currentCat === 'all' ? '所有文章' : (currentCat === '衛教' ? '衛教文章' : currentCat === 'life' ? '診間之外' : currentCat);
+  const catLabel = currentCat === 'all' ? '所有文章' : (currentCat === '衛教' ? '衛教文章' : currentCat === 'life' ? '診間之外' : currentCat);
+  const label = currentSeries !== 'all' ? `🐻 ${currentSeries}` : catLabel;
   document.getElementById('page-title').innerHTML = '<span class="dot"></span>' + label;
+  document.title = currentSeries !== 'all' ? `${currentSeries}｜系列文章` : '文章列表';
   renderSubfilter();
 }
 document.getElementById('filter-bar').addEventListener('click', (e) => {
   const chip = e.target.closest('.filter-chip'); if(!chip) return;
   currentCat = chip.dataset.cat;
-  currentSeries = 'all';
+  // 換分類後，如果這個分類底下已經沒有目前選的系列，才把系列篩選清掉
+  const stillHasSeries = currentSeries !== 'all' && allArticles.some(a =>
+    matchesCategory(a, currentCat) && getSeriesArray(a).includes(currentSeries));
+  if(!stillHasSeries) currentSeries = 'all';
   const url = new URL(location.href);
   currentCat === 'all' ? url.searchParams.delete('cat') : url.searchParams.set('cat', currentCat);
-  url.searchParams.delete('series');
+  currentSeries === 'all' ? url.searchParams.delete('series') : url.searchParams.set('series', currentSeries);
   history.replaceState(null, '', url);
   renderGrid();
 });

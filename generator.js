@@ -82,7 +82,7 @@ function buildPostHTML(site, articles, a, baseUrl){
     if(siblings.length < 2) return '';
     return `
     <div class="series-box">
-      <div class="series-title">${esc(seriesName)} — 系列文章</div>
+      <a class="series-title" href="../articles.html?series=${encodeURIComponent(seriesName)}">${esc(seriesName)} — 系列文章 <span class="series-title-arrow">→</span></a>
       <ol>
         ${siblings.map(s => s.id === a.id
           ? `<li class="current"><span>${esc(s.title)}</span>（本篇）</li>`
@@ -157,6 +157,7 @@ ${verifySnippet(site)}
 <meta property="og:title" content="${esc(a.title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${esc(canonical)}">
+<meta property="og:site_name" content="${esc(site.name)}">
 ${ogImage ? `<meta property="og:image" content="${esc(ogImage)}">` : ''}
 <meta property="article:published_time" content="${esc(dateStr)}">
 <meta name="twitter:card" content="summary_large_image">
