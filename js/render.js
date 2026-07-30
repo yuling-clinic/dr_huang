@@ -83,7 +83,7 @@ function seriesBoxHTML(articles, current){
         : `<li><a href="posts/${encodeURIComponent(a.id)}.html">${a.title}</a></li>`
     ).join('');
     return `<div class="series-box">
-      <div class="series-title">${seriesName} — 系列文章</div>
+      <a class="series-title" href="articles.html?series=${encodeURIComponent(seriesName)}">${seriesName} — 系列文章 <span class="series-title-arrow">→</span></a>
       <ol>${items}</ol>
     </div>`;
   }).filter(Boolean);
