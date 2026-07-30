@@ -250,6 +250,11 @@ p{margin:0 0 1em;}
   margin-bottom:12px;display:flex;align-items:center;gap:8px;white-space:nowrap;
 }
 .series-box .series-title::before{content:"🐻";font-size:.95rem;flex:none;}
+/* 系列標題現在是連結：點了會回到文章列表並自動篩選出整個系列（有縮圖的卡片檢視） */
+a.series-title{text-decoration:none;transition:color .15s ease;}
+a.series-title:hover{color:var(--caramel);}
+.series-title-arrow{margin-left:auto;opacity:.5;font-size:.9em;transition:transform .15s ease,opacity .15s ease;}
+a.series-title:hover .series-title-arrow{opacity:1;transform:translateX(3px);}
 .series-box ol{list-style:none;padding:0;margin:0;counter-reset:s;}
 .series-box li{
   counter-increment:s;padding:7px 0 7px 32px;position:relative;font-size:.92rem;
