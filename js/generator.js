@@ -82,7 +82,7 @@ function buildPostHTML(site, articles, a, baseUrl){
     if(siblings.length < 2) return '';
     return `
     <div class="series-box">
-      <div class="series-title">${esc(seriesName)} — 系列文章</div>
+      <a class="series-title" href="../articles.html?series=${encodeURIComponent(seriesName)}">${esc(seriesName)} — 系列文章 <span class="series-title-arrow">→</span></a>
       <ol>
         ${siblings.map(s => s.id === a.id
           ? `<li class="current"><span>${esc(s.title)}</span>（本篇）</li>`
