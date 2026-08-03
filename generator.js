@@ -73,6 +73,37 @@ function sortBySeriesOrder(list, seriesName){
   });
 }
 
+/* ── 文章目錄（TOC） ──
+   從內文的 h2 / h3 抓出章節，順便補上錨點 id（原本沒有 id 的才補，
+   已經有 id 的保留，避免蓋掉內文自訂的錨點）。 */
+function extractHeadings(html){
+  const toc = [];
+  let n = 0;
+  const out = String(html||'').replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi, (m, lv, attrs, inner) => {
+    const text = stripTags(inner);
+    if(!text) return m;                       // 空標題不列入目錄
+    const existing = attrs.match(/\bid\s*=\s*["']([^"']+)["']/i);
+    const id = existing ? existing[1] : 'sec-' + (++n);
+    toc.push({ id, text, level: Number(lv) });
+    return existing ? m : `<h${lv}${attrs} id="${id}">${inner}</h${lv}>`;
+  });
+  return { html: out, toc };
+}
+/* 章節太少時不做目錄——兩三行的目錄只是雜訊，幫助不大 */
+const TOC_MIN_ITEMS = 3;
+function buildTocHTML(toc){
+  if(toc.length < TOC_MIN_ITEMS) return '';
+  return `
+    <nav class="post-toc" id="post-toc" aria-label="文章目錄">
+      <button class="post-toc-head" type="button" aria-expanded="true">
+        <span>本篇目錄</span><span class="post-toc-caret">▾</span>
+      </button>
+      <ol class="post-toc-list">
+        ${toc.map(h => `<li class="lv${h.level}"><a href="#${esc(h.id)}">${esc(h.text)}</a></li>`).join('\n        ')}
+      </ol>
+    </nav>`;
+}
+
 /* ── 單篇文章的靜態 HTML ── */
 function buildPostHTML(site, articles, a, baseUrl){
   const seriesNames = getSeriesArrayGen(a);
@@ -112,7 +143,9 @@ function buildPostHTML(site, articles, a, baseUrl){
   }
 
   function finishPost(prev, next){
-  const body = fixDepth(rewriteInternalLinks(a.contentHtml || ''));
+  const parsed = extractHeadings(fixDepth(rewriteInternalLinks(a.contentHtml || '')));
+  const body = parsed.html;
+  const tocHTML = buildTocHTML(parsed.toc);
   const desc = (a.excerpt || stripTags(a.contentHtml)).slice(0, 150);
   const canonical = `${baseUrl.replace(/\/$/,'')}/posts/${a.id}.html`;
   const ogImage = absUrl(baseUrl, a.cover);
@@ -205,6 +238,7 @@ ${body}
     ${seriesBox ? `<aside class="series-rail post-toc-col">${seriesBox}\n    </aside>` : ''}
   </div>
 </article>
+${tocHTML}
 
 <footer class="site-footer">
   <div class="wrap">
@@ -216,6 +250,47 @@ ${body}
 <script>
   const t=document.querySelector('.nav-toggle'), n=document.querySelector('.site-nav');
   if(t&&n) t.addEventListener('click',()=>{const o=n.classList.toggle('open');t.setAttribute('aria-expanded',o);});
+
+  /* 文章目錄：捲到哪一段就標示哪一項，並可收合 */
+  (function(){
+    var toc = document.getElementById('post-toc');
+    if(!toc) return;
+    var links = [].slice.call(toc.querySelectorAll('a[href^="#"]'));
+    var heads = links.map(function(a){ return document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1))); });
+
+    // 點目錄捲動時要避開固定的頁首，不然標題會被蓋住
+    links.forEach(function(a,i){
+      a.addEventListener('click', function(e){
+        var el = heads[i];
+        if(!el) return;
+        e.preventDefault();
+        var hd = document.querySelector('.site-header');
+        var y = el.getBoundingClientRect().top + window.pageYOffset - ((hd&&hd.offsetHeight)||64) - 16;
+        window.scrollTo({ top: Math.max(y,0), behavior:'smooth' });
+        history.replaceState(null,'','#'+el.id);
+      });
+    });
+
+    function sync(){
+      var line = window.pageYOffset + ((document.querySelector('.site-header')||{}).offsetHeight||64) + 40;
+      var cur = 0;
+      heads.forEach(function(el,i){ if(el && el.offsetTop <= line) cur = i; });
+      links.forEach(function(a,i){ a.parentNode.classList.toggle('active', i===cur); });
+    }
+    var tick = false;
+    window.addEventListener('scroll', function(){
+      if(tick) return;
+      tick = true;
+      requestAnimationFrame(function(){ sync(); tick = false; });
+    }, {passive:true});
+    sync();
+
+    var head = toc.querySelector('.post-toc-head');
+    head.addEventListener('click', function(){
+      var open = toc.classList.toggle('collapsed');
+      head.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  })();
 </script>
 ${analyticsSnippet(site)}
 </body>
