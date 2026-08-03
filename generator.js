@@ -223,7 +223,10 @@ ${JSON.stringify(jsonLd, null, 2)}
 
 <article>
   <div class="wrap post-grid${seriesBox ? ' has-rail' : ''}">
-    <a class="back-link post-full" href="../articles.html">← 回文章列表</a>
+    <div class="back-links post-full">
+      <a class="back-link" href="../articles.html">← 回文章列表</a>
+      ${seriesNames.map(sn => `<a class="back-link back-link-series" href="../articles.html?series=${encodeURIComponent(sn)}">← 回「${esc(sn)}」系列</a>`).join('\n      ')}
+    </div>
     <div class="post-full post-tagline"><span class="tag" data-cat="${esc(a.category)}">${esc(a.category)}</span></div>
     <h1 class="post-full">${esc(a.title)}</h1>
     <div class="article-meta post-full">${esc(fmtDate)}${(a.tags||[]).length ? '　·　' + (a.tags||[]).map(esc).join('　·　') : ''}</div>
