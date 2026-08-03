@@ -153,6 +153,11 @@ p{margin:0 0 1em;}
 .post-grid{padding:38px 0 20px;}
 .post-grid h1{font-size:1.6rem;line-height:1.6;margin:2px 0 0;}
 .back-link{color:var(--ink-soft);font-size:.9rem;font-family:var(--font-round);display:inline-block;margin-bottom:14px;}
+/* 左上角返回列：回全部文章 ＋ 回所屬系列 */
+.back-links{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:14px;}
+.back-links .back-link{margin-bottom:0;transition:color .15s ease;}
+.back-links .back-link:hover{color:var(--caramel);}
+.back-link-series{color:var(--caramel);}
 .post-tagline{margin-bottom:12px;}
 .article-meta{color:var(--ink-faint);font-size:.84rem;margin-top:10px;font-family:var(--font-round);}
 .article-cover{margin:22px 0 6px;border-radius:14px;overflow:hidden;background:var(--cocoa-soft);border:1px solid var(--hairline);}
