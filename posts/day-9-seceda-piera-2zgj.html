@@ -16,6 +16,7 @@
 <meta property="og:title" content="多洛米蒂 Day 9｜Seceda 刀背山 ＋ 兔耳岩 Pieralongia ＋ #4/#5/#6/#7 纜車">
 <meta property="og:description" content="搭 #4／#5 纜車直上 2,500 公尺 Seceda 刀背稜線，環線拜訪巨型兔耳岩，沿途 Mastlè 高山牧場有親人的驢子與放牧牛群。">
 <meta property="og:url" content="https://yuling-clinic.github.io/dr_huang/posts/day-9-seceda-piera-2zgj.html">
+<meta property="og:site_name" content="黃玉齡醫師">
 <meta property="og:image" content="https://yuling-clinic.github.io/dr_huang/images/uploads/ms2ugnnq-多洛米蒂-Day-9-Seceda-刀背-cover.png">
 <meta property="article:published_time" content="2026-07-13">
 <meta name="twitter:card" content="summary_large_image">
@@ -73,7 +74,10 @@
 
 <article>
   <div class="wrap post-grid has-rail">
-    <a class="back-link post-full" href="../articles.html">← 回文章列表</a>
+    <div class="back-links post-full">
+      <a class="back-link" href="../articles.html">← 回文章列表</a>
+      <a class="back-link back-link-series" href="../articles.html?series=%E5%A4%9A%E6%B4%9B%E7%B1%B3%E8%92%82">← 回「多洛米蒂」系列</a>
+    </div>
     <div class="post-full post-tagline"><span class="tag" data-cat="旅遊">旅遊</span></div>
     <h1 class="post-full">多洛米蒂 Day 9｜Seceda 刀背山 ＋ 兔耳岩 Pieralongia ＋ #4/#5/#6/#7 纜車</h1>
     <div class="article-meta post-full">2026.07.13</div>
@@ -87,7 +91,7 @@
     </nav>
     <aside class="series-rail post-toc-col">
     <div class="series-box">
-      <div class="series-title">多洛米蒂 — 系列文章</div>
+      <a class="series-title" href="../articles.html?series=%E5%A4%9A%E6%B4%9B%E7%B1%B3%E8%92%82">多洛米蒂 — 系列文章 <span class="series-title-arrow">→</span></a>
       <ol>
         <li><a href="多洛米蒂-行-jtx2.html">多洛米蒂 行前規劃｜東西邊怎麼玩、住哪最方便、非自駕交通如何規劃</a></li>
         <li><a href="https://yuling-clinic.github.io/2026-Dolomites/" target="_blank" rel="noopener">多洛米蒂詳細行程攻略 <span class="ext-icon">↗</span></a></li>
@@ -109,6 +113,7 @@
   </div>
 </article>
 
+
 <footer class="site-footer">
   <div class="wrap">
     <span>© 2026 黃玉齡醫師</span>
@@ -119,6 +124,47 @@
 <script>
   const t=document.querySelector('.nav-toggle'), n=document.querySelector('.site-nav');
   if(t&&n) t.addEventListener('click',()=>{const o=n.classList.toggle('open');t.setAttribute('aria-expanded',o);});
+
+  /* 文章目錄：捲到哪一段就標示哪一項，並可收合 */
+  (function(){
+    var toc = document.getElementById('post-toc');
+    if(!toc) return;
+    var links = [].slice.call(toc.querySelectorAll('a[href^="#"]'));
+    var heads = links.map(function(a){ return document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1))); });
+
+    // 點目錄捲動時要避開固定的頁首，不然標題會被蓋住
+    links.forEach(function(a,i){
+      a.addEventListener('click', function(e){
+        var el = heads[i];
+        if(!el) return;
+        e.preventDefault();
+        var hd = document.querySelector('.site-header');
+        var y = el.getBoundingClientRect().top + window.pageYOffset - ((hd&&hd.offsetHeight)||64) - 16;
+        window.scrollTo({ top: Math.max(y,0), behavior:'smooth' });
+        history.replaceState(null,'','#'+el.id);
+      });
+    });
+
+    function sync(){
+      var line = window.pageYOffset + ((document.querySelector('.site-header')||{}).offsetHeight||64) + 40;
+      var cur = 0;
+      heads.forEach(function(el,i){ if(el && el.offsetTop <= line) cur = i; });
+      links.forEach(function(a,i){ a.parentNode.classList.toggle('active', i===cur); });
+    }
+    var tick = false;
+    window.addEventListener('scroll', function(){
+      if(tick) return;
+      tick = true;
+      requestAnimationFrame(function(){ sync(); tick = false; });
+    }, {passive:true});
+    sync();
+
+    var head = toc.querySelector('.post-toc-head');
+    head.addEventListener('click', function(){
+      var open = toc.classList.toggle('collapsed');
+      head.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  })();
 </script>
 <!-- Cloudflare Web Analytics -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "c023be0cd0d941068b1967c33fefbfee"}'></script>
