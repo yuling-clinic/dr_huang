@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://yuling-clinic.github.io/dr_huang/</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-08-03</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://yuling-clinic.github.io/dr_huang/articles.html</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-08-03</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -118,6 +118,16 @@
   <url>
     <loc>https://yuling-clinic.github.io/dr_huang/posts/day-12-resciesa-3-mnld.html</loc>
     <lastmod>2026-07-16</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/牛奶篇-多喝牛奶就會長高-先算算你多灌進去多少熱-nl03.html</loc>
+    <lastmod>2026-08-01</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/睡眠篇-九點一定要躺好-決定生長激素的不是幾點上-tfun.html</loc>
+    <lastmod>2026-08-02</lastmod>
     <priority>0.7</priority>
   </url>
 </urlset>
