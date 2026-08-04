@@ -1260,16 +1260,12 @@ async function drawGeneratedCover(){
   ctx.textBaseline = 'top';
   lines.forEach(l => { ctx.fillText(l, padX, y); y += lineH; });
 
-  // 底部：短線 + 網站名稱
-  ctx.strokeStyle = p.line; ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(padX, botLimit + 30); ctx.lineTo(padX + 90, botLimit + 30);
-  ctx.stroke();
+  // 底部：網站名稱
   if(siteName){
     ctx.font = '500 32px "Noto Sans TC", sans-serif';
     ctx.fillStyle = p.sub;
     ctx.textBaseline = 'top';
-    ctx.fillText(siteName, padX, botLimit + 48);
+    ctx.fillText(siteName, padX, botLimit + 40);
   }
 }
 
