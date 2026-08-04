@@ -73,6 +73,19 @@ function sortBySeriesOrder(list, seriesName){
   });
 }
 
+/* 系列連結要帶上分類，才會回到「衛教底下的某系列」而不是「全部文章底下的某系列」。
+   旅遊與生活在文章列表上合併成 life 這個分類。 */
+function catParam(category){
+  if(category === '旅遊' || category === '生活') return 'life';
+  return category || '';
+}
+function seriesHref(category, seriesName){
+  const cat = catParam(category);
+  return '../articles.html?'
+    + (cat ? 'cat=' + encodeURIComponent(cat) + '&' : '')
+    + 'series=' + encodeURIComponent(seriesName);
+}
+
 /* ── 文章目錄（TOC） ──
    從內文的 h2 / h3 抓出章節，順便補上錨點 id（原本沒有 id 的才補，
    已經有 id 的保留，避免蓋掉內文自訂的錨點）。 */
@@ -113,7 +126,7 @@ function buildPostHTML(site, articles, a, baseUrl){
     if(siblings.length < 2) return '';
     return `
     <div class="series-box">
-      <a class="series-title" href="../articles.html?series=${encodeURIComponent(seriesName)}">${esc(seriesName)} — 系列文章 <span class="series-title-arrow">→</span></a>
+      <a class="series-title" href="${seriesHref(a.category, seriesName)}">${esc(seriesName)} — 系列文章 <span class="series-title-arrow">→</span></a>
       <ol>
         ${siblings.map(s => s.id === a.id
           ? `<li class="current"><span>${esc(s.title)}</span>（本篇）</li>`
@@ -225,7 +238,7 @@ ${JSON.stringify(jsonLd, null, 2)}
   <div class="wrap post-grid${seriesBox ? ' has-rail' : ''}">
     <div class="back-links post-full">
       <a class="back-link" href="../articles.html">← 回文章列表</a>
-      ${seriesNames.map(sn => `<a class="back-link back-link-series" href="../articles.html?series=${encodeURIComponent(sn)}">← 回「${esc(sn)}」系列</a>`).join('\n      ')}
+      ${seriesNames.map(sn => `<a class="back-link back-link-series" href="${seriesHref(a.category, sn)}">← 回「${esc(sn)}」系列</a>`).join('\n      ')}
     </div>
     <div class="post-full post-tagline"><span class="tag" data-cat="${esc(a.category)}">${esc(a.category)}</span></div>
     <h1 class="post-full">${esc(a.title)}</h1>
