@@ -231,7 +231,8 @@ p{margin:0 0 1em;}
     column-gap:44px;
     align-items:start;
   }
-  .post-grid.has-rail .back-link{grid-area:back;}
+  .post-grid.has-rail .back-links,
+  .post-grid.has-rail > .back-link{grid-area:back;}
   .post-grid.has-rail .post-tagline{grid-area:tag;}
   .post-grid.has-rail h1{grid-area:title;}
   .post-grid.has-rail .article-meta{grid-area:meta;}
@@ -256,7 +257,14 @@ p{margin:0 0 1em;}
   box-shadow:0 6px 20px rgba(107,74,46,.07);
 }
 /* 版面夠寬（內文兩側都還有餘裕）才浮出來，不然會蓋到內文 */
-@media(min-width:1240px){ .post-toc{display:flex;} }
+@media(min-width:1240px){
+  .post-toc{display:flex;}
+  /* 內文整體往左讓位，右側目錄才不會蓋到字。
+     視窗夠寬時（兩側留白本來就夠）會自動回到原本的置中版面。 */
+  article .post-grid{
+    padding-right:max(24px, calc(264px - (100vw - var(--maxw))/2));
+  }
+}
 
 .post-toc-head{
   all:unset;box-sizing:border-box;cursor:pointer;
