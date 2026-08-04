@@ -107,7 +107,10 @@ function extractHeadings(html){
     const existing = attrs.match(/\bid\s*=\s*["']([^"']+)["']/i);
     const id = existing ? existing[1] : 'sec-' + (++n);
     toc.push({ id, text, level: Number(lv) });
-    return existing ? m : `<h${lv}${attrs} id="${id}">${inner}</h${lv}>`;
+    const idAttr = existing ? '' : ` id="${id}"`;
+    // 大標包一層 span，CSS 才能只在文字範圍畫出螢光筆色塊（整個 h2 是區塊，會拉滿整行）
+    const content = (lv === '2' && !/class="hl"/.test(inner)) ? `<span class="hl">${inner}</span>` : inner;
+    return `<h${lv}${attrs}${idAttr}>${content}</h${lv}>`;
   });
   return { html: out, toc };
 }
