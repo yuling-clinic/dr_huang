@@ -172,7 +172,13 @@ p{margin:0 0 1em;}
 /* 明體內文（文章可個別選用） */
 .article-body.font-serif{font-family:var(--font-hand);}
 .article-body h2{font-size:1.2rem;margin-top:1.8em;font-family:var(--font-hand);}
-.article-body h2::after{content:"";display:block;width:36px;height:2px;background:var(--caramel);margin-top:6px;border-radius:2px;}
+/* 大標改用螢光筆效果：淡淡的色塊壓在文字下半部，換行也會跟著各自highlight */
+.article-body h2 .hl{
+  background-image:linear-gradient(transparent 56%, rgba(201,168,126,.42) 56%);
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+  padding:0 .14em;
+}
 .article-body h3{font-size:1.06rem;margin-top:1.4em;}
 .article-body img{border-radius:12px;margin:20px auto;border:1px solid var(--hairline);max-height:16rem;width:auto;max-width:100%;display:block;object-fit:contain;}
 .article-body figure.gallery-scroll img,.article-body figure.gallery-grid img{height:16rem;max-height:16rem;object-fit:cover;border:none;}
