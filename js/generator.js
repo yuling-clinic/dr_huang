@@ -79,6 +79,15 @@ function catParam(category){
   if(category === '旅遊' || category === '生活') return 'life';
   return category || '';
 }
+/* 分類本身的列表連結與顯示名稱（旅遊／生活在列表上合併為「診間之外」） */
+function catHref(category){
+  const cat = catParam(category);
+  return cat ? '../articles.html?cat=' + encodeURIComponent(cat) : '../articles.html';
+}
+function catLabel(category){
+  if(category === '旅遊' || category === '生活') return '診間之外';
+  return category || '文章列表';
+}
 function seriesHref(category, seriesName){
   const cat = catParam(category);
   return '../articles.html?'
@@ -237,8 +246,9 @@ ${JSON.stringify(jsonLd, null, 2)}
 <article>
   <div class="wrap post-grid${seriesBox ? ' has-rail' : ''}">
     <div class="back-links post-full">
-      <a class="back-link" href="../articles.html">← 回文章列表</a>
-      ${seriesNames.map(sn => `<a class="back-link back-link-series" href="${seriesHref(a.category, sn)}">← 回「${esc(sn)}」系列</a>`).join('\n      ')}
+      ${seriesNames.length
+        ? seriesNames.map(sn => `<a class="back-link back-link-series" href="${seriesHref(a.category, sn)}">← 回「${esc(sn)}」系列</a>`).join('\n      ')
+        : `<a class="back-link" href="${catHref(a.category)}">← 回${esc(catLabel(a.category))}</a>`}
     </div>
     <div class="post-full post-tagline"><span class="tag" data-cat="${esc(a.category)}">${esc(a.category)}</span></div>
     <h1 class="post-full">${esc(a.title)}</h1>
@@ -248,8 +258,8 @@ ${JSON.stringify(jsonLd, null, 2)}
 ${body}
     </div>
     <nav class="article-nav post-body-col">
-      ${prev ? `<a href="${esc(prev.id)}.html">← ${esc(prev.title)}</a>` : '<a href="../articles.html">← 回文章列表</a>'}
-      ${next ? `<a href="${esc(next.id)}.html">${esc(next.title)} →</a>` : '<a href="../articles.html">更多文章 →</a>'}
+      ${prev ? `<a href="${esc(prev.id)}.html">← ${esc(prev.title)}</a>` : `<a href="${catHref(a.category)}">← 回${esc(catLabel(a.category))}</a>`}
+      ${next ? `<a href="${esc(next.id)}.html">${esc(next.title)} →</a>` : `<a href="${catHref(a.category)}">更多${esc(catLabel(a.category))} →</a>`}
     </nav>
     ${seriesBox ? `<aside class="series-rail post-toc-col">${seriesBox}\n    </aside>` : ''}
   </div>
