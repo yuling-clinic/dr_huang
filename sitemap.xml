@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://yuling-clinic.github.io/dr_huang/</loc>
-    <lastmod>2026-08-04</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://yuling-clinic.github.io/dr_huang/articles.html</loc>
-    <lastmod>2026-08-04</lastmod>
+    <lastmod>2026-08-05</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -128,6 +128,21 @@
   <url>
     <loc>https://yuling-clinic.github.io/dr_huang/posts/睡眠篇-九點一定要躺好-決定生長激素的不是幾點上-tfun.html</loc>
     <lastmod>2026-08-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/骨齡篇-照骨齡會不會有輻射-把數字攤開來看-比你-pnbu.html</loc>
+    <lastmod>2026-08-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/性早熟篇-孩子突然抽高-是營養好還是警訊-認識性-t2yc.html</loc>
+    <lastmod>2026-08-04</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yuling-clinic.github.io/dr_huang/posts/運動篇-每天跳繩-1000-下就會長高-決定效果-upjk.html</loc>
+    <lastmod>2026-08-05</lastmod>
     <priority>0.7</priority>
   </url>
 </urlset>
